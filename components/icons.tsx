@@ -93,6 +93,16 @@ export function SearchIcon() {
   );
 }
 
+export function WalletIcon() {
+  return (
+    <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4.5 7.5h14A2.5 2.5 0 0121 10v7a2.5 2.5 0 01-2.5 2.5h-14A2.5 2.5 0 012 17V8.5A3.5 3.5 0 015.5 5H17" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 13.5h5v3h-5a1.5 1.5 0 010-3z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+      <path d="M5 8h13" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function UserIcon() {
   return (
     <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">

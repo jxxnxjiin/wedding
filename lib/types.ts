@@ -4,17 +4,19 @@ import type { Vendor } from "./schema";
 export type Screen =
   | "onboard"
   | "home"
-  | "find"
-  | "compare"
-  | "detail"
+  | "vendors"
+  | "vendor-compare"
+  | "vendor-detail"
   | "reserve"
-  | "done"
+  | "reservation-done"
   | "reservations"
-  | "saved-venues"
   | "visit"
   | "roadmap"
+  | "budget"
   | "ai"
-  | "my";
+  | "profile";
+
+export type VendorTab = "recommendations" | "saved";
 
 export type ReservationKind = keyof typeof reservations.statusStyles;
 

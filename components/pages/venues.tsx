@@ -1,84 +1,183 @@
 import guides from "../../data/guides.json";
+import comparisonReportsData from "../../data/comparison-reports.json";
 import vendorsData from "../../data/vendors.json";
 import type { Vendor } from "../../lib/schema";
+import type { VendorTab } from "../../lib/types";
 import { getVendorCategoryLabel, getVendorPhoto, getWeddingHallProfile, isWeddingHallVendor } from "../../lib/vendor";
 import { HeaderBar, Stat } from "../common";
 import { HeartIcon, SparkIcon } from "../icons";
 
 const weddingHallVendors = (vendorsData.vendors as Vendor[]).filter(isWeddingHallVendor);
 
-export function FindScreen({
+export function VendorExploreScreen({
+  vendorTab,
+  savedIds,
+  savedVendors,
+  onToggleSave,
+  onOpenDetail,
+  onReserve,
+  onSelectVendorTab,
+  onCompare
+}: {
+  vendorTab: VendorTab;
+  savedIds: string[];
+  savedVendors: Vendor[];
+  onToggleSave: (id: string) => void;
+  onOpenDetail: (id: string) => void;
+  onReserve: (id: string) => void;
+  onSelectVendorTab: (tab: VendorTab) => void;
+  onCompare: () => void;
+}) {
+  const savedReports = comparisonReportsData.reports.filter((report) => report.status === "saved");
+
+  return (
+    <div className="vendors-screen find-screen">
+      <div className="screen-pad">
+        <h2 className="h2">{vendorTab === "saved" ? "저장한 업체" : "업체 찾기"}</h2>
+        <p className="caption">{vendorTab === "saved" ? "좋아요한 업체와 비교 리포트를 모아봐요" : "서울 동부권 · 하객 150명 · 토요일 저녁 기준 추천"}</p>
+        <div className="vendor-segment">
+          <button className={vendorTab === "recommendations" ? "active" : ""} onClick={() => onSelectVendorTab("recommendations")}>
+            추천
+          </button>
+          <button className={vendorTab === "saved" ? "active" : ""} onClick={() => onSelectVendorTab("saved")}>
+            저장 {savedIds.length}
+          </button>
+        </div>
+      </div>
+
+      {vendorTab === "recommendations" && (
+        <>
+          <div className="filter-row hide-scrollbar">
+            {vendorsData.filters.map((filter) => (
+              <span key={filter.label} className={filter.active ? "filter-chip active" : "filter-chip"}>
+                {filter.label}
+              </span>
+            ))}
+          </div>
+
+          <VendorCardList vendors={weddingHallVendors} savedIds={savedIds} onToggleSave={onToggleSave} onOpenDetail={onOpenDetail} />
+        </>
+      )}
+
+      {vendorTab === "saved" && (
+        <div className="saved-vendor-tab">
+          <section className="saved-vendor-group">
+            <div className="section-title inline-title">
+              <span className="serif">좋아요한 업체</span>
+              <small>{savedVendors.length}곳</small>
+            </div>
+            {savedVendors.length > 0 ? (
+              <div className="saved-venue-list">
+                {savedVendors.map((vendor) => {
+                  const profile = getWeddingHallProfile(vendor);
+                  return (
+                    <article key={vendor.id} className="saved-venue-row card">
+                      <button className="saved-venue-row-main" onClick={() => onOpenDetail(vendor.id)}>
+                        <div style={{ background: getVendorPhoto(vendor) }} />
+                        <span>
+                          <b className="serif">{vendor.name}</b>
+                          <small>{vendor.area} · {profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</small>
+                          <p>{profile ? `식대 ${profile.mealPrice} · 보증 ${profile.minGuests}` : vendor.priceRange}</p>
+                        </span>
+                      </button>
+                      <button className="saved-venue-heart" onClick={() => onToggleSave(vendor.id)} aria-label={`${vendor.name} 좋아요 해제`}>
+                        <HeartIcon filled />
+                      </button>
+                      <button className="saved-venue-reserve" onClick={() => onReserve(vendor.id)}>
+                        투어 희망 일정 보내기
+                      </button>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="reservation-empty card">아직 저장한 업체가 없어요.</div>
+            )}
+          </section>
+
+          <section className="saved-vendor-group">
+            <div className="section-title inline-title">
+              <span className="serif">저장된 비교 리포트</span>
+              <small>{savedReports.length}개</small>
+            </div>
+            <div className="saved-report-list">
+              {savedReports.map((report) => (
+                <button key={report.id} className="saved-report-card card" onClick={onCompare}>
+                  <span>
+                    <b>{report.title}</b>
+                    <small>{report.vendorIds.length}개 업체 · 물어볼 질문 {report.suggestedQuestions.length}개</small>
+                  </span>
+                  <em>보기</em>
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function VendorCardList({
+  vendors,
   savedIds,
   onToggleSave,
   onOpenDetail
 }: {
+  vendors: Vendor[];
   savedIds: string[];
   onToggleSave: (id: string) => void;
   onOpenDetail: (id: string) => void;
 }) {
   return (
-    <div className="find-screen">
-      <div className="screen-pad">
-        <h2 className="h2">웨딩홀 찾기</h2>
-        <p className="caption">서울 동부권 · 하객 150명 · 토요일 저녁 기준 추천</p>
-      </div>
-      <div className="filter-row hide-scrollbar">
-        {vendorsData.filters.map((filter) => (
-          <span key={filter.label} className={filter.active ? "filter-chip active" : "filter-chip"}>
-            {filter.label}
-          </span>
-        ))}
-      </div>
-
-      <div className="venue-list">
-        {weddingHallVendors.map((vendor) => {
-          const saved = savedIds.includes(vendor.id);
-          const profile = getWeddingHallProfile(vendor);
-          return (
-            <article key={vendor.id} className="venue-card card">
-              <div
-                className="venue-photo"
-                style={{ background: getVendorPhoto(vendor) }}
-                onClick={() => onOpenDetail(vendor.id)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") onOpenDetail(vendor.id);
+    <div className="venue-list">
+      {vendors.map((vendor) => {
+        const saved = savedIds.includes(vendor.id);
+        const profile = getWeddingHallProfile(vendor);
+        return (
+          <article key={vendor.id} className="venue-card card">
+            <div
+              className="venue-photo"
+              style={{ background: getVendorPhoto(vendor) }}
+              onClick={() => onOpenDetail(vendor.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") onOpenDetail(vendor.id);
+              }}
+            >
+              <span>{profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</span>
+              <button
+                className="heart-button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onToggleSave(vendor.id);
                 }}
+                aria-label={`${vendor.name} 저장`}
               >
-                <span>{profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</span>
-                <button
-                  className="heart-button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    onToggleSave(vendor.id);
-                  }}
-                  aria-label={`${vendor.name} 저장`}
-                >
-                  <HeartIcon filled={saved} />
-                </button>
-              </div>
-              <button className="venue-body" onClick={() => onOpenDetail(vendor.id)}>
-                <div className="venue-title-row">
-                  <b className="serif">{vendor.name}</b>
-                  <span>{vendor.area}</span>
-                </div>
-                <div className="venue-meta">
-                  <span>식대 {profile?.mealPrice ?? vendor.priceRange}</span>
-                  <i />
-                  <span>보증 {profile?.minGuests ?? "-"}</span>
-                  <i />
-                  <span>{profile?.parking ?? vendor.address}</span>
-                </div>
-                <div className="match-box">
-                  <SparkIcon />
-                  <span>{vendor.matchReason}</span>
-                </div>
+                <HeartIcon filled={saved} />
               </button>
-            </article>
-          );
-        })}
-      </div>
+            </div>
+            <button className="venue-body" onClick={() => onOpenDetail(vendor.id)}>
+              <div className="venue-title-row">
+                <b className="serif">{vendor.name}</b>
+                <span>{vendor.area}</span>
+              </div>
+              <div className="venue-meta">
+                <span>식대 {profile?.mealPrice ?? vendor.priceRange}</span>
+                <i />
+                <span>보증 {profile?.minGuests ?? "-"}</span>
+                <i />
+                <span>{profile?.parking ?? vendor.address}</span>
+              </div>
+              <div className="match-box">
+                <SparkIcon />
+                <span>{vendor.matchReason}</span>
+              </div>
+            </button>
+          </article>
+        );
+      })}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Screen } from "../lib/types";
-import { BatteryIcon, CalendarIcon, HomeIcon, ListIcon, SearchIcon, SignalIcon, SparkIcon, WifiIcon } from "./icons";
+import { BatteryIcon, CalendarIcon, HomeIcon, ListIcon, SearchIcon, SignalIcon, WalletIcon, WifiIcon } from "./icons";
 
 export function StatusBar() {
   return (
@@ -16,13 +16,13 @@ export function StatusBar() {
 }
 
 export function TabBar({ screen, onGo }: { screen: Screen; onGo: (screen: Screen) => void }) {
-  const activeScreen = screen === "saved-venues" ? "reservations" : screen;
+  const activeScreen = screen === "vendor-detail" || screen === "vendor-compare" ? "vendors" : screen;
   const tabs: Array<{ screen: Screen; label: string; icon: ReactNode }> = [
     { screen: "home", label: "홈", icon: <HomeIcon /> },
     { screen: "roadmap", label: "로드맵", icon: <ListIcon /> },
-    { screen: "find", label: "찾기", icon: <SearchIcon /> },
+    { screen: "vendors", label: "업체", icon: <SearchIcon /> },
     { screen: "reservations", label: "예약", icon: <CalendarIcon /> },
-    { screen: "ai", label: "AI", icon: <SparkIcon /> }
+    { screen: "budget", label: "예산", icon: <WalletIcon /> }
   ];
 
   return (

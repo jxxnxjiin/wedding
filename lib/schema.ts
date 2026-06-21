@@ -205,3 +205,22 @@ export type ComparisonReport = {
   vendorSummaries: ComparisonReportVendorSummary[];
   suggestedQuestions: ComparisonReportQuestion[];
 };
+
+export type BudgetCurrency = "KRW";
+
+export type BudgetCategory = {
+  id: string;
+  label: string;
+  plannedAmount: number;
+  spentAmount: number;
+  note?: string;
+  linkedVendorCategory?: VendorCategory;
+};
+
+export type BudgetPlan = {
+  id: string;
+  title: string;
+  currency: BudgetCurrency;
+  totalAmount: number;
+  categories: BudgetCategory[];
+};

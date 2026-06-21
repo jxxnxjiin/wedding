@@ -1,0 +1,46 @@
+{
+  "plan": {
+    "id": "budget-2026-wedding",
+    "title": "2026 결혼 준비 예산",
+    "currency": "KRW",
+    "totalAmount": 6000,
+    "categories": [
+      {
+        "id": "wedding-hall-meal",
+        "label": "웨딩홀 · 식대",
+        "note": "보증 150명 기준",
+        "plannedAmount": 2600,
+        "spentAmount": 1200,
+        "linkedVendorCategory": "wedding_hall"
+      },
+      {
+        "id": "studio-dress-makeup",
+        "label": "스드메",
+        "note": "스튜디오 · 드레스 · 메이크업",
+        "plannedAmount": 700,
+        "spentAmount": 350,
+        "linkedVendorCategory": "studio"
+      },
+      {
+        "id": "home-living",
+        "label": "혼수 · 신혼집",
+        "note": "가전 · 가구",
+        "plannedAmount": 1700,
+        "spentAmount": 0
+      },
+      {
+        "id": "gift-jewelry",
+        "label": "예물 · 예단",
+        "plannedAmount": 600,
+        "spentAmount": 200
+      },
+      {
+        "id": "etc-buffer",
+        "label": "기타 · 예비비",
+        "note": "청첩장 · 답례품",
+        "plannedAmount": 400,
+        "spentAmount": 70
+      }
+    ]
+  }
+}

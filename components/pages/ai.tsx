@@ -64,12 +64,18 @@ export function AiSheet({
   thread,
   onAsk,
   onReset,
-  onClose
+  onClose,
+  draft,
+  setDraft,
+  onSubmit
 }: {
   thread: AiMessage[];
   onAsk: (message: AiMessage) => void;
   onReset: () => void;
   onClose: () => void;
+  draft: string;
+  setDraft: (draft: string) => void;
+  onSubmit: () => void;
 }) {
   return (
     <>
@@ -93,6 +99,7 @@ export function AiSheet({
         <footer className="ai-presets hide-scrollbar">
           <AiPresetButtons onAsk={onAsk} />
         </footer>
+        <AiComposer draft={draft} setDraft={setDraft} onSubmit={onSubmit} />
       </section>
     </>
   );
