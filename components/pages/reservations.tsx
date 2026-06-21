@@ -1,4 +1,6 @@
-import type { ReservationCard, Venue } from "../../lib/types";
+import type { Vendor } from "../../lib/schema";
+import type { ReservationCard } from "../../lib/types";
+import { getVendorCategoryLabel, getVendorPhoto, getWeddingHallProfile } from "../../lib/vendor";
 import { HeaderBar } from "../common";
 import { ClockIcon, HeartIcon } from "../icons";
 
@@ -27,13 +29,13 @@ export function ReservationsScreen({
           {items.map((reservation) => (
             <article key={reservation.id} className="reservation-card card">
               <div className="reservation-main">
-                <div className="reservation-thumb" style={{ background: reservation.venue.photo }} />
+                <div className="reservation-thumb" style={{ background: getVendorPhoto(reservation.vendor) }} />
                 <div>
                   <header>
-                    <b className="serif">{reservation.venue.name}</b>
+                    <b className="serif">{reservation.vendor.name}</b>
                     <span style={{ background: reservation.style.bg, color: reservation.style.color }}>{reservation.status}</span>
                   </header>
-                  <small>{reservation.venue.area} · {reservation.slot}</small>
+                  <small>{reservation.vendor.area} · {reservation.slot}</small>
                 </div>
               </div>
               <div className="reservation-next" style={{ background: reservation.style.nextBg }}>
@@ -77,13 +79,13 @@ export function ReservationsScreen({
 }
 
 export function SavedVenuesScreen({
-  venues,
+  vendors,
   onBack,
   onOpenDetail,
   onToggleSave,
   onReserve
 }: {
-  venues: Venue[];
+  vendors: Vendor[];
   onBack: () => void;
   onOpenDetail: (id: string) => void;
   onToggleSave: (id: string) => void;
@@ -94,28 +96,31 @@ export function SavedVenuesScreen({
       <HeaderBar title="좋아요 누른 업체" onBack={onBack} />
       <div className="screen-pad">
         <h2 className="h2">좋아요 누른 업체</h2>
-        <p className="caption">저장한 웨딩홀에 투어 요청을 보낼 수 있어요.</p>
+        <p className="caption">저장한 업체에 투어 요청을 보낼 수 있어요.</p>
       </div>
-      {venues.length > 0 ? (
+      {vendors.length > 0 ? (
         <div className="saved-venue-list">
-          {venues.map((venue) => (
-            <article key={venue.id} className="saved-venue-row card">
-              <button className="saved-venue-row-main" onClick={() => onOpenDetail(venue.id)}>
-                <div style={{ background: venue.photo }} />
+          {vendors.map((vendor) => {
+            const profile = getWeddingHallProfile(vendor);
+            return (
+            <article key={vendor.id} className="saved-venue-row card">
+              <button className="saved-venue-row-main" onClick={() => onOpenDetail(vendor.id)}>
+                <div style={{ background: getVendorPhoto(vendor) }} />
                 <span>
-                  <b className="serif">{venue.name}</b>
-                  <small>{venue.area} · {venue.type}</small>
-                  <p>식대 {venue.meal} · 보증 {venue.minGuests}</p>
+                  <b className="serif">{vendor.name}</b>
+                  <small>{vendor.area} · {profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</small>
+                  <p>{profile ? `식대 ${profile.mealPrice} · 보증 ${profile.minGuests}` : vendor.priceRange}</p>
                 </span>
               </button>
-              <button className="saved-venue-heart" onClick={() => onToggleSave(venue.id)} aria-label={`${venue.name} 좋아요 해제`}>
+              <button className="saved-venue-heart" onClick={() => onToggleSave(vendor.id)} aria-label={`${vendor.name} 좋아요 해제`}>
                 <HeartIcon filled />
               </button>
-              <button className="saved-venue-reserve" onClick={() => onReserve(venue.id)}>
+              <button className="saved-venue-reserve" onClick={() => onReserve(vendor.id)}>
                 투어 희망 일정 보내기
               </button>
             </article>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <div className="reservation-empty card">아직 좋아요 누른 업체가 없어요.</div>

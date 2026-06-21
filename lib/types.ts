@@ -1,5 +1,5 @@
 import reservations from "../data/reservations.json";
-import venues from "../data/venues.json";
+import type { Vendor } from "./schema";
 
 export type Screen =
   | "onboard"
@@ -16,12 +16,11 @@ export type Screen =
   | "ai"
   | "my";
 
-export type Venue = (typeof venues.venues)[number];
 export type ReservationKind = keyof typeof reservations.statusStyles;
 
 export type Reservation = {
   id: string;
-  venueId: string;
+  vendorId: string;
   status: string;
   kind: ReservationKind;
   slot: string;
@@ -33,7 +32,7 @@ export type Reservation = {
 export type ReservationStyle = (typeof reservations.statusStyles)[ReservationKind];
 
 export type ReservationCard = Reservation & {
-  venue: Venue;
+  vendor: Vendor;
   style: ReservationStyle;
 };
 

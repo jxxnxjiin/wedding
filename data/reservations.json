@@ -2,7 +2,7 @@
   "seedReservations": [
     {
       "id": "r-laon",
-      "venueId": "v2",
+      "vendorId": "v2",
       "status": "방문 D-3",
       "kind": "confirmed",
       "slot": "6/24 (화) 14:00 확정",
@@ -12,7 +12,7 @@
     },
     {
       "id": "r-maison",
-      "venueId": "v7",
+      "vendorId": "v7",
       "status": "상담 대기",
       "kind": "pending",
       "slot": "희망: 6/28 오후, 6/29 오전",

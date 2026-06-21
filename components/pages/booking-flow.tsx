@@ -1,24 +1,27 @@
 import guides from "../../data/guides.json";
 import reservationsData from "../../data/reservations.json";
-import type { Venue } from "../../lib/types";
+import type { Vendor } from "../../lib/schema";
+import { getVendorCategoryLabel, getVendorPhoto, getWeddingHallProfile } from "../../lib/vendor";
 import { ChoiceSection, HeaderBar } from "../common";
 import { CalendarIcon, CheckIcon, PhoneIcon, SparkIcon } from "../icons";
 
 export function ReserveScreen({
-  venue,
+  vendor,
   reserveDates,
   reserveTimes,
   setReserveDates,
   setReserveTimes,
   onBack
 }: {
-  venue: Venue;
+  vendor: Vendor;
   reserveDates: string[];
   reserveTimes: string[];
   setReserveDates: (dates: string[]) => void;
   setReserveTimes: (times: string[]) => void;
   onBack: () => void;
 }) {
+  const profile = getWeddingHallProfile(vendor);
+
   const toggleDate = (date: string) => {
     if (reserveDates.includes(date)) {
       setReserveDates(reserveDates.filter((item) => item !== date));
@@ -36,10 +39,10 @@ export function ReserveScreen({
       <HeaderBar title="투어 희망 일정 보내기" onBack={onBack} close />
       <div className="reserve-body">
         <div className="reserve-venue card">
-          <div style={{ background: venue.photo }} />
+          <div style={{ background: getVendorPhoto(vendor) }} />
           <span>
-            <b>{venue.name}</b>
-            <small>{venue.area} · {venue.type}</small>
+            <b>{vendor.name}</b>
+            <small>{vendor.area} · {profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</small>
           </span>
         </div>
 
@@ -84,13 +87,13 @@ export function ReserveScreen({
 }
 
 export function DoneScreen({
-  venue,
+  vendor,
   dates,
   times,
   onReservations,
   onHome
 }: {
-  venue: Venue;
+  vendor: Vendor;
   dates: string[];
   times: string[];
   onReservations: () => void;
@@ -104,7 +107,7 @@ export function DoneScreen({
         </div>
         <h2 className="serif">예약 요청을 보냈어요</h2>
         <p>
-          {venue.name}에 투어 희망 일정을 전달했어요.
+          {vendor.name}에 투어 희망 일정을 전달했어요.
           <br />
           업체 확인 후 보통 1~2일 안에 연락이 와요.
         </p>

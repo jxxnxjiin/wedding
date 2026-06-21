@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import guidesData from "../data/guides.json";
 import onboardingData from "../data/onboarding.json";
 import reservationsData from "../data/reservations.json";
-import venuesData from "../data/venues.json";
+import vendorsData from "../data/vendors.json";
 import { StatusBar, TabBar } from "../components/common";
 import { HeartIcon } from "../components/icons";
 import { ReservationsScreen, SavedVenuesScreen } from "../components/pages/reservations";
@@ -23,8 +22,12 @@ import {
   RoadmapScreen,
   VisitScreen
 } from "../components/screens";
-import type { AiMessage, HeroAction, Onboarding, Reservation, Screen, Venue } from "../lib/types";
+import { getChecklistTask } from "../lib/checklist";
+import type { ChecklistTaskUserUpdate, Vendor } from "../lib/schema";
+import type { AiMessage, HeroAction, Onboarding, Reservation, Screen } from "../lib/types";
 import { STORAGE_KEY } from "../lib/types";
+
+const vendors = vendorsData.vendors as Vendor[];
 
 type PersistedState = Partial<{
   screen: Screen;
@@ -35,6 +38,7 @@ type PersistedState = Partial<{
   progress: "start" | "requested";
   visitChecks: Record<number, boolean>;
   checklistChecks: Record<string, boolean>;
+  checklistTaskEdits: Record<string, ChecklistTaskUserUpdate>;
   roadmapPhaseId: string;
   aiThread: AiMessage[];
 }>;
@@ -50,6 +54,7 @@ export default function Home() {
   const [progress, setProgress] = useState<"start" | "requested">("start");
   const [visitChecks, setVisitChecks] = useState<Record<number, boolean>>({});
   const [checklistChecks, setChecklistChecks] = useState<Record<string, boolean>>({});
+  const [checklistTaskEdits, setChecklistTaskEdits] = useState<Record<string, ChecklistTaskUserUpdate>>({});
   const [roadmapPhaseId, setRoadmapPhaseId] = useState("phase-1");
   const [aiThread, setAiThread] = useState<AiMessage[]>([]);
   const [aiDraft, setAiDraft] = useState("");
@@ -69,6 +74,7 @@ export default function Home() {
       setProgress(parsed.progress ?? "start");
       setVisitChecks(parsed.visitChecks ?? {});
       setChecklistChecks(parsed.checklistChecks ?? {});
+      setChecklistTaskEdits(parsed.checklistTaskEdits ?? {});
       setRoadmapPhaseId(parsed.roadmapPhaseId ?? "phase-1");
       setAiThread(parsed.aiThread ?? []);
     } catch {
@@ -79,26 +85,26 @@ export default function Home() {
   useEffect(() => {
     window.localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, roadmapPhaseId, aiThread })
+      JSON.stringify({ screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, checklistTaskEdits, roadmapPhaseId, aiThread })
     );
-  }, [screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, roadmapPhaseId, aiThread]);
+  }, [screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, checklistTaskEdits, roadmapPhaseId, aiThread]);
 
-  const activeVenue = findVenue(activeId);
+  const activeVendor = findVendor(activeId);
   const seedReservations = reservationsData.seedReservations as Reservation[];
   const reservations = useMemo(() => [...createdReservations, ...seedReservations], [createdReservations, seedReservations]);
   const reservationCards = reservations.map((reservation) => {
-    const venue = findVenue(reservation.venueId);
+    const vendor = findVendor(reservation.vendorId);
     const style = reservationsData.statusStyles[reservation.kind];
-    return { ...reservation, venue, style };
+    return { ...reservation, vendor, style };
   });
-  const compareVenues = savedIds.map(findVenue).filter(Boolean).slice(0, 3) as Venue[];
-  const savedVenues = savedIds.map(findVenue).filter(Boolean) as Venue[];
+  const compareVendors = savedIds.map(findVendor).filter(Boolean).slice(0, 3) as Vendor[];
+  const savedVendors = savedIds.map(findVendor).filter(Boolean) as Vendor[];
   const reserveReady = reserveDates.length > 0 && reserveTimes.length > 0;
   const visitDoneCount = Object.values(visitChecks).filter(Boolean).length;
-  const hero = makeHero(progress, createdReservations, activeVenue, onboarding, go);
+  const hero = makeHero(progress, createdReservations, activeVendor, onboarding, go);
 
-  function findVenue(id: string) {
-    return venuesData.venues.find((venue) => venue.id === id) ?? venuesData.venues[0];
+  function findVendor(id: string) {
+    return vendors.find((vendor) => vendor.id === id) ?? vendors[0];
   }
 
   function go(nextScreen: Screen) {
@@ -116,8 +122,24 @@ export default function Home() {
   }
 
   function toggleChecklistTask(id: string) {
-    const defaultDone = guidesData.phases.flatMap((phase) => phase.checklist).find((task) => task.id === id)?.done ?? false;
+    const defaultDone = getChecklistTask(id, checklistTaskEdits)?.status === "done";
     setChecklistChecks((current) => ({ ...current, [id]: !(current[id] ?? defaultDone) }));
+  }
+
+  function saveChecklistTaskEdit(id: string, update: ChecklistTaskUserUpdate) {
+    setChecklistTaskEdits((current) => ({
+      ...current,
+      [id]: {
+        ...(current[id] ?? {}),
+        ...update
+      }
+    }));
+
+    fetch(`/api/checklist-tasks/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(update)
+    }).catch(() => undefined);
   }
 
   function submitAiQuestion() {
@@ -156,8 +178,8 @@ export default function Home() {
     if (!reserveReady) return;
 
     const newReservation: Reservation = {
-      id: `r-${activeVenue.id}`,
-      venueId: activeVenue.id,
+      id: `r-${activeVendor.id}`,
+      vendorId: activeVendor.id,
       status: "요청됨",
       kind: "requested",
       slot: `희망: ${reserveDates.map((date) => date.split(" ")[0]).join(", ")}`,
@@ -190,24 +212,25 @@ export default function Home() {
                 onProfile={() => go("my")}
                 onRoadmap={() => go("roadmap")}
                 checklistChecks={checklistChecks}
+                checklistTaskEdits={checklistTaskEdits}
                 onToggleChecklistTask={toggleChecklistTask}
                 weddingDate={onboarding.weddingDate}
               />
             )}
             {screen === "find" && <FindScreen savedIds={savedIds} onToggleSave={toggleSave} onOpenDetail={openDetail} />}
-            {screen === "compare" && <CompareScreen venues={compareVenues} onBack={() => go("find")} onReserve={openDetail} />}
+            {screen === "compare" && <CompareScreen vendors={compareVendors} onBack={() => go("find")} onReserve={openDetail} />}
             {screen === "detail" && (
               <DetailScreen
-                venue={activeVenue}
-                saved={savedIds.includes(activeVenue.id)}
+                vendor={activeVendor}
+                saved={savedIds.includes(activeVendor.id)}
                 onBack={() => go("find")}
-                onToggleSave={() => toggleSave(activeVenue.id)}
+                onToggleSave={() => toggleSave(activeVendor.id)}
                 onReserve={startReserve}
               />
             )}
             {screen === "reserve" && (
               <ReserveScreen
-                venue={activeVenue}
+                vendor={activeVendor}
                 reserveDates={reserveDates}
                 reserveTimes={reserveTimes}
                 setReserveDates={setReserveDates}
@@ -217,7 +240,7 @@ export default function Home() {
             )}
             {screen === "done" && (
               <DoneScreen
-                venue={activeVenue}
+                vendor={activeVendor}
                 dates={reserveDates}
                 times={reserveTimes}
                 onReservations={() => go("reservations")}
@@ -225,11 +248,11 @@ export default function Home() {
               />
             )}
             {screen === "reservations" && (
-              <ReservationsScreen reservations={reservationCards} savedCount={savedVenues.length} onVisit={() => go("visit")} onSavedVenues={() => go("saved-venues")} />
+              <ReservationsScreen reservations={reservationCards} savedCount={savedVendors.length} onVisit={() => go("visit")} onSavedVenues={() => go("saved-venues")} />
             )}
             {screen === "saved-venues" && (
               <SavedVenuesScreen
-                venues={savedVenues}
+                vendors={savedVendors}
                 onBack={() => go("reservations")}
                 onOpenDetail={openDetail}
                 onToggleSave={toggleSave}
@@ -244,8 +267,10 @@ export default function Home() {
                 activePhaseId={roadmapPhaseId}
                 savedCount={savedIds.length}
                 checklistChecks={checklistChecks}
+                checklistTaskEdits={checklistTaskEdits}
                 onSelectPhase={setRoadmapPhaseId}
                 onToggleChecklistTask={toggleChecklistTask}
+                onUpdateChecklistTask={saveChecklistTaskEdit}
                 weddingDate={onboarding.weddingDate}
               />
             )}
@@ -285,8 +310,8 @@ export default function Home() {
 
           {screen === "detail" && (
             <div className="sticky-cta detail-cta">
-              <button className="save-square" onClick={() => toggleSave(activeVenue.id)} aria-label="후보 저장">
-                <HeartIcon filled={savedIds.includes(activeVenue.id)} />
+              <button className="save-square" onClick={() => toggleSave(activeVendor.id)} aria-label="후보 저장">
+                <HeartIcon filled={savedIds.includes(activeVendor.id)} />
               </button>
               <button className="primary-button" onClick={startReserve}>
                 투어 희망 일정 보내기
@@ -325,14 +350,14 @@ export default function Home() {
 function makeHero(
   progress: "start" | "requested",
   createdReservations: Reservation[],
-  activeVenue: Venue,
+  activeVendor: Vendor,
   onboarding: Onboarding,
   go: (screen: Screen) => void
 ): HeroAction {
   if (progress === "requested") {
-    const venueName = createdReservations[0]?.venueId ? findVenueName(createdReservations[0].venueId) : activeVenue.name;
+    const vendorName = createdReservations[0]?.vendorId ? findVendorName(createdReservations[0].vendorId) : activeVendor.name;
     return {
-      title: `${venueName} 답변을 기다리는 중이에요`,
+      title: `${vendorName} 답변을 기다리는 중이에요`,
       desc: "보통 1~2일 안에 가능 시간 연락이 와요. 방문 전 확인 질문을 미리 살펴보세요.",
       cta: "방문 전 확인 질문 보기",
       action: () => go("visit")
@@ -347,6 +372,6 @@ function makeHero(
   };
 }
 
-function findVenueName(id: string) {
-  return venuesData.venues.find((venue) => venue.id === id)?.name ?? venuesData.venues[0].name;
+function findVendorName(id: string) {
+  return vendors.find((vendor) => vendor.id === id)?.name ?? vendors[0].name;
 }

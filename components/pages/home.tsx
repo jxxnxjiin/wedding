@@ -1,7 +1,8 @@
 import appMeta from "../../data/app-meta.json";
 import addOnServices from "../../data/add-on-services.json";
-import guides from "../../data/guides.json";
+import { getChecklistCategoryLabel, getChecklistOwnerLabel, getChecklistTasks, isChecklistTaskDueThisWeek } from "../../lib/checklist";
 import { formatShortWeddingDate, getWeddingDday } from "../../lib/date";
+import type { ChecklistTaskUserUpdate } from "../../lib/schema";
 import type { HeroAction, ReservationCard } from "../../lib/types";
 import { CheckIcon, SparkIcon } from "../icons";
 import { isTaskDone, JourneyOverview } from "./journey";
@@ -14,6 +15,7 @@ export function HomeScreen({
   onProfile,
   onRoadmap,
   checklistChecks,
+  checklistTaskEdits,
   onToggleChecklistTask,
   weddingDate
 }: {
@@ -24,25 +26,35 @@ export function HomeScreen({
   onProfile: () => void;
   onRoadmap: () => void;
   checklistChecks: Record<string, boolean>;
+  checklistTaskEdits: Record<string, ChecklistTaskUserUpdate>;
   onToggleChecklistTask: (id: string) => void;
   weddingDate: string;
 }) {
-  const activePhase = guides.phases.find((phase) => phase.state === "now") ?? guides.phases[0];
+  const checklistTasks = getChecklistTasks(checklistTaskEdits);
   const dday = getWeddingDday(weddingDate);
-  const roadmapWeekItems = activePhase.checklist.filter((item) => item.thisWeek).map((item) => ({
-    ...item,
-    source: "roadmap" as const,
-    done: isTaskDone(item, checklistChecks, savedCount)
-  }));
-  const reservationWeekItems = reservations
-    .filter((reservation) => reservation.kind === "confirmed" && isWithinAWeek(reservation.slot))
+  const confirmedWeekReservations = reservations
+    .filter((reservation) => reservation.kind === "confirmed" && isWithinAWeek(reservation.slot));
+  const reservationWeekItems = confirmedWeekReservations
     .map((reservation) => ({
       id: `reservation-${reservation.id}`,
-      title: `${reservation.venue.name} 방문 전 질문지 확인하기`,
+      title: `${reservation.vendor.name} ${getChecklistCategoryLabel(reservation.vendor.category)} 투어`,
       owner: "함께",
+      ownerLabel: "함께",
       source: "reservation" as const,
       done: checklistChecks[`reservation-${reservation.id}`] ?? false,
       meta: reservation.slot
+    }));
+  const roadmapWeekItems = checklistTasks
+    .filter((item) => isChecklistTaskDueThisWeek(item))
+    .filter((item) => {
+      if (item.sourceType !== "reservation" || !item.linkedVendorCategory) return true;
+      return !confirmedWeekReservations.some((reservation) => reservation.vendor.category === item.linkedVendorCategory);
+    })
+    .map((item) => ({
+      ...item,
+      source: "roadmap" as const,
+      ownerLabel: getChecklistOwnerLabel(item.owner),
+      done: isTaskDone(item, checklistChecks, savedCount)
     }));
   const weekItems = [...reservationWeekItems, ...roadmapWeekItems];
 
@@ -95,7 +107,7 @@ export function HomeScreen({
       <div className="check-card card">
         {weekItems.map((item, index) => (
           <button
-            key={item.title}
+            key={item.id}
             className="check-row task-button"
             style={{ borderTopColor: index === 0 ? "transparent" : "var(--line)" }}
             onClick={() => onToggleChecklistTask(item.id)}
@@ -103,7 +115,7 @@ export function HomeScreen({
             <span className={`check-box ${item.done ? "checked" : ""}`}>{item.done && <CheckIcon />}</span>
             <span className={item.done ? "done-text" : ""}>
               {item.title}
-              <small className="task-owner">{item.owner}</small>
+              <small className="task-owner">{item.ownerLabel}</small>
               {item.source === "reservation" && <small className="task-meta">예약 확정 · {item.meta}</small>}
             </span>
           </button>
