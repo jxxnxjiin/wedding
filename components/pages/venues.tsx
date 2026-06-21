@@ -1,13 +1,22 @@
+import { Fragment, useState } from "react";
 import guides from "../../data/guides.json";
-import comparisonReportsData from "../../data/comparison-reports.json";
 import vendorsData from "../../data/vendors.json";
-import type { Vendor } from "../../lib/schema";
+import type { ComparisonReport, Vendor, VendorCategory, VendorCategoryMeta } from "../../lib/schema";
 import type { VendorTab } from "../../lib/types";
-import { getVendorCategoryLabel, getVendorPhoto, getWeddingHallProfile, isWeddingHallVendor } from "../../lib/vendor";
+import {
+  getVendorHighlights,
+  getVendorMetaItems,
+  getVendorPhoto,
+  getVendorTagLabel,
+  getWeddingHallProfile
+} from "../../lib/vendor";
 import { HeaderBar, Stat } from "../common";
 import { HeartIcon, SparkIcon } from "../icons";
 
-const weddingHallVendors = (vendorsData.vendors as Vendor[]).filter(isWeddingHallVendor);
+const allVendors = vendorsData.vendors as Vendor[];
+const vendorCategories = (vendorsData.categories as VendorCategoryMeta[])
+  .filter((category) => allVendors.some((vendor) => vendor.category === category.id))
+  .sort((a, b) => a.priority - b.priority);
 
 export function VendorExploreScreen({
   vendorTab,
@@ -17,7 +26,8 @@ export function VendorExploreScreen({
   onOpenDetail,
   onReserve,
   onSelectVendorTab,
-  onCompare
+  onCompare,
+  savedReports
 }: {
   vendorTab: VendorTab;
   savedIds: string[];
@@ -27,8 +37,11 @@ export function VendorExploreScreen({
   onReserve: (id: string) => void;
   onSelectVendorTab: (tab: VendorTab) => void;
   onCompare: () => void;
+  savedReports: Array<Pick<ComparisonReport, "id" | "title" | "vendorIds" | "suggestedQuestions">>;
 }) {
-  const savedReports = comparisonReportsData.reports.filter((report) => report.status === "saved");
+  const [activeCategory, setActiveCategory] = useState<VendorCategory>(vendorCategories[0]?.id ?? "wedding_hall");
+  const activeCategoryMeta = vendorCategories.find((category) => category.id === activeCategory);
+  const categoryVendors = allVendors.filter((vendor) => vendor.category === activeCategory);
 
   return (
     <div className="vendors-screen find-screen">
@@ -47,6 +60,20 @@ export function VendorExploreScreen({
 
       {vendorTab === "recommendations" && (
         <>
+          <div className="filter-row hide-scrollbar vendor-category-row">
+            {vendorCategories.map((category) => (
+              <button
+                key={category.id}
+                className={category.id === activeCategory ? "filter-chip active" : "filter-chip"}
+                onClick={() => setActiveCategory(category.id)}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+
+          {activeCategoryMeta && <p className="caption screen-pad vendor-category-desc">{activeCategoryMeta.description}</p>}
+
           <div className="filter-row hide-scrollbar">
             {vendorsData.filters.map((filter) => (
               <span key={filter.label} className={filter.active ? "filter-chip active" : "filter-chip"}>
@@ -55,7 +82,11 @@ export function VendorExploreScreen({
             ))}
           </div>
 
-          <VendorCardList vendors={weddingHallVendors} savedIds={savedIds} onToggleSave={onToggleSave} onOpenDetail={onOpenDetail} />
+          {categoryVendors.length > 0 ? (
+            <VendorCardList vendors={categoryVendors} savedIds={savedIds} onToggleSave={onToggleSave} onOpenDetail={onOpenDetail} />
+          ) : (
+            <div className="reservation-empty card">아직 등록된 업체가 없어요.</div>
+          )}
         </>
       )}
 
@@ -69,15 +100,15 @@ export function VendorExploreScreen({
             {savedVendors.length > 0 ? (
               <div className="saved-venue-list">
                 {savedVendors.map((vendor) => {
-                  const profile = getWeddingHallProfile(vendor);
+                  const metaItems = getVendorMetaItems(vendor);
                   return (
                     <article key={vendor.id} className="saved-venue-row card">
                       <button className="saved-venue-row-main" onClick={() => onOpenDetail(vendor.id)}>
                         <div style={{ background: getVendorPhoto(vendor) }} />
                         <span>
                           <b className="serif">{vendor.name}</b>
-                          <small>{vendor.area} · {profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</small>
-                          <p>{profile ? `식대 ${profile.mealPrice} · 보증 ${profile.minGuests}` : vendor.priceRange}</p>
+                          <small>{vendor.area} · {getVendorTagLabel(vendor)}</small>
+                          <p>{metaItems.slice(0, 2).join(" · ")}</p>
                         </span>
                       </button>
                       <button className="saved-venue-heart" onClick={() => onToggleSave(vendor.id)} aria-label={`${vendor.name} 좋아요 해제`}>
@@ -133,7 +164,7 @@ function VendorCardList({
     <div className="venue-list">
       {vendors.map((vendor) => {
         const saved = savedIds.includes(vendor.id);
-        const profile = getWeddingHallProfile(vendor);
+        const metaItems = getVendorMetaItems(vendor);
         return (
           <article key={vendor.id} className="venue-card card">
             <div
@@ -146,7 +177,7 @@ function VendorCardList({
                 if (event.key === "Enter" || event.key === " ") onOpenDetail(vendor.id);
               }}
             >
-              <span>{profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</span>
+              <span>{getVendorTagLabel(vendor)}</span>
               <button
                 className="heart-button"
                 onClick={(event) => {
@@ -164,11 +195,12 @@ function VendorCardList({
                 <span>{vendor.area}</span>
               </div>
               <div className="venue-meta">
-                <span>식대 {profile?.mealPrice ?? vendor.priceRange}</span>
-                <i />
-                <span>보증 {profile?.minGuests ?? "-"}</span>
-                <i />
-                <span>{profile?.parking ?? vendor.address}</span>
+                {metaItems.map((item, index) => (
+                  <Fragment key={item}>
+                    {index > 0 && <i />}
+                    <span>{item}</span>
+                  </Fragment>
+                ))}
               </div>
               <div className="match-box">
                 <SparkIcon />
@@ -185,11 +217,13 @@ function VendorCardList({
 export function CompareScreen({
   vendors,
   onBack,
-  onReserve
+  onReserve,
+  onSaveReport
 }: {
   vendors: Vendor[];
   onBack: () => void;
   onReserve: (id: string) => void;
+  onSaveReport: () => void;
 }) {
   const compareRows = [
     {
@@ -281,8 +315,8 @@ export function CompareScreen({
         <p>보증 인원 180명 기준 최소 비용은?</p>
         <p>2026년 7월 토요일 오후 가능 날짜는?</p>
       </section>
-      <button className="compare-bulk-request" onClick={() => window.alert("요청이 완료되었습니다.")}>
-        저장한 후보 전체에 투어 요청서 보내기
+      <button className="compare-bulk-request" onClick={onSaveReport}>
+        리포트 저장하기 <span>→</span>
       </button>
     </div>
   );
@@ -319,7 +353,7 @@ export function DetailScreen({
   onToggleSave: () => void;
   onReserve: () => void;
 }) {
-  const profile = getWeddingHallProfile(vendor);
+  const highlights = getVendorHighlights(vendor);
 
   return (
     <div className="detail-screen">
@@ -327,15 +361,15 @@ export function DetailScreen({
         <button className="circle-back" onClick={onBack} aria-label="뒤로가기">
           ‹
         </button>
-        <span>{profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</span>
+        <span>{getVendorTagLabel(vendor)}</span>
       </div>
       <div className="detail-body">
         <h2 className="serif">{vendor.name}</h2>
-        <p>{vendor.area} · {profile?.hallType ?? getVendorCategoryLabel(vendor.category)}</p>
+        <p>{vendor.area} · {getVendorTagLabel(vendor)}</p>
         <div className="stat-row">
-          <Stat label="예상 식대" value={profile?.mealPrice ?? vendor.priceRange ?? "-"} />
-          <Stat label="보증 인원" value={profile?.minGuests ?? "-"} />
-          <Stat label="예식 간격" value={profile?.interval ?? "-"} />
+          {highlights.map((highlight) => (
+            <Stat key={highlight.label} label={highlight.label} value={highlight.value} />
+          ))}
         </div>
         <div className="match-box detail-match">
           <SparkIcon />

@@ -12,6 +12,7 @@ export type Screen =
   | "reservations"
   | "visit"
   | "roadmap"
+  | "task-detail"
   | "budget"
   | "ai"
   | "profile";

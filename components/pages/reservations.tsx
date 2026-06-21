@@ -4,14 +4,21 @@ import { ClockIcon } from "../icons";
 
 export function ReservationsScreen({
   reservations,
-  onVisit
+  onVisit,
+  onEditRequest,
+  onOpenDetail
 }: {
   reservations: ReservationCard[];
   onVisit: () => void;
+  onEditRequest: (vendorId: string) => void;
+  onOpenDetail: (vendorId: string) => void;
 }) {
   const confirmedReservations = reservations.filter((reservation) => reservation.kind === "confirmed");
   const waitingReservations = reservations.filter((reservation) => reservation.kind === "pending" || reservation.kind === "requested");
   const categoryLabels = Array.from(new Set(reservations.map((reservation) => getVendorCategoryLabel(reservation.vendor.category))));
+
+  const handlePrimary = (reservation: ReservationCard) =>
+    reservation.kind === "confirmed" ? onVisit() : onEditRequest(reservation.vendor.id);
 
   const renderReservationSection = (title: string, items: ReservationCard[], emptyText: string) => (
     <section className="reservation-group">
@@ -38,8 +45,8 @@ export function ReservationsScreen({
                 <span>{reservation.next}</span>
               </div>
               <div className="reservation-actions">
-                <button onClick={onVisit}>{reservation.primary}</button>
-                <button>{reservation.secondary}</button>
+                <button onClick={() => handlePrimary(reservation)}>{reservation.primary}</button>
+                <button onClick={() => onOpenDetail(reservation.vendor.id)}>{reservation.secondary}</button>
               </div>
             </article>
           ))}

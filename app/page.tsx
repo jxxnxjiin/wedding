@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import onboardingData from "../data/onboarding.json";
 import reservationsData from "../data/reservations.json";
 import vendorsData from "../data/vendors.json";
+import comparisonReportsData from "../data/comparison-reports.json";
 import { StatusBar, TabBar } from "../components/common";
 import { HeartIcon } from "../components/icons";
 import { ReservationsScreen } from "../components/pages/reservations";
@@ -20,15 +21,17 @@ import {
   OnboardingScreen,
   ReserveScreen,
   RoadmapScreen,
+  TaskDetailScreen,
   VendorExploreScreen,
   VisitScreen
 } from "../components/screens";
-import { getChecklistTask } from "../lib/checklist";
-import type { ChecklistTaskUserUpdate, Vendor } from "../lib/schema";
+import { getChecklistTask, isChecklistTaskDone } from "../lib/checklist";
+import type { ChecklistTaskUserUpdate, ComparisonReport, Vendor } from "../lib/schema";
 import type { AiMessage, HeroAction, Onboarding, Reservation, Screen, VendorTab } from "../lib/types";
 import { STORAGE_KEY } from "../lib/types";
 
 const vendors = vendorsData.vendors as Vendor[];
+const baseSavedReports = (comparisonReportsData.reports as ComparisonReport[]).filter((report) => report.status === "saved");
 
 type PersistedState = Partial<{
   screen: Screen;
@@ -43,6 +46,7 @@ type PersistedState = Partial<{
   roadmapPhaseId: string;
   vendorTab: VendorTab;
   aiThread: AiMessage[];
+  savedReports: ComparisonReport[];
 }>;
 
 export default function Home() {
@@ -58,6 +62,8 @@ export default function Home() {
   const [checklistChecks, setChecklistChecks] = useState<Record<string, boolean>>({});
   const [checklistTaskEdits, setChecklistTaskEdits] = useState<Record<string, ChecklistTaskUserUpdate>>({});
   const [roadmapPhaseId, setRoadmapPhaseId] = useState("phase-1");
+  const [activeTaskId, setActiveTaskId] = useState<string | null>(null);
+  const [savedReports, setSavedReports] = useState<ComparisonReport[]>(baseSavedReports);
   const [vendorTab, setVendorTab] = useState<VendorTab>("recommendations");
   const [aiThread, setAiThread] = useState<AiMessage[]>([]);
   const [aiDraft, setAiDraft] = useState("");
@@ -81,6 +87,7 @@ export default function Home() {
       setRoadmapPhaseId(parsed.roadmapPhaseId ?? "phase-1");
       setVendorTab(parsed.vendorTab ?? "recommendations");
       setAiThread(parsed.aiThread ?? []);
+      setSavedReports(parsed.savedReports ?? baseSavedReports);
     } catch {
       window.localStorage.removeItem(STORAGE_KEY);
     }
@@ -89,11 +96,12 @@ export default function Home() {
   useEffect(() => {
     window.localStorage.setItem(
       STORAGE_KEY,
-      JSON.stringify({ screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, checklistTaskEdits, roadmapPhaseId, vendorTab, aiThread })
+      JSON.stringify({ screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, checklistTaskEdits, roadmapPhaseId, vendorTab, aiThread, savedReports })
     );
-  }, [screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, checklistTaskEdits, roadmapPhaseId, vendorTab, aiThread]);
+  }, [screen, onboarding, savedIds, activeId, createdReservations, progress, visitChecks, checklistChecks, checklistTaskEdits, roadmapPhaseId, vendorTab, aiThread, savedReports]);
 
   const activeVendor = findVendor(activeId);
+  const activeTask = activeTaskId ? getChecklistTask(activeTaskId, checklistTaskEdits) ?? null : null;
   const seedReservations = reservationsData.seedReservations as Reservation[];
   const reservations = useMemo(() => [...createdReservations, ...seedReservations], [createdReservations, seedReservations]);
   const reservationCards = reservations.map((reservation) => {
@@ -121,6 +129,45 @@ export default function Home() {
     go("vendor-detail");
   }
 
+  function openTaskDetail(id: string) {
+    setActiveTaskId(id);
+    go("task-detail");
+  }
+
+  function saveComparisonReport() {
+    if (compareVendors.length === 0) return;
+
+    const ids = compareVendors.map((vendor) => vendor.id);
+    const reportId = `report-${ids.join("-")}`;
+    const questions = Array.from(new Set(compareVendors.flatMap((vendor) => vendor.questions ?? [])));
+    const title =
+      compareVendors.length > 1
+        ? `${compareVendors[0].name} 외 ${compareVendors.length - 1}곳 비교`
+        : `${compareVendors[0].name} 비교`;
+
+    const newReport: ComparisonReport = {
+      id: reportId,
+      title,
+      category: compareVendors[0].category,
+      vendorIds: ids,
+      status: "saved",
+      createdAt: new Date().toISOString(),
+      criteria: [],
+      metrics: [],
+      rows: [],
+      vendorSummaries: [],
+      suggestedQuestions: questions.map((text, index) => ({
+        id: `${reportId}-q${index}`,
+        text,
+        category: "cost"
+      }))
+    };
+
+    setSavedReports((current) => [newReport, ...current.filter((report) => report.id !== reportId)]);
+    setVendorTab("saved");
+    go("vendors");
+  }
+
   function toggleSave(id: string) {
     setSavedIds((current) => (current.includes(id) ? current.filter((savedId) => savedId !== id) : [...current, id]));
   }
@@ -128,22 +175,6 @@ export default function Home() {
   function toggleChecklistTask(id: string) {
     const defaultDone = getChecklistTask(id, checklistTaskEdits)?.status === "done";
     setChecklistChecks((current) => ({ ...current, [id]: !(current[id] ?? defaultDone) }));
-  }
-
-  function saveChecklistTaskEdit(id: string, update: ChecklistTaskUserUpdate) {
-    setChecklistTaskEdits((current) => ({
-      ...current,
-      [id]: {
-        ...(current[id] ?? {}),
-        ...update
-      }
-    }));
-
-    fetch(`/api/checklist-tasks/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(update)
-    }).catch(() => undefined);
   }
 
   function submitAiQuestion() {
@@ -231,9 +262,12 @@ export default function Home() {
                 onReserve={startReserveFor}
                 onSelectVendorTab={setVendorTab}
                 onCompare={() => go("vendor-compare")}
+                savedReports={savedReports}
               />
             )}
-            {screen === "vendor-compare" && <CompareScreen vendors={compareVendors} onBack={() => go("vendors")} onReserve={openDetail} />}
+            {screen === "vendor-compare" && (
+              <CompareScreen vendors={compareVendors} onBack={() => go("vendors")} onReserve={openDetail} onSaveReport={saveComparisonReport} />
+            )}
             {screen === "vendor-detail" && (
               <DetailScreen
                 vendor={activeVendor}
@@ -263,7 +297,12 @@ export default function Home() {
               />
             )}
             {screen === "reservations" && (
-              <ReservationsScreen reservations={reservationCards} onVisit={() => go("visit")} />
+              <ReservationsScreen
+                reservations={reservationCards}
+                onVisit={() => go("visit")}
+                onEditRequest={startReserveFor}
+                onOpenDetail={openDetail}
+              />
             )}
             {screen === "visit" && (
               <VisitScreen doneCount={visitDoneCount} checks={visitChecks} setChecks={setVisitChecks} onBack={() => go("reservations")} />
@@ -273,11 +312,21 @@ export default function Home() {
                 activePhaseId={roadmapPhaseId}
                 savedCount={savedIds.length}
                 checklistChecks={checklistChecks}
-                checklistTaskEdits={checklistTaskEdits}
                 onSelectPhase={setRoadmapPhaseId}
                 onToggleChecklistTask={toggleChecklistTask}
-                onUpdateChecklistTask={saveChecklistTaskEdit}
+                onOpenTask={openTaskDetail}
                 weddingDate={onboarding.weddingDate}
+              />
+            )}
+            {screen === "task-detail" && activeTask && (
+              <TaskDetailScreen
+                task={activeTask}
+                done={isChecklistTaskDone(activeTask, checklistChecks, savedIds.length)}
+                savedCount={savedIds.length}
+                onBack={() => go("roadmap")}
+                onToggle={() => toggleChecklistTask(activeTask.id)}
+                onNavigateVendors={() => go("vendors")}
+                onOpenVendor={openDetail}
               />
             )}
             {screen === "ai" && (
