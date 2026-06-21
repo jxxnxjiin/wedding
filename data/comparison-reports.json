@@ -1,0 +1,175 @@
+{
+  "reports": [
+    {
+      "id": "report-wedding-hall-001",
+      "title": "웨딩홀 후보 3곳 비교",
+      "category": "wedding_hall",
+      "vendorIds": ["v2", "v3", "v1"],
+      "status": "saved",
+      "createdAt": "2026-06-21T10:00:00.000Z",
+      "updatedAt": "2026-06-21T10:00:00.000Z",
+      "criteria": [
+        {
+          "id": "bride-preference",
+          "label": "분위기·단독홀",
+          "description": "신부가 중요하게 보는 공간 분위기, 단독홀 여부, 사진 연출 적합도",
+          "weight": 35
+        },
+        {
+          "id": "groom-preference",
+          "label": "총비용·주차",
+          "description": "신랑이 중요하게 보는 총비용 안정성, 주차 편의, 추가금 리스크",
+          "weight": 35
+        },
+        {
+          "id": "shared-preference",
+          "label": "교통·음식",
+          "description": "두 사람이 함께 중요하게 보는 하객 동선, 식사 만족도, 방문 가능성",
+          "weight": 30
+        }
+      ],
+      "metrics": [
+        {
+          "id": "estimated-total-cost",
+          "label": "총비용",
+          "kind": "cost",
+          "unit": "만원",
+          "description": "대관료, 식대, 기본 장식 기준 예상 총액"
+        },
+        {
+          "id": "bride-fit",
+          "label": "신부 적합도",
+          "kind": "score",
+          "unit": "점",
+          "description": "분위기, 단독홀, 사진 연출 기준"
+        },
+        {
+          "id": "groom-fit",
+          "label": "신랑 적합도",
+          "kind": "score",
+          "unit": "점",
+          "description": "예산, 주차, 하객 동선 기준"
+        },
+        {
+          "id": "parking",
+          "label": "주차",
+          "kind": "rating",
+          "unit": "5점",
+          "description": "하객 주차 접근성과 수용 가능성"
+        },
+        {
+          "id": "food",
+          "label": "음식",
+          "kind": "rating",
+          "unit": "5점",
+          "description": "식대 대비 식사 만족도 예상"
+        }
+      ],
+      "rows": [
+        {
+          "metricId": "estimated-total-cost",
+          "values": [
+            {
+              "vendorId": "v2",
+              "value": "1,320",
+              "note": "예산 여유 480만원",
+              "verification": "official"
+            },
+            {
+              "vendorId": "v3",
+              "value": "1,450",
+              "note": "꽃장식 추가비 미확인",
+              "verification": "user_quote"
+            },
+            {
+              "vendorId": "v1",
+              "value": "1,680",
+              "note": "예산 상한에 근접",
+              "verification": "official"
+            }
+          ]
+        },
+        {
+          "metricId": "bride-fit",
+          "values": [
+            { "vendorId": "v2", "value": 64, "score": 64, "note": "분위기 평균" },
+            { "vendorId": "v3", "value": 78, "score": 78, "note": "야외 연출 가능" },
+            { "vendorId": "v1", "value": 92, "score": 92, "note": "분위기·단독홀 최고" }
+          ]
+        },
+        {
+          "metricId": "groom-fit",
+          "values": [
+            { "vendorId": "v2", "value": 91, "score": 91, "note": "총비용·주차 강점" },
+            { "vendorId": "v3", "value": 79, "score": 79, "note": "균형형" },
+            { "vendorId": "v1", "value": 61, "score": 61, "note": "비용 리스크" }
+          ]
+        },
+        {
+          "metricId": "parking",
+          "values": [
+            { "vendorId": "v2", "value": 4, "score": 80, "note": "주차 강점" },
+            { "vendorId": "v3", "value": 5, "score": 100, "note": "주차 가능성 높음" },
+            { "vendorId": "v1", "value": 3, "score": 60, "note": "발렛 중심" }
+          ]
+        },
+        {
+          "metricId": "food",
+          "values": [
+            { "vendorId": "v2", "value": 3, "score": 60, "note": "무난" },
+            { "vendorId": "v3", "value": 4, "score": 80, "note": "식사 만족도 양호" },
+            { "vendorId": "v1", "value": 4, "score": 80, "note": "식사 만족도 양호" }
+          ]
+        }
+      ],
+      "vendorSummaries": [
+        {
+          "vendorId": "v2",
+          "title": "민혁님 최적",
+          "body": "총비용 1,320만원으로 예산 여유 480만원. 주차 점수가 높고 예식 간격이 여유로워 하객 동선 리스크가 낮아요.",
+          "recommendedFor": "groom"
+        },
+        {
+          "vendorId": "v3",
+          "title": "균형형 후보",
+          "body": "교통·음식 공통 우선순위를 충족하고 신랑/신부 점수가 고르게 나왔어요.",
+          "risk": "꽃장식 추가비가 미확인이라 상담 시 총비용 확인이 필요해요.",
+          "recommendedFor": "couple"
+        },
+        {
+          "vendorId": "v1",
+          "title": "예은님 최적",
+          "body": "분위기와 단독홀 조건이 가장 좋아 신부 선호에는 가장 잘 맞아요.",
+          "risk": "총비용이 예산 상한에 근접해 추가 옵션 발생 시 초과 위험이 있어요.",
+          "recommendedFor": "bride"
+        }
+      ],
+      "suggestedQuestions": [
+        {
+          "id": "q-total-flower-cost",
+          "text": "꽃장식 포함 총비용은 얼마인가요?",
+          "category": "cost",
+          "targetVendorIds": ["v1", "v3"]
+        },
+        {
+          "id": "q-guaranteed-guests",
+          "text": "보증 인원 180명 기준 최소 비용은 얼마인가요?",
+          "category": "guest",
+          "targetVendorIds": ["v1", "v2", "v3"]
+        },
+        {
+          "id": "q-july-weekend",
+          "text": "2026년 7월 토요일 오후 가능 날짜가 있나요?",
+          "category": "schedule",
+          "targetVendorIds": ["v1", "v2", "v3"]
+        },
+        {
+          "id": "q-parking-capacity",
+          "text": "하객 차량 80대 이상 주차가 가능한가요?",
+          "category": "parking",
+          "targetVendorIds": ["v1", "v2", "v3"]
+        }
+      ]
+    }
+  ]
+}

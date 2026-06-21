@@ -1,0 +1,349 @@
+{
+  "categories": [
+    {
+      "id": "wedding_hall",
+      "label": "웨딩홀",
+      "description": "예식 장소, 식대, 보증인원, 주차와 예식 간격을 비교해요.",
+      "roadmapPhaseId": "phase-1",
+      "priority": 1
+    },
+    {
+      "id": "studio",
+      "label": "웨딩 스튜디오",
+      "description": "촬영 무드, 원본/보정 컷, 드레스·메이크업 포함 여부를 비교해요.",
+      "roadmapPhaseId": "phase-2",
+      "priority": 2
+    },
+    {
+      "id": "dress",
+      "label": "드레스샵",
+      "description": "드레스 라인, 피팅비, 피팅 횟수와 수입 브랜드 여부를 비교해요.",
+      "roadmapPhaseId": "phase-2",
+      "priority": 3
+    },
+    {
+      "id": "makeup",
+      "label": "메이크업샵",
+      "description": "아티스트 등급, 얼리 비용, 신랑 메이크업 포함 여부를 비교해요.",
+      "roadmapPhaseId": "phase-2",
+      "priority": 4
+    },
+    {
+      "id": "snap",
+      "label": "본식 스냅",
+      "description": "촬영 시간, 작가 수, 보정 컷과 납품 기간을 비교해요.",
+      "roadmapPhaseId": "phase-2",
+      "priority": 5
+    }
+  ],
+  "filters": [
+    { "label": "서울 동부권", "active": true },
+    { "label": "하객 150명", "active": true },
+    { "label": "예산 4~6천", "active": true },
+    { "label": "토요일 저녁", "active": false },
+    { "label": "주차 가능", "active": false }
+  ],
+  "vendors": [
+    {
+      "id": "v1",
+      "category": "wedding_hall",
+      "name": "아벤티움",
+      "address": "서울 강남구 테헤란로 123",
+      "area": "강남",
+      "summary": "채광과 접근성이 좋은 하이엔드 호텔형 웨딩홀",
+      "tags": ["호텔", "채광", "강남", "발렛"],
+      "priceRange": "식대 10~13만",
+      "photo": "linear-gradient(135deg,#E8C9B8,#C99A86)",
+      "matchReason": "하객 150명·서울 접근성·토요일 저녁 조건과 잘 맞아요",
+      "questions": ["추가금", "주차", "환불 규정"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "호텔",
+          "mealPrice": "10~13만",
+          "minGuests": "150명",
+          "interval": "90분",
+          "parking": "발렛",
+          "confirmQuestions": "추가금, 주차, 환불 규정",
+          "estimatedTotalCost": "1,680만",
+          "costVerification": "official",
+          "brideFitScore": 92,
+          "groomFitScore": 61,
+          "transportRating": 3,
+          "foodRating": 4,
+          "aiRecommendationTitle": "예은님 최적",
+          "aiRecommendationBody": "분위기·단독홀 조건 최고점. 총비용이 상한에 근접해 추가 옵션 발생 시 초과 위험이 있어요."
+        }
+      }
+    },
+    {
+      "id": "v2",
+      "category": "wedding_hall",
+      "name": "라온제나",
+      "address": "서울 성동구 성수이로 45",
+      "area": "성수",
+      "summary": "주차와 식대가 합리적인 컨벤션 웨딩홀",
+      "tags": ["컨벤션", "성수", "주차 강점", "합리적 식대"],
+      "priceRange": "식대 7~9만",
+      "photo": "linear-gradient(135deg,#D9C7B0,#B39B7C)",
+      "matchReason": "예산 4~6천에 여유, 주차와 식대가 합리적이에요",
+      "questions": ["대관료", "식대 변동"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "컨벤션",
+          "mealPrice": "7~9만",
+          "minGuests": "100명",
+          "interval": "120분",
+          "parking": "주차 강점",
+          "confirmQuestions": "대관료, 식대 변동",
+          "estimatedTotalCost": "1,320만",
+          "costVerification": "official",
+          "brideFitScore": 64,
+          "groomFitScore": 91,
+          "transportRating": 4,
+          "foodRating": 3,
+          "aiRecommendationTitle": "민혁님 최적",
+          "aiRecommendationBody": "총비용 1,320만원으로 예산 여유 480만원. 주차 최고점이고, 분위기는 평균 수준이에요."
+        }
+      }
+    },
+    {
+      "id": "v3",
+      "category": "wedding_hall",
+      "name": "소피아 가든",
+      "address": "서울 광진구 능동로 210",
+      "area": "광진",
+      "summary": "서울 동부권 야외 연출이 가능한 자연채광 가든홀",
+      "tags": ["가든홀", "자연채광", "광진", "야외 연출"],
+      "priceRange": "식대 9~12만",
+      "photo": "linear-gradient(135deg,#C9D2C0,#94A585)",
+      "matchReason": "서울 동부권 야외 연출이 가능한 자연채광 홀이에요",
+      "questions": ["우천 시 대안", "보증인원"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "가든홀",
+          "mealPrice": "9~12만",
+          "minGuests": "130명",
+          "interval": "120분",
+          "parking": "주차 가능",
+          "confirmQuestions": "우천 시 대안, 보증인원",
+          "estimatedTotalCost": "1,450만?",
+          "costVerification": "user_quote",
+          "brideFitScore": 78,
+          "groomFitScore": 79,
+          "transportRating": 5,
+          "foodRating": 4,
+          "aiRecommendationTitle": "균형형 · 확인 필요",
+          "aiRecommendationBody": "교통·음식 공통 우선순위 충족. 꽃장식 추가비가 미확인이라 총비용 확정 불가, 상담 시 반드시 확인 필요해요."
+        }
+      }
+    },
+    {
+      "id": "v4",
+      "category": "wedding_hall",
+      "name": "더채플 앳 논현",
+      "address": "서울 강남구 논현로 560",
+      "area": "논현",
+      "summary": "버진로드가 긴 채플 단독홀",
+      "tags": ["채플", "논현", "단독홀", "긴 버진로드"],
+      "priceRange": "식대 9~11만",
+      "photo": "linear-gradient(135deg,#E3C2C2,#C08B8B)",
+      "matchReason": "버진로드가 긴 채플 단독홀, 사진 연출이 좋아요",
+      "questions": ["예식 간격", "추가금"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "채플",
+          "mealPrice": "9~11만",
+          "minGuests": "120명",
+          "interval": "90분",
+          "parking": "발렛",
+          "confirmQuestions": "예식 간격, 추가금"
+        }
+      }
+    },
+    {
+      "id": "v5",
+      "category": "wedding_hall",
+      "name": "노블레스 타워",
+      "address": "서울 성동구 왕십리로 300",
+      "area": "왕십리",
+      "summary": "서울 동부권 역세권 시티뷰 호텔형 웨딩홀",
+      "tags": ["호텔", "왕십리", "역세권", "시티뷰"],
+      "priceRange": "식대 11~14만",
+      "photo": "linear-gradient(135deg,#C7C2D6,#9089AB)",
+      "matchReason": "서울 동부권 역세권 시티뷰, 하객 동선이 편해요",
+      "questions": ["최소 보증", "주차 대수"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "호텔",
+          "mealPrice": "11~14만",
+          "minGuests": "160명",
+          "interval": "90분",
+          "parking": "발렛",
+          "confirmQuestions": "최소 보증, 주차 대수"
+        }
+      }
+    },
+    {
+      "id": "v6",
+      "category": "wedding_hall",
+      "name": "빌라 드 베르",
+      "address": "서울 송파구 올림픽로 240",
+      "area": "잠실",
+      "summary": "대형 하객도 여유로운 컨벤션 웨딩홀",
+      "tags": ["컨벤션", "잠실", "대형 주차", "대형 하객"],
+      "priceRange": "식대 8~10만",
+      "photo": "linear-gradient(135deg,#E0CDB6,#B79B72)",
+      "matchReason": "대형 하객도 여유, 대중교통 접근이 좋아요",
+      "questions": ["보증인원 조정", "셔틀"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "컨벤션",
+          "mealPrice": "8~10만",
+          "minGuests": "200명",
+          "interval": "90분",
+          "parking": "대형 주차",
+          "confirmQuestions": "보증인원 조정, 셔틀"
+        }
+      }
+    },
+    {
+      "id": "v7",
+      "category": "wedding_hall",
+      "name": "메종 드 루이",
+      "address": "서울 강남구 도산대로 420",
+      "area": "청담",
+      "summary": "프라이빗 단독 가든을 갖춘 하우스 웨딩홀",
+      "tags": ["하우스", "청담", "프라이빗", "소규모"],
+      "priceRange": "식대 12~15만",
+      "photo": "linear-gradient(135deg,#D8C6D2,#A98BA0)",
+      "matchReason": "프라이빗 단독 가든, 소규모 예식에 어울려요",
+      "questions": ["최소 보증", "대관 시간"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "하우스",
+          "mealPrice": "12~15만",
+          "minGuests": "80명",
+          "interval": "150분",
+          "parking": "발렛",
+          "confirmQuestions": "최소 보증, 대관 시간"
+        }
+      }
+    },
+    {
+      "id": "v8",
+      "category": "wedding_hall",
+      "name": "한옥 예담",
+      "address": "서울 성북구 성북로 88",
+      "area": "성북",
+      "summary": "전통 단독 한옥 분위기의 스몰웨딩 공간",
+      "tags": ["한옥", "성북", "스몰웨딩", "전통"],
+      "priceRange": "식대 10~13만",
+      "photo": "linear-gradient(135deg,#CBBBA0,#9E8A6A)",
+      "matchReason": "전통 단독 한옥, 스몰웨딩 분위기에 잘 맞아요",
+      "questions": ["주차 대안", "우천 대비"],
+      "status": "active",
+      "profile": {
+        "weddingHall": {
+          "hallType": "한옥",
+          "mealPrice": "10~13만",
+          "minGuests": "90명",
+          "interval": "150분",
+          "parking": "주차 협소",
+          "confirmQuestions": "주차 대안, 우천 대비"
+        }
+      }
+    },
+    {
+      "id": "s1",
+      "category": "studio",
+      "name": "무드아카이브 스튜디오",
+      "address": "서울 강남구 선릉로 710",
+      "area": "청담",
+      "summary": "인물 중심의 자연스러운 무드를 잘 잡는 웨딩 스튜디오",
+      "tags": ["인물중심", "내추럴", "청담"],
+      "priceRange": "패키지 180~260만",
+      "photo": "linear-gradient(135deg,#D6CEC7,#A9988D)",
+      "matchReason": "자연스러운 인물 사진과 차분한 무드를 선호하는 커플에게 잘 맞아요",
+      "questions": ["원본 제공", "보정 컷 수", "드레스 포함 여부"],
+      "status": "draft",
+      "profile": {
+        "studio": {
+          "shootingStyle": ["내추럴", "인물 중심", "실내"],
+          "includedCuts": "원본 전체 + 셀렉 20컷",
+          "retouchCount": "20컷"
+        }
+      }
+    },
+    {
+      "id": "d1",
+      "category": "dress",
+      "name": "루미에르 드레스",
+      "address": "서울 강남구 압구정로 330",
+      "area": "압구정",
+      "summary": "실크와 클래식 라인 셀렉션이 강한 드레스샵",
+      "tags": ["실크", "클래식", "수입드레스"],
+      "priceRange": "본식 120~250만",
+      "photo": "linear-gradient(135deg,#EFE1D8,#C9AFA2)",
+      "matchReason": "깔끔한 실크 라인과 클래식 무드를 원하는 경우 후보로 좋아요",
+      "questions": ["피팅비", "피팅 횟수", "수선 포함 여부"],
+      "status": "draft",
+      "profile": {
+        "dress": {
+          "dressTypes": ["실크", "A라인", "머메이드"],
+          "fittingFee": "5만원",
+          "fittingCount": "3벌"
+        }
+      }
+    },
+    {
+      "id": "m1",
+      "category": "makeup",
+      "name": "에르모사 메이크업",
+      "address": "서울 강남구 도산대로 250",
+      "area": "신사",
+      "summary": "맑고 깨끗한 피부 표현을 강점으로 하는 메이크업샵",
+      "tags": ["맑은피부", "내추럴", "신사"],
+      "priceRange": "본식 80~150만",
+      "photo": "linear-gradient(135deg,#E9D5D0,#C8958E)",
+      "matchReason": "과하지 않은 본식 메이크업을 원하는 커플에게 잘 맞아요",
+      "questions": ["얼리 비용", "신랑 메이크업", "헤어 변형 포함"],
+      "status": "draft",
+      "profile": {
+        "makeup": {
+          "artistLevel": "실장/원장 선택 가능",
+          "earlyMorningFee": "오전 7시 이전 10만원",
+          "groomMakeupIncluded": true
+        }
+      }
+    },
+    {
+      "id": "p1",
+      "category": "snap",
+      "name": "온더데이 스냅",
+      "address": "서울 마포구 양화로 120",
+      "area": "홍대",
+      "summary": "본식의 자연스러운 순간과 가족 컷을 균형 있게 담는 스냅 업체",
+      "tags": ["본식스냅", "다큐멘터리", "가족컷"],
+      "priceRange": "본식 100~180만",
+      "photo": "linear-gradient(135deg,#D9D1C4,#A99E8B)",
+      "matchReason": "과한 연출보다 자연스러운 본식 기록을 선호하면 잘 맞아요",
+      "questions": ["촬영 시간", "작가 수", "납품 기간"],
+      "status": "draft",
+      "profile": {
+        "snap": {
+          "coverageHours": "본식 4시간",
+          "photographerCount": "1~2명",
+          "editedCount": "보정 50컷",
+          "deliveryWeeks": "8주"
+        }
+      }
+    }
+  ]
+}
