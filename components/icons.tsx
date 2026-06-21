@@ -10,11 +10,12 @@ export function CheckIcon() {
 
 export function HeartIcon({ filled }: { filled: boolean }) {
   return (
-    <svg width="21" height="21" viewBox="0 0 24 24" fill={filled ? ACCENT_COLOR : "none"} aria-hidden="true">
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d="M12 20s-7-4.6-9.2-9C1.3 7.6 3 4.5 6.2 4.5c1.9 0 3.2 1.1 3.8 2.2.6-1.1 1.9-2.2 3.8-2.2 3.2 0 4.9 3.1 3.4 6.5C19 15.4 12 20 12 20z"
-        stroke={filled ? ACCENT_COLOR : "#9A8A82"}
-        strokeWidth="1.8"
+        d="M12 21.1l-1.45-1.32C5.4 15.12 2 12.03 2 8.25 2 5.17 4.42 2.75 7.5 2.75c1.74 0 3.41.81 4.5 2.08a5.9 5.9 0 014.5-2.08C19.58 2.75 22 5.17 22 8.25c0 3.78-3.4 6.87-8.55 11.55L12 21.1z"
+        fill={filled ? ACCENT_COLOR : "none"}
+        stroke={filled ? "none" : "#9A8A82"}
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
