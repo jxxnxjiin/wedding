@@ -1,0 +1,108 @@
+{
+  "detailQuestions": [
+    "보증인원 변경이 가능한가요?",
+    "식대에 포함/미포함되는 항목은?",
+    "대관료와 발생 가능한 추가금",
+    "주차·셔틀 운영 여부",
+    "취소·일정 변경 조건"
+  ],
+  "visitQuestions": [
+    { "title": "보증인원 변경 가능 여부", "subtitle": "하객 150명 기준, 최소 보증과 조정 범위" },
+    { "title": "식대 포함 / 미포함 항목", "subtitle": "주류, 코너, 서비스료 포함 여부" },
+    { "title": "대관료와 추가금", "subtitle": "꽃, 영상, 사회 등 별도 비용" },
+    { "title": "주차 · 셔틀 운영", "subtitle": "하객 주차 대수와 무료 시간" },
+    { "title": "취소 · 일정 변경 조건", "subtitle": "계약 후 변경 시 위약 규정" }
+  ],
+  "aiPresets": [
+    {
+      "question": "투어 전에 뭘 물어봐야 해?",
+      "answer": "투어 전 핵심 5가지만 확인하세요.\n1) 보증인원과 조정 범위\n2) 식대 포함/미포함 항목\n3) 대관료·추가금(꽃, 영상 등)\n4) 주차·셔틀 운영\n5) 취소·변경 위약 조건\n\n이 질문지는 예약 요청 시 업체에 자동으로 함께 전달돼요."
+    },
+    {
+      "question": "아벤티움 vs 라온제나, 어떤 기준으로 비교해?",
+      "answer": "두 곳은 성격이 달라요.\n· 아벤티움 — 채광·접근성·하이엔드 연출이 강점, 식대는 다소 높아요(10~13만).\n· 라온제나 — 주차와 식대가 합리적(7~9만), 예식 간격이 120분으로 여유로워요.\n\n하객 동선·사진 연출이 중요하면 아벤티움, 예산·주차가 우선이면 라온제나를 추천해요."
+    },
+    {
+      "question": "이 견적에서 추가금 생길 항목은?",
+      "answer": "웨딩홀에서 추가금이 자주 발생하는 항목이에요.\n· 보증인원 초과 식대\n· 주말·성수기 대관료\n· 꽃·아치 등 데코 업그레이드\n· 본식 영상/스냅 추가\n· 주차 정산\n\n계약 전 \"총액 기준 견적서\"를 요청하면 누락을 줄일 수 있어요."
+    }
+  ],
+  "phases": [
+    {
+      "id": "phase-1",
+      "num": "1",
+      "name": "웨딩홀 · 날짜 확정",
+      "shortName": "홀",
+      "action": "웨딩홀 후보 비교, 투어 요청",
+      "tag": "진행 중",
+      "state": "now",
+      "progress": 40,
+      "completed": 2,
+      "total": 5,
+      "checklist": [
+        { "id": "hall-save", "title": "웨딩홀 후보 3곳 저장하기", "owner": "함께", "done": false, "thisWeek": true },
+        { "id": "hall-visit", "title": "웨딩홀 투어 희망 일정 보내기", "owner": "함께", "done": false, "thisWeek": true },
+        { "id": "hall-date", "title": "예식 가능 날짜 2~3개 정하기", "owner": "함께", "done": true, "thisWeek": true },
+        { "id": "hall-budget", "title": "식대·보증인원 기준 합의하기", "owner": "신랑", "done": false, "thisWeek": false },
+        { "id": "hall-contract", "title": "계약 전 추가금 질문 확인하기", "owner": "신부", "done": true, "thisWeek": false }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "num": "2",
+      "name": "스드메 · 본식 스냅",
+      "shortName": "스드메",
+      "action": "스튜디오/드레스/메이크업 상담 요청",
+      "tag": "예정",
+      "state": "next",
+      "progress": 0,
+      "completed": 0,
+      "total": 5,
+      "checklist": [
+        { "id": "sdm-style", "title": "원하는 촬영 무드 저장하기", "owner": "신부", "done": false, "thisWeek": false },
+        { "id": "sdm-budget", "title": "스드메 예산 상한 정하기", "owner": "함께", "done": false, "thisWeek": false },
+        { "id": "sdm-studio", "title": "스튜디오 후보 3곳 비교하기", "owner": "신부", "done": false, "thisWeek": false },
+        { "id": "sdm-dress", "title": "드레스 투어 가능 일정 확인하기", "owner": "함께", "done": false, "thisWeek": false },
+        { "id": "sdm-snap", "title": "본식 스냅 포함 여부 결정하기", "owner": "신랑", "done": false, "thisWeek": false }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "num": "3",
+      "name": "혼수 · 신혼집",
+      "shortName": "살림",
+      "action": "체크리스트와 예산 가이드 중심",
+      "tag": "예정",
+      "state": "next",
+      "progress": 0,
+      "completed": 0,
+      "total": 4,
+      "checklist": [
+        { "id": "home-area", "title": "신혼집 후보 지역 정리하기", "owner": "함께", "done": false, "thisWeek": false },
+        { "id": "home-budget", "title": "주거 예산 범위 합의하기", "owner": "함께", "done": false, "thisWeek": false },
+        { "id": "home-appliance", "title": "필수 가전 리스트 만들기", "owner": "신랑", "done": false, "thisWeek": false },
+        { "id": "home-furniture", "title": "가구 우선순위 정하기", "owner": "신부", "done": false, "thisWeek": false }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "num": "4",
+      "name": "본식 카운트다운",
+      "shortName": "본식",
+      "action": "방문/계약/최종 확인 일정 관리",
+      "tag": "예정",
+      "state": "next",
+      "progress": 0,
+      "completed": 0,
+      "total": 6,
+      "checklist": [
+        { "id": "final-invite", "title": "청첩장 발송 명단 확정하기", "owner": "함께", "done": false, "thisWeek": false },
+        { "id": "final-song", "title": "입장곡·축가 순서 정하기", "owner": "신부", "done": false, "thisWeek": false },
+        { "id": "final-meal", "title": "식권·답례품 수량 확인하기", "owner": "신랑", "done": false, "thisWeek": false },
+        { "id": "final-seat", "title": "혼주석·가족석 배치 확인하기", "owner": "함께", "done": false, "thisWeek": false },
+        { "id": "final-rehearsal", "title": "본식 리허설 일정 확인하기", "owner": "함께", "done": false, "thisWeek": false },
+        { "id": "final-payment", "title": "잔금·추가금 최종 확인하기", "owner": "신랑", "done": false, "thisWeek": false }
+      ]
+    }
+  ]
+}

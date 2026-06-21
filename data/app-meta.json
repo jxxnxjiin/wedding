@@ -1,0 +1,20 @@
+{
+  "brandName": "Easy Wedding",
+  "weddingDate": "2026.11.14",
+  "weddingDateLabel": "2026년 11월 14일 · 토요일",
+  "dday": 146,
+  "coupleProfiles": [
+    {
+      "role": "신부",
+      "name": "진예은",
+      "initial": "진",
+      "summary": "일정과 분위기를 먼저 챙기는 타입"
+    },
+    {
+      "role": "신랑",
+      "name": "김민준",
+      "initial": "김",
+      "summary": "예산과 이동 동선을 꼼꼼히 보는 타입"
+    }
+  ]
+}

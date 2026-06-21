@@ -1,0 +1,31 @@
+{
+  "seedReservations": [
+    {
+      "id": "r-laon",
+      "venueId": "v2",
+      "status": "방문 D-3",
+      "kind": "confirmed",
+      "slot": "6/24 (화) 14:00 확정",
+      "next": "보증인원·식대·주차 질문을 확인하세요",
+      "primary": "방문 질문지",
+      "secondary": "캘린더 보기"
+    },
+    {
+      "id": "r-maison",
+      "venueId": "v7",
+      "status": "상담 대기",
+      "kind": "pending",
+      "slot": "희망: 6/28 오후, 6/29 오전",
+      "next": "업체가 가능 시간을 확인 중이에요",
+      "primary": "요청 수정",
+      "secondary": "전화시간 변경"
+    }
+  ],
+  "statusStyles": {
+    "requested": { "bg": "#FBF1DD", "color": "#B07D1C", "nextBg": "#FCF6E9" },
+    "pending": { "bg": "#F1EBE6", "color": "#8A7670", "nextBg": "#F8F4F0" },
+    "confirmed": { "bg": "#E9F0E6", "color": "#5C7A57", "nextBg": "#F2F6F0" }
+  },
+  "dateOptions": ["6/24 (화)", "6/25 (수)", "6/27 (금)", "6/28 (토)", "6/29 (일)", "7/1 (화)"],
+  "timeOptions": ["오전 10시", "점심 12시", "오후 2시", "오후 4시", "저녁 6시"]
+}
