@@ -1,9 +1,16 @@
 {
   "services": [
     {
+      "title": "우리 가치관 맞춰보기",
+      "description": "10가지 질문으로 두 사람의 결혼 준비 가치관이 얼마나 맞는지 확인해요.",
+      "icon": "💞",
+      "action": "value-test"
+    },
+    {
       "title": "내 체형에 맞는 드레스 추천받기",
       "description": "체형과 선호 무드에 맞는 드레스 라인을 미리 좁혀봐요.",
-      "icon": "👗"
+      "icon": "👗",
+      "action": "dress-recommendation"
     },
     {
       "title": "모바일 청첩장 만들기",
@@ -13,7 +20,8 @@
     {
       "title": "웨딩홀 투어 지도로 확인하기",
       "description": "저장한 홀의 위치와 투어 동선을 한눈에 확인해요.",
-      "icon": "🗺️"
+      "icon": "🗺️",
+      "action": "tour-route"
     },
     {
       "title": "스드메 예산 조합 추천받기",

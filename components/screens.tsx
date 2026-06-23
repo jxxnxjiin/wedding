@@ -1,8 +1,11 @@
 export { AiComposer, AiConsultScreen, AiSheet } from "./pages/ai";
 export { BudgetScreen } from "./pages/budget";
+export { DressRecommendationScreen } from "./pages/dress-recommendation";
 export { DoneScreen, ReserveScreen, VisitScreen } from "./pages/booking-flow";
 export { HomeScreen } from "./pages/home";
 export { OnboardingScreen } from "./pages/onboarding";
 export { MyScreen } from "./pages/profile";
 export { RoadmapScreen, TaskDetailScreen } from "./pages/roadmap";
+export { TourRouteScreen } from "./pages/tour-route";
 export { CompareScreen, DetailScreen, VendorExploreScreen } from "./pages/venues";
+export { ValueResultScreen, ValueTestScreen } from "./pages/value-test";

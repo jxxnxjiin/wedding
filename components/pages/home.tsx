@@ -3,9 +3,16 @@ import addOnServices from "../../data/add-on-services.json";
 import { getChecklistCategoryLabel, getChecklistOwnerLabel, getChecklistTasks, isChecklistTaskDueThisWeek } from "../../lib/checklist";
 import { formatShortWeddingDate, getWeddingDday } from "../../lib/date";
 import type { ChecklistTaskUserUpdate } from "../../lib/schema";
-import type { HeroAction, ReservationCard } from "../../lib/types";
+import type { AddOnServiceRoute, HeroAction, ReservationCard, Screen } from "../../lib/types";
 import { CheckIcon, SparkIcon } from "../icons";
 import { isTaskDone, JourneyOverview } from "./journey";
+
+type AddOnService = {
+  title: string;
+  description: string;
+  icon: string;
+  action?: string;
+};
 
 export function HomeScreen({
   hero,
@@ -17,6 +24,8 @@ export function HomeScreen({
   checklistChecks,
   checklistTaskEdits,
   onToggleChecklistTask,
+  serviceRoutes,
+  onOpenService,
   weddingDate
 }: {
   hero: HeroAction;
@@ -28,8 +37,12 @@ export function HomeScreen({
   checklistChecks: Record<string, boolean>;
   checklistTaskEdits: Record<string, ChecklistTaskUserUpdate>;
   onToggleChecklistTask: (id: string) => void;
+  serviceRoutes: AddOnServiceRoute[];
+  onOpenService: (screen: Screen) => void;
   weddingDate: string;
 }) {
+  const services = addOnServices.services as AddOnService[];
+  const serviceRouteMap = new Map(serviceRoutes.map((route) => [route.action, route.screen]));
   const checklistTasks = getChecklistTasks(checklistTaskEdits);
   const dday = getWeddingDday(weddingDate);
   const confirmedWeekReservations = reservations
@@ -126,16 +139,24 @@ export function HomeScreen({
         <span className="serif">이런 서비스는 어때요?</span>
       </div>
       <div className="add-on-service-list">
-        {addOnServices.services.map((service) => (
-          <button key={service.title} className="add-on-service-card card" type="button">
-            <span className="add-on-service-icon">{service.icon}</span>
-            <span>
-              <b>{service.title}</b>
-              <small>{service.description}</small>
-            </span>
-            <em>준비중</em>
-          </button>
-        ))}
+        {services.map((service) => {
+          const targetScreen = service.action ? serviceRouteMap.get(service.action) : undefined;
+          return (
+            <button
+              key={service.title}
+              className={`add-on-service-card card ${targetScreen ? "active" : ""}`}
+              type="button"
+              onClick={targetScreen ? () => onOpenService(targetScreen) : undefined}
+            >
+              <span className="add-on-service-icon">{service.icon}</span>
+              <span>
+                <b>{service.title}</b>
+                <small>{service.description}</small>
+              </span>
+              {targetScreen ? <span className="chevron">›</span> : <em>준비중</em>}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&amp;family=Nanum+Myeongjo:wght@400;700;800&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  body { margin: 0; font-family: 'Pretendard', sans-serif; }
+  .ew-scroll::-webkit-scrollbar { width: 0; height: 0; display: none; }
+  .ew-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  @keyframes ewFloat { from { transform: translateY(10px); } to { transform: none; } }
+  @keyframes ewSheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  @keyframes ewFade { from { transform: translateY(6px); } to { transform: none; } }
+  @keyframes ewPop { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+</style>
+</helmet>
+
+<div style="--accent: {{ accentColor }}; min-height: 100vh; width: 100%; background: linear-gradient(165deg, #F4E9DE 0%, #ECDACB 55%, #E4CFBE 100%); display: flex; align-items: center; justify-content: center; padding: 36px 20px; font-family: 'Pretendard', sans-serif;">
+  <div style="position: relative; width: 412px; height: 868px; background: #1B1416; border-radius: 60px; padding: 11px; box-shadow: 0 50px 90px -28px rgba(74,38,38,.55), 0 0 0 2px #2c2123, inset 0 0 0 2px #000; flex: none;">
+    <div style="position: relative; width: 390px; height: 846px; border-radius: 49px; overflow: hidden; background: #FBF6F0; display: flex; flex-direction: column;">
+
+      <!-- notch -->
+      <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 116px; height: 33px; background: #0c090a; border-radius: 20px; z-index: 80;"></div>
+
+      <!-- status bar -->
+      <div style="position: relative; z-index: 70; height: 50px; flex: none; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 28px 6px; color: #3D2B2E;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: .3px;">9:41</span>
+        <span style="display: flex; align-items: center; gap: 6px;">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="1" fill="#3D2B2E"></rect><rect x="5" y="4.5" width="3" height="7.5" rx="1" fill="#3D2B2E"></rect><rect x="10" y="2" width="3" height="10" rx="1" fill="#3D2B2E"></rect><rect x="15" y="0" width="3" height="12" rx="1" fill="#3D2B2E"></rect></svg>
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M8.5 2.2c2.3 0 4.4.9 6 2.3l1.2-1.4C13.8 1.3 11.3.3 8.5.3 5.7.3 3.2 1.3 1.3 3.1L2.5 4.5c1.6-1.4 3.7-2.3 6-2.3z" fill="#3D2B2E"></path><path d="M8.5 6c1.3 0 2.5.5 3.4 1.3l1.2-1.4C11.9 4.7 10.3 4 8.5 4S5.1 4.7 3.9 5.9L5.1 7.3C6 6.5 7.2 6 8.5 6z" fill="#3D2B2E"></path><circle cx="8.5" cy="10" r="1.6" fill="#3D2B2E"></circle></svg>
+          <svg width="26" height="13" viewBox="0 0 26 13" fill="none"><rect x="1" y="1" width="21" height="11" rx="3" stroke="#3D2B2E" stroke-opacity=".5" stroke-width="1"></rect><rect x="2.5" y="2.5" width="17" height="8" rx="1.5" fill="#3D2B2E"></rect><rect x="23.5" y="4" width="1.8" height="5" rx=".9" fill="#3D2B2E" fill-opacity=".5"></rect></svg>
+        </span>
+      </div>
+
+      <!-- ===================== CONTENT ===================== -->
+      <div class="ew-scroll" style="flex: 1; overflow-y: auto; position: relative;">
+
+        <!-- ===== ONBOARDING ===== -->
+        <sc-if value="{{ isOnboard }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 8px 22px 40px;">
+            <div style="font-family: 'Cormorant Garamond', serif; font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent, #B5685E); font-weight: 600; margin-top: 6px;">{{ brandName }}</div>
+            <h1 style="font-family: 'Nanum Myeongjo', serif; font-size: 28px; line-height: 1.4; color: #2E2023; font-weight: 800; margin: 14px 0 8px; letter-spacing: -.3px;">결혼 준비,<br>어디까지 오셨어요?</h1>
+            <p style="font-size: 14px; line-height: 1.6; color: #8A7670; margin: 0 0 26px;">딱 필요한 것만 여쭤볼게요. 답변에 맞춰<br>웨딩홀 추천과 준비 로드맵을 만들어 드려요.</p>
+
+            <sc-for list="{{ onboardGroups }}" as="g" hint-placeholder-count="4">
+              <div style="margin-bottom: 22px;">
+                <div style="font-size: 14px; font-weight: 700; color: #3D2B2E; margin-bottom: 11px;">{{ g.label }}</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="4">
+                    <button onClick="{{ o.onClick }}" style="border: 1px solid {{ o.border }}; background: {{ o.bg }}; color: {{ o.color }}; font-family: 'Pretendard'; font-size: 13.5px; font-weight: {{ o.weight }}; padding: 10px 15px; border-radius: 13px; cursor: pointer; transition: all .15s;">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+
+            <div style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; padding: 16px 18px; margin: 4px 0 26px; box-shadow: 0 4px 16px rgba(61,43,46,.04);">
+              <div style="width: 42px; height: 42px; border-radius: 12px; background: #F6ECE6; display: flex; align-items: center; justify-content: center; flex: none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="var(--accent,#B5685E)" stroke-width="1.7"></rect><path d="M3 9h18M8 3v4M16 3v4" stroke="var(--accent,#B5685E)" stroke-width="1.7" stroke-linecap="round"></path></svg>
+              </div>
+              <div style="flex: 1;">
+                <div style="font-size: 12px; color: #A8968E;">예식 예정일</div>
+                <div style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023; margin-top: 2px;">2026년 11월 14일 · 토요일</div>
+              </div>
+              <span style="font-size: 12.5px; color: var(--accent,#B5685E); font-weight: 600;">변경</span>
+            </div>
+
+            <button onClick="{{ startApp }}" style="width: 100%; background: var(--accent, #B5685E); color: #fff; border: none; border-radius: 17px; padding: 17px; font-family: 'Pretendard'; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 24px -8px rgba(181,104,94,.6); letter-spacing: -.2px;">내 결혼 준비 시작하기</button>
+            <p style="text-align: center; font-size: 12px; color: #B0A099; margin: 14px 0 0;">3분이면 충분해요 · 언제든 수정 가능</p>
+          </div>
+        </sc-if>
+
+        <!-- ===== HOME ===== -->
+        <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 6px 0 30px;">
+            <div style="padding: 0 22px;">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                <div>
+                  <div style="font-size: 13px; color: #A8968E; font-weight: 500;">예식까지</div>
+                  <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 1px; white-space: nowrap;">
+                    <span style="font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 700; color: #2E2023; line-height: 1; white-space: nowrap;">D-{{ dday }}</span>
+                    <span style="font-size: 13px; color: #8A7670;">11.14 토</span>
+                  </div>
+                </div>
+                <button onClick="{{ goMy }}" style="width: 44px; height: 44px; border-radius: 50%; border: none; background: linear-gradient(135deg,#E8C9B8,#C99A86); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 17px; cursor: pointer; box-shadow: 0 3px 9px rgba(201,154,134,.45);">정</button>
+              </div>
+              <div style="display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; background: #F1E7DD; border-radius: 20px; padding: 6px 13px;">
+                <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--accent,#B5685E);"></span>
+                <span style="font-size: 12.5px; color: #6B574F; font-weight: 600;">{{ phase }}</span>
+              </div>
+            </div>
+
+            <!-- hero action -->
+            <div style="margin: 20px 22px 0; border-radius: 24px; overflow: hidden; background: linear-gradient(150deg, #4A2E30 0%, #6B4042 100%); box-shadow: 0 16px 32px -14px rgba(74,46,48,.6); position: relative;">
+              <div style="position: absolute; right: -20px; top: -20px; width: 130px; height: 130px; border-radius: 50%; background: rgba(255,255,255,.06);"></div>
+              <div style="padding: 22px 22px 20px; position: relative;">
+                <div style="font-size: 12px; color: #E9C9BE; font-weight: 600; letter-spacing: .4px;">오늘의 할 일</div>
+                <div style="font-family: 'Nanum Myeongjo', serif; font-size: 21px; font-weight: 700; color: #fff; line-height: 1.45; margin: 9px 0 6px; letter-spacing: -.3px;">{{ heroTitle }}</div>
+                <div style="font-size: 13px; color: rgba(255,255,255,.72); line-height: 1.6; margin-bottom: 18px;">{{ heroDesc }}</div>
+                <button onClick="{{ heroAction }}" style="background: #fff; color: #4A2E30; border: none; border-radius: 13px; padding: 12px 20px; font-family: 'Pretendard'; font-size: 14px; font-weight: 700; cursor: pointer;">{{ heroCta }} →</button>
+              </div>
+            </div>
+
+            <!-- AI quick -->
+            <button onClick="{{ goAi }}" style="display: flex; align-items: center; gap: 12px; width: calc(100% - 44px); margin: 12px 22px 0; background: #fff; border: 1px solid #F0E5DA; border-radius: 16px; padding: 14px 16px; cursor: pointer; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+              <span style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg,#F3DfD7,#E7C4B8); display: flex; align-items: center; justify-content: center; flex: none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#9A4F46"></path><circle cx="18.5" cy="17.5" r="2.5" fill="#C98B7F"></circle></svg>
+              </span>
+              <span style="flex: 1; text-align: left;"><span style="display: block; font-size: 14px; font-weight: 700; color: #3D2B2E;">AI에게 준비 질문하기</span><span style="display: block; font-size: 12px; color: #A8968E; margin-top: 1px;">"투어 전에 뭘 물어봐야 할까?"</span></span>
+              <span style="color: #C9B8AE; font-size: 18px;">›</span>
+            </button>
+
+            <!-- in-progress reservations -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 26px 22px 12px;">
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023;">진행 중인 예약</span>
+              <span onClick="{{ goReservations }}" style="font-size: 12.5px; color: #A8968E; cursor: pointer;">{{ inProgressCount }}건 전체보기</span>
+            </div>
+            <div class="ew-scroll" style="display: flex; gap: 12px; overflow-x: auto; padding: 0 22px 4px;">
+              <sc-for list="{{ reservationCards }}" as="r" hint-placeholder-count="2">
+                <div onClick="{{ r.openVisit }}" style="flex: none; width: 215px; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; overflow: hidden; cursor: pointer; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+                  <div style="height: 84px; background: {{ r.photo }}; position: relative;">
+                    <span style="position: absolute; top: 10px; left: 10px; background: {{ r.pillBg }}; color: {{ r.pillColor }}; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 8px;">{{ r.status }}</span>
+                  </div>
+                  <div style="padding: 12px 13px 13px;">
+                    <div style="font-size: 14.5px; font-weight: 700; color: #2E2023;">{{ r.name }}</div>
+                    <div style="font-size: 11.5px; color: #A8968E; margin-top: 3px;">{{ r.slot }}</div>
+                    <div style="font-size: 12px; color: #6B574F; margin-top: 9px; line-height: 1.4;">{{ r.next }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- weekly checklist -->
+            <div style="padding: 26px 22px 10px;">
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023;">이번 주 체크리스트</span>
+            </div>
+            <div style="margin: 0 22px; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+              <sc-for list="{{ weekChecklist }}" as="c" hint-placeholder-count="3">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 15px 16px; border-top: 1px solid {{ c.border }};">
+                  <span style="width: 22px; height: 22px; border-radius: 7px; background: {{ c.boxBg }}; border: 1.6px solid {{ c.boxBorder }}; display: flex; align-items: center; justify-content: center; flex: none;">
+                    <sc-if value="{{ c.done }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3 3 7-7.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                  </span>
+                  <span style="font-size: 14px; color: {{ c.color }}; text-decoration: {{ c.deco }}; font-weight: 500;">{{ c.t }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- recommended services -->
+            <div style="padding: 28px 22px 12px;">
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023;">이런 서비스는 어때요?</span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px; padding: 0 22px;">
+
+              <!-- 투어 동선 (featured) -->
+              <button onClick="{{ goTour }}" style="display: flex; align-items: center; gap: 13px; width: 100%; text-align: left; background: #fff; border: 1px solid #EBD7C8; border-radius: 18px; padding: 15px 16px; cursor: pointer; box-shadow: 0 6px 18px rgba(181,104,94,.09);">
+                <span style="width: 46px; height: 46px; border-radius: 14px; background: linear-gradient(135deg,#F0D9CD,#E1B4A2); display: flex; align-items: center; justify-content: center; flex: none;">
+                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M9.5 20.5L4 22.5V6l5.5-2 5 2 5.5-2v16.5l-5.5 2-5-2z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"></path><path d="M9.5 4.5v16M14.5 6v16" stroke="#fff" stroke-width="1.5"></path><circle cx="9.5" cy="9" r="1.6" fill="#fff"></circle></svg>
+                </span>
+                <span style="flex: 1; min-width: 0;">
+                  <span style="display: flex; align-items: center; gap: 7px;">
+                    <span style="font-size: 14.5px; font-weight: 700; color: #3D2B2E;">웨딩홀 투어 동선 확인하기</span>
+                    <span style="font-size: 10px; font-weight: 700; color: var(--accent,#B5685E); background: #F6E6DE; padding: 2px 7px; border-radius: 7px;">추천</span>
+                  </span>
+                  <span style="display: block; font-size: 12px; color: #A8968E; margin-top: 3px; line-height: 1.45;">예약한 3곳, 하루에 가장 효율적인 동선으로 묶어 드려요.</span>
+                </span>
+                <span style="color: #C9B8AE; font-size: 18px;">›</span>
+              </button>
+
+              <!-- 가치관 맞춰보기 -->
+              <button style="display: flex; align-items: center; gap: 13px; width: 100%; text-align: left; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; padding: 15px 16px; cursor: pointer; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+                <span style="width: 46px; height: 46px; border-radius: 14px; background: #F6ECE6; display: flex; align-items: center; justify-content: center; flex: none;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.6-9.2-9C1.3 7.6 3 4.5 6.2 4.5c1.9 0 3.2 1.1 3.8 2.2.6-1.1 1.9-2.2 3.8-2.2 3.2 0 4.9 3.1 3.4 6.5C19 15.4 12 20 12 20z" stroke="#C98B7F" stroke-width="1.7"></path></svg>
+                </span>
+                <span style="flex: 1; min-width: 0;">
+                  <span style="display: block; font-size: 14.5px; font-weight: 700; color: #3D2B2E;">우리 가치관 맞춰보기</span>
+                  <span style="display: block; font-size: 12px; color: #A8968E; margin-top: 3px; line-height: 1.45;">10가지 질문으로 두 사람의 결혼 준비 가치관이 얼마나 맞는지 확인해요.</span>
+                </span>
+                <span style="color: #C9B8AE; font-size: 18px;">›</span>
+              </button>
+
+              <!-- 모바일 청첩장 -->
+              <button style="display: flex; align-items: center; gap: 13px; width: 100%; text-align: left; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; padding: 15px 16px; cursor: pointer; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+                <span style="width: 46px; height: 46px; border-radius: 14px; background: #EFE7DC; display: flex; align-items: center; justify-content: center; flex: none;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5" stroke="#A88C6E" stroke-width="1.6"></rect><path d="M4.5 7l7.5 5.5L19.5 7" stroke="#A88C6E" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+                </span>
+                <span style="flex: 1; min-width: 0;">
+                  <span style="display: block; font-size: 14.5px; font-weight: 700; color: #3D2B2E;">모바일 청첩장 미리 만들기</span>
+                  <span style="display: block; font-size: 12px; color: #A8968E; margin-top: 3px; line-height: 1.45;">템플릿을 고르면 10분 만에 우리만의 청첩장이 완성돼요.</span>
+                </span>
+                <span style="color: #C9B8AE; font-size: 18px;">›</span>
+              </button>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== EXPLORE (찾기 + 예약 merged) ===== -->
+        <sc-if value="{{ isExplore }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 4px 0 110px;">
+            <div style="padding: 4px 22px 0;">
+              <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 23px; font-weight: 800; color: #2E2023; margin: 4px 0 12px; letter-spacing: -.3px;">{{ exploreTitle }}</h2>
+              <div style="display: flex; gap: 5px; background: #F1E7DD; border-radius: 13px; padding: 4px;">
+                <button onClick="{{ setExFind }}" style="flex: 1; background: {{ segFind.bg }}; color: {{ segFind.color }}; font-weight: {{ segFind.weight }}; box-shadow: {{ segFind.shadow }}; border: none; border-radius: 10px; padding: 9px 4px; font-family: 'Pretendard'; font-size: 12.5px; cursor: pointer; transition: all .15s;">추천 홀</button>
+                <button onClick="{{ setExRes }}" style="flex: 1; background: {{ segResv.bg }}; color: {{ segResv.color }}; font-weight: {{ segResv.weight }}; box-shadow: {{ segResv.shadow }}; border: none; border-radius: 10px; padding: 9px 4px; font-family: 'Pretendard'; font-size: 12.5px; cursor: pointer; transition: all .15s;">내 예약 {{ reservedCount }}</button>
+                <button onClick="{{ setExLikes }}" style="flex: 1; background: {{ segLikesEx.bg }}; color: {{ segLikesEx.color }}; font-weight: {{ segLikesEx.weight }}; box-shadow: {{ segLikesEx.shadow }}; border: none; border-radius: 10px; padding: 9px 4px; font-family: 'Pretendard'; font-size: 12.5px; cursor: pointer; transition: all .15s;">좋아요 {{ likedCount }}</button>
+              </div>
+            </div>
+
+            <!-- 추천 홀 -->
+            <sc-if value="{{ exFind }}" hint-placeholder-val="{{ true }}">
+              <p style="font-size: 12.5px; color: #8A7670; margin: 12px 0 12px; padding: 0 22px;">서울 동부권 · 하객 150명 · 토요일 저녁 기준 추천</p>
+              <div class="ew-scroll" style="display: flex; gap: 8px; overflow-x: auto; padding: 0 22px 6px;">
+                <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+                  <span style="flex: none; display: inline-flex; align-items: center; gap: 5px; border: 1px solid {{ f.border }}; background: {{ f.bg }}; color: {{ f.color }}; font-size: 13px; font-weight: 600; padding: 8px 13px; border-radius: 20px;">{{ f.label }}</span>
+                </sc-for>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 14px; padding: 14px 22px 0;">
+                <sc-for list="{{ venueCards }}" as="v" hint-placeholder-count="6">
+                  <div style="background: #fff; border: 1px solid #F0E5DA; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(61,43,46,.05);">
+                    <div onClick="{{ v.open }}" style="height: 150px; background: {{ v.photo }}; position: relative; cursor: pointer;">
+                      <span style="position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.92); color: #6B574F; font-size: 11.5px; font-weight: 700; padding: 5px 10px; border-radius: 9px;">{{ v.type }}</span>
+                      <button onClick="{{ v.toggleSave }}" style="position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255,255,255,.92); display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="{{ v.heartFill }}"><path d="M12 20s-7-4.6-9.2-9C1.3 7.6 3 4.5 6.2 4.5c1.9 0 3.2 1.1 3.8 2.2.6-1.1 1.9-2.2 3.8-2.2 3.2 0 4.9 3.1 3.4 6.5C19 15.4 12 20 12 20z" stroke="{{ v.heartStroke }}" stroke-width="1.7"></path></svg>
+                      </button>
+                    </div>
+                    <div onClick="{{ v.open }}" style="padding: 14px 16px 16px; cursor: pointer;">
+                      <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                        <span style="font-family: 'Nanum Myeongjo', serif; font-size: 17.5px; font-weight: 700; color: #2E2023;">{{ v.name }}</span>
+                        <span style="font-size: 12.5px; color: #A8968E;">{{ v.area }}</span>
+                      </div>
+                      <div style="display: flex; gap: 14px; margin-top: 9px; font-size: 12.5px; color: #6B574F;">
+                        <span>식대 {{ v.meal }}</span>
+                        <span style="color: #E0D4C9;">|</span>
+                        <span>보증 {{ v.minGuests }}</span>
+                        <span style="color: #E0D4C9;">|</span>
+                        <span>{{ v.parking }}</span>
+                      </div>
+                      <div style="display: flex; align-items: center; gap: 7px; margin-top: 12px; background: #F8F0E9; border-radius: 11px; padding: 9px 11px;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex:none;"><path d="M12 2l2.4 7h7.3l-5.9 4.3 2.3 7L12 17l-6.1 3.3 2.3-7L2.3 9h7.3L12 2z" fill="var(--accent,#B5685E)"></path></svg>
+                        <span style="font-size: 12px; color: #8A6258; line-height: 1.4;">{{ v.match }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- 내 예약 -->
+            <sc-if value="{{ exRes }}" hint-placeholder-val="{{ false }}">
+              <p style="font-size: 12.5px; color: #8A7670; margin: 12px 0 0; padding: 0 22px;">요청부터 방문 기록까지 한곳에서 관리해요</p>
+              <div style="display: flex; flex-direction: column; gap: 14px; padding: 14px 22px 0;">
+                <sc-for list="{{ reservationCards }}" as="r" hint-placeholder-count="3">
+                  <div style="background: #fff; border: 1px solid #F0E5DA; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(61,43,46,.05);">
+                    <div style="display: flex; gap: 13px; padding: 15px 16px;">
+                      <div style="width: 58px; height: 58px; border-radius: 14px; background: {{ r.photo }}; flex: none;"></div>
+                      <div style="flex: 1;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                          <span style="font-family: 'Nanum Myeongjo', serif; font-size: 16.5px; font-weight: 700; color: #2E2023;">{{ r.name }}</span>
+                          <span style="background: {{ r.pillBg }}; color: {{ r.pillColor }}; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 8px;">{{ r.status }}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #A8968E; margin-top: 4px;">{{ r.area }} · {{ r.slot }}</div>
+                      </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 9px; background: {{ r.nextBg }}; padding: 11px 16px;">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none;"><circle cx="12" cy="12" r="9.5" stroke="{{ r.pillColor }}" stroke-width="1.5"></circle><path d="M12 7.5v5l3 2" stroke="{{ r.pillColor }}" stroke-width="1.6" stroke-linecap="round"></path></svg>
+                      <span style="font-size: 12.5px; color: #6B574F; flex: 1;">{{ r.next }}</span>
+                    </div>
+                    <div style="display: flex; gap: 9px; padding: 13px 16px;">
+                      <button onClick="{{ r.openVisit }}" style="flex: 1; background: var(--accent,#B5685E); color: #fff; border: none; border-radius: 11px; padding: 11px; font-family: 'Pretendard'; font-size: 13px; font-weight: 700; cursor: pointer;">{{ r.primary }}</button>
+                      <button style="flex: 1; background: #F6ECE6; color: #8A6258; border: none; border-radius: 11px; padding: 11px; font-family: 'Pretendard'; font-size: 13px; font-weight: 600; cursor: pointer;">{{ r.secondary }}</button>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- 좋아요 -->
+            <sc-if value="{{ exLikes }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ likesEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="padding: 44px 30px; text-align: center;">
+                  <div style="width: 56px; height: 56px; border-radius: 50%; background: #F6ECE6; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px;">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.6-9.2-9C1.3 7.6 3 4.5 6.2 4.5c1.9 0 3.2 1.1 3.8 2.2.6-1.1 1.9-2.2 3.8-2.2 3.2 0 4.9 3.1 3.4 6.5C19 15.4 12 20 12 20z" stroke="#C9B0A6" stroke-width="1.7"></path></svg>
+                  </div>
+                  <div style="font-size: 15px; font-weight: 700; color: #3D2B2E;">아직 좋아요한 웨딩홀이 없어요</div>
+                  <div style="font-size: 13px; color: #A8968E; margin-top: 6px; line-height: 1.5;">추천 홀에서 하트를 눌러<br>여기에 모아 비교해 보세요.</div>
+                  <button onClick="{{ setExFind }}" style="margin-top: 18px; background: var(--accent,#B5685E); color: #fff; border: none; border-radius: 13px; padding: 12px 22px; font-family: 'Pretendard'; font-size: 14px; font-weight: 700; cursor: pointer;">추천 홀 보기</button>
+                </div>
+              </sc-if>
+              <div style="display: flex; flex-direction: column; gap: 14px; padding: 14px 22px 0;">
+                <sc-for list="{{ likedVenues }}" as="v" hint-placeholder-count="2">
+                  <div style="background: #fff; border: 1px solid #F0E5DA; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 16px rgba(61,43,46,.05);">
+                    <div onClick="{{ v.open }}" style="display: flex; gap: 13px; padding: 14px 15px; cursor: pointer;">
+                      <div style="width: 66px; height: 66px; border-radius: 14px; background: {{ v.photo }}; flex: none;"></div>
+                      <div style="flex: 1; min-width: 0;">
+                        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
+                          <span style="font-family: 'Nanum Myeongjo', serif; font-size: 16.5px; font-weight: 700; color: #2E2023;">{{ v.name }}</span>
+                          <button onClick="{{ v.toggleSave }}" style="width: 30px; height: 30px; border-radius: 50%; border: none; background: #F8F0E9; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none; margin: -2px -2px 0 0;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="{{ v.heartFill }}"><path d="M12 20s-7-4.6-9.2-9C1.3 7.6 3 4.5 6.2 4.5c1.9 0 3.2 1.1 3.8 2.2.6-1.1 1.9-2.2 3.8-2.2 3.2 0 4.9 3.1 3.4 6.5C19 15.4 12 20 12 20z" stroke="{{ v.heartStroke }}" stroke-width="1.7"></path></svg>
+                          </button>
+                        </div>
+                        <div style="font-size: 12px; color: #A8968E; margin-top: 2px;">{{ v.area }} · {{ v.type }}</div>
+                        <div style="font-size: 12.5px; color: #6B574F; margin-top: 8px;">식대 {{ v.meal }} · 보증 {{ v.minGuests }}</div>
+                      </div>
+                    </div>
+                    <button onClick="{{ v.reserve }}" style="display: block; width: calc(100% - 30px); margin: 0 15px 15px; background: #F6ECE6; color: #8A6258; border: none; border-radius: 12px; padding: 11px; font-family: 'Pretendard'; font-size: 13px; font-weight: 700; cursor: pointer;">투어 희망 일정 보내기</button>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- ===== COMPARE ===== -->
+        <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 0 0 40px;">
+            <div style="position: sticky; top: 0; z-index: 20; background: rgba(251,246,240,.92); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 12px; padding: 10px 18px;">
+              <button onClick="{{ goFind }}" style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #EFE4D9; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #3D2B2E; font-size: 20px;">‹</button>
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 18px; font-weight: 700; color: #2E2023;">후보 비교</span>
+            </div>
+            <p style="font-size: 13px; color: #8A7670; padding: 4px 22px 14px;">저장한 {{ savedCount }}곳을 나란히 비교하고, 마음에 드는 곳에 투어를 요청하세요.</p>
+            <div class="ew-scroll" style="display: flex; gap: 12px; overflow-x: auto; padding: 0 22px 8px;">
+              <sc-for list="{{ compareVenues }}" as="v" hint-placeholder-count="3">
+                <div style="flex: none; width: 178px; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 16px rgba(61,43,46,.05);">
+                  <div style="height: 96px; background: {{ v.photo }};"></div>
+                  <div style="padding: 13px 14px 14px;">
+                    <div style="font-family: 'Nanum Myeongjo', serif; font-size: 16px; font-weight: 700; color: #2E2023;">{{ v.name }}</div>
+                    <div style="font-size: 11.5px; color: #A8968E; margin-top: 2px;">{{ v.area }}</div>
+                    <div style="border-top: 1px solid #F2E9E0; margin-top: 12px; padding-top: 11px; display: flex; flex-direction: column; gap: 10px;">
+                      <div><div style="font-size: 10.5px; color: #B0A099;">예상 식대</div><div style="font-size: 13px; color: #3D2B2E; font-weight: 600; margin-top: 1px;">{{ v.meal }}</div></div>
+                      <div><div style="font-size: 10.5px; color: #B0A099;">보증 인원</div><div style="font-size: 13px; color: #3D2B2E; font-weight: 600; margin-top: 1px;">{{ v.minGuests }}</div></div>
+                      <div><div style="font-size: 10.5px; color: #B0A099;">예식 간격</div><div style="font-size: 13px; color: #3D2B2E; font-weight: 600; margin-top: 1px;">{{ v.interval }}</div></div>
+                      <div><div style="font-size: 10.5px; color: #B0A099;">주차</div><div style="font-size: 13px; color: #3D2B2E; font-weight: 600; margin-top: 1px;">{{ v.parking }}</div></div>
+                      <div><div style="font-size: 10.5px; color: #B0A099;">확인 질문</div><div style="font-size: 12px; color: #8A6258; font-weight: 500; margin-top: 1px; line-height: 1.4;">{{ v.confirmQ }}</div></div>
+                    </div>
+                    <button onClick="{{ v.reserve }}" style="width: 100%; margin-top: 14px; background: var(--accent,#B5685E); color: #fff; border: none; border-radius: 12px; padding: 11px; font-family: 'Pretendard'; font-size: 13px; font-weight: 700; cursor: pointer;">투어 요청</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin: 18px 22px 0; background: #F6ECE6; border-radius: 16px; padding: 15px 16px; display: flex; gap: 11px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:none; margin-top:1px;"><circle cx="12" cy="12" r="9.5" stroke="var(--accent,#B5685E)" stroke-width="1.6"></circle><path d="M12 11v5M12 7.5v.5" stroke="var(--accent,#B5685E)" stroke-width="1.8" stroke-linecap="round"></path></svg>
+              <span style="font-size: 12.5px; color: #7A5E56; line-height: 1.6;"><b style="color:#6B4A42;">AI 차이 요약</b> · 아벤티움은 채광·접근성이 강점, 라온제나는 주차와 식대가 합리적, 소피아 가든은 야외 연출이 가능해요.</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== DETAIL ===== -->
+        <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 0 0 120px;">
+            <div style="position: relative; height: 230px; background: {{ activeVenue.photo }};">
+              <button onClick="{{ goBackFromDetail }}" style="position: absolute; top: 12px; left: 16px; width: 38px; height: 38px; border-radius: 50%; border: none; background: rgba(255,255,255,.92); display: flex; align-items: center; justify-content: center; cursor: pointer; color: #3D2B2E; font-size: 20px;">‹</button>
+              <span style="position: absolute; bottom: 14px; left: 18px; background: rgba(255,255,255,.92); color: #6B574F; font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 9px;">{{ activeVenue.type }}</span>
+            </div>
+            <div style="padding: 18px 22px 0;">
+              <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 24px; font-weight: 800; color: #2E2023; margin: 0; letter-spacing: -.3px;">{{ activeVenue.name }}</h2>
+              <div style="font-size: 13px; color: #8A7670; margin-top: 5px;">{{ activeVenue.area }} · {{ activeVenue.type }}</div>
+
+              <div style="display: flex; gap: 10px; margin-top: 16px;">
+                <div style="flex: 1; background: #fff; border: 1px solid #F0E5DA; border-radius: 14px; padding: 13px;"><div style="font-size: 11px; color: #B0A099;">예상 식대</div><div style="font-size: 14.5px; color: #2E2023; font-weight: 700; margin-top: 3px;">{{ activeVenue.meal }}</div></div>
+                <div style="flex: 1; background: #fff; border: 1px solid #F0E5DA; border-radius: 14px; padding: 13px;"><div style="font-size: 11px; color: #B0A099;">보증 인원</div><div style="font-size: 14.5px; color: #2E2023; font-weight: 700; margin-top: 3px;">{{ activeVenue.minGuests }}</div></div>
+                <div style="flex: 1; background: #fff; border: 1px solid #F0E5DA; border-radius: 14px; padding: 13px;"><div style="font-size: 11px; color: #B0A099;">예식 간격</div><div style="font-size: 14.5px; color: #2E2023; font-weight: 700; margin-top: 3px;">{{ activeVenue.interval }}</div></div>
+              </div>
+
+              <div style="display: flex; align-items: flex-start; gap: 9px; margin-top: 14px; background: #F8F0E9; border-radius: 13px; padding: 13px 14px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex:none; margin-top:1px;"><path d="M12 2l2.4 7h7.3l-5.9 4.3 2.3 7L12 17l-6.1 3.3 2.3-7L2.3 9h7.3L12 2z" fill="var(--accent,#B5685E)"></path></svg>
+                <span style="font-size: 13px; color: #7A5E56; line-height: 1.6;">{{ activeVenue.match }}</span>
+              </div>
+
+              <h3 style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023; margin: 26px 0 4px;">방문 전 확인하면 좋아요</h3>
+              <p style="font-size: 12.5px; color: #A8968E; margin: 0 0 12px;">AI가 이 홀에 맞춰 정리한 질문이에요. 요청 시 함께 전달돼요.</p>
+              <div style="background: #fff; border: 1px solid #F0E5DA; border-radius: 16px; overflow: hidden;">
+                <sc-for list="{{ detailQuestions }}" as="q" hint-placeholder-count="4">
+                  <div style="display: flex; align-items: flex-start; gap: 11px; padding: 13px 15px; border-top: 1px solid {{ q.border }};">
+                    <span style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent,#B5685E); margin-top: 7px; flex: none;"></span>
+                    <span style="font-size: 13.5px; color: #4A3A38; line-height: 1.5;">{{ q.t }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== RESERVE ===== -->
+        <sc-if value="{{ isReserve }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 0 0 130px;">
+            <div style="position: sticky; top: 0; z-index: 20; background: rgba(251,246,240,.92); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 12px; padding: 10px 18px;">
+              <button onClick="{{ goBackFromReserve }}" style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #EFE4D9; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #3D2B2E; font-size: 18px;">✕</button>
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 18px; font-weight: 700; color: #2E2023;">투어 희망 일정 보내기</span>
+            </div>
+            <div style="padding: 6px 22px 0;">
+              <div style="display: flex; align-items: center; gap: 11px; background: #fff; border: 1px solid #F0E5DA; border-radius: 15px; padding: 13px 15px;">
+                <div style="width: 40px; height: 40px; border-radius: 11px; background: {{ activeVenue.photo }}; flex: none;"></div>
+                <div><div style="font-size: 15px; font-weight: 700; color: #2E2023;">{{ activeVenue.name }}</div><div style="font-size: 12px; color: #A8968E; margin-top: 1px;">{{ activeVenue.area }} · {{ activeVenue.type }}</div></div>
+              </div>
+
+              <h3 style="font-size: 14px; font-weight: 700; color: #3D2B2E; margin: 24px 0 4px;">희망 날짜 <span style="color: var(--accent,#B5685E);">(최대 3개, 순서대로 우선순위)</span></h3>
+              <p style="font-size: 12px; color: #A8968E; margin: 0 0 12px;">선택한 순서가 1~3순위가 돼요.</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 9px;">
+                <sc-for list="{{ reserveDates }}" as="d" hint-placeholder-count="6">
+                  <button onClick="{{ d.onClick }}" style="position: relative; border: 1.5px solid {{ d.border }}; background: {{ d.bg }}; color: {{ d.color }}; font-family: 'Pretendard'; font-size: 13.5px; font-weight: {{ d.weight }}; padding: 11px 15px; border-radius: 13px; cursor: pointer; transition: all .15s;">
+                    {{ d.label }}
+                    <sc-if value="{{ d.selected }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: -7px; right: -7px; width: 20px; height: 20px; border-radius: 50%; background: var(--accent,#B5685E); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;">{{ d.rank }}</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+
+              <h3 style="font-size: 14px; font-weight: 700; color: #3D2B2E; margin: 24px 0 12px;">희망 시간대</h3>
+              <div style="display: flex; flex-wrap: wrap; gap: 9px;">
+                <sc-for list="{{ reserveTimes }}" as="t" hint-placeholder-count="5">
+                  <button onClick="{{ t.onClick }}" style="border: 1.5px solid {{ t.border }}; background: {{ t.bg }}; color: {{ t.color }}; font-family: 'Pretendard'; font-size: 13.5px; font-weight: {{ t.weight }}; padding: 11px 15px; border-radius: 13px; cursor: pointer; transition: all .15s;">{{ t.label }}</button>
+                </sc-for>
+              </div>
+
+              <h3 style="font-size: 14px; font-weight: 700; color: #3D2B2E; margin: 24px 0 10px;">함께 전달할 질문</h3>
+              <div style="background: #F8F0E9; border-radius: 14px; padding: 14px 15px;">
+                <div style="display: flex; align-items: center; gap: 7px; margin-bottom: 9px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7h7.3l-5.9 4.3 2.3 7L12 17l-6.1 3.3 2.3-7L2.3 9h7.3L12 2z" fill="var(--accent,#B5685E)"></path></svg>
+                  <span style="font-size: 12.5px; font-weight: 700; color: #8A6258;">AI가 자동 생성한 질문지</span>
+                </div>
+                <sc-for list="{{ detailQuestions }}" as="q" hint-placeholder-count="4">
+                  <div style="font-size: 12.5px; color: #7A5E56; line-height: 1.55; padding: 3px 0;">· {{ q.t }}</div>
+                </sc-for>
+              </div>
+
+              <h3 style="font-size: 14px; font-weight: 700; color: #3D2B2E; margin: 24px 0 10px;">전화 가능 시간</h3>
+              <div style="display: flex; align-items: center; gap: 11px; background: #fff; border: 1px solid #F0E5DA; border-radius: 14px; padding: 14px 15px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 4h4l1.5 4-2 1.5a12 12 0 005 5l1.5-2 4 1.5v4a1.5 1.5 0 01-1.6 1.5C9 19.5 4.5 15 3.5 6.6A1.5 1.5 0 015 4z" stroke="var(--accent,#B5685E)" stroke-width="1.6" stroke-linejoin="round"></path></svg>
+                <span style="font-size: 13.5px; color: #4A3A38;">평일 저녁 7시 이후 · 주말 오후</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== RESERVE DONE ===== -->
+        <sc-if value="{{ isDone }}" hint-placeholder-val="{{ true }}">
+          <div style="min-height: 720px; display: flex; flex-direction: column; padding: 30px 24px 30px;">
+            <div style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+              <div style="width: 78px; height: 78px; border-radius: 50%; background: linear-gradient(135deg,#E8C9B8,#C99A86); display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 30px -10px rgba(201,154,134,.7);">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5 11-11.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              </div>
+              <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 25px; font-weight: 800; color: #2E2023; margin: 22px 0 8px; letter-spacing: -.3px;">예약 요청을 보냈어요</h2>
+              <p style="font-size: 14px; color: #8A7670; line-height: 1.6; margin: 0;">{{ doneVenueName }}에 투어 희망 일정을 전달했어요.<br>업체 확인 후 보통 1~2일 안에 연락이 와요.</p>
+
+              <div style="width: 100%; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; padding: 18px; margin: 26px 0 0; text-align: left; box-shadow: 0 6px 18px rgba(61,43,46,.05);">
+                <div style="font-size: 12px; font-weight: 700; color: #A8968E; letter-spacing: .3px;">희망 일정</div>
+                <sc-for list="{{ donePriorities }}" as="p" hint-placeholder-count="3">
+                  <div style="display: flex; align-items: center; gap: 11px; margin-top: 11px;">
+                    <span style="width: 22px; height: 22px; border-radius: 50%; background: #F2E2DB; color: var(--accent,#B5685E); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none;">{{ p.rank }}</span>
+                    <span style="font-size: 14px; color: #3D2B2E; font-weight: 500;">{{ p.label }}</span>
+                  </div>
+                </sc-for>
+                <div style="border-top: 1px solid #F2E9E0; margin-top: 15px; padding-top: 14px; display: flex; align-items: center; gap: 9px;">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="var(--accent,#B5685E)" stroke-width="1.6"></rect><path d="M3 9h18M8 3v4M16 3v4" stroke="var(--accent,#B5685E)" stroke-width="1.6" stroke-linecap="round"></path></svg>
+                  <span style="font-size: 12.5px; color: #6B574F;">내 일정과 방문 준비 카드가 자동 생성됐어요</span>
+                </div>
+              </div>
+            </div>
+            <button onClick="{{ goReservations }}" style="width: 100%; background: var(--accent,#B5685E); color: #fff; border: none; border-radius: 16px; padding: 16px; font-family: 'Pretendard'; font-size: 15.5px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 24px -8px rgba(181,104,94,.5);">예약 내역 보기</button>
+            <button onClick="{{ goHome }}" style="width: 100%; background: transparent; color: #8A7670; border: none; padding: 14px; font-family: 'Pretendard'; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 2px;">홈으로 돌아가기</button>
+          </div>
+        </sc-if>
+
+        <!-- ===== BUDGET ===== -->
+        <sc-if value="{{ isBudget }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 4px 0 30px;">
+            <div style="padding: 4px 22px 0;">
+              <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 23px; font-weight: 800; color: #2E2023; margin: 4px 0 4px; letter-spacing: -.3px;">예산 관리</h2>
+              <p style="font-size: 13px; color: #8A7670; margin: 0 0 16px;">항목별 배분과 지출을 한눈에 관리해요</p>
+            </div>
+
+            <!-- total -->
+            <div style="margin: 0 22px; border-radius: 22px; overflow: hidden; background: linear-gradient(150deg,#4A2E30 0%,#6B4042 100%); box-shadow: 0 16px 32px -14px rgba(74,46,48,.55); position: relative;">
+              <div style="position: absolute; right: -24px; top: -24px; width: 130px; height: 130px; border-radius: 50%; background: rgba(255,255,255,.05);"></div>
+              <div style="padding: 20px 22px 22px; position: relative;">
+                <div style="font-size: 12px; color: #E9C9BE; font-weight: 600; letter-spacing: .3px;">전체 예산</div>
+                <div style="font-family: 'Nanum Myeongjo', serif; font-size: 30px; font-weight: 800; color: #fff; margin-top: 4px; letter-spacing: -.5px;">{{ budgetTotal }}</div>
+                <div style="height: 9px; border-radius: 5px; background: rgba(255,255,255,.18); overflow: hidden; margin-top: 16px;">
+                  <div style="width: {{ budgetPct }}%; height: 100%; background: linear-gradient(90deg,#E8C9B8,#D8A98F); border-radius: 5px; transition: width .3s;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 12px;">
+                  <div><div style="font-size: 11px; color: rgba(255,255,255,.6);">사용</div><div style="font-size: 15px; font-weight: 700; color: #fff; margin-top: 2px;">{{ budgetSpentLabel }}</div></div>
+                  <div style="text-align: right;"><div style="font-size: 11px; color: rgba(255,255,255,.6);">남은 예산</div><div style="font-size: 15px; font-weight: 700; color: #E8C9B8; margin-top: 2px;">{{ budgetLeftLabel }}</div></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- categories -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 24px 22px 12px;">
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023;">항목별 배분</span>
+              <span style="font-size: 12px; color: #A8968E;">사용 / 배정</span>
+            </div>
+            <div style="margin: 0 22px; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+              <sc-for list="{{ budgetCats }}" as="c" hint-placeholder-count="5">
+                <div style="padding: 15px 16px; border-top: 1px solid {{ c.border }};">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between;">
+                    <div>
+                      <span style="font-size: 14.5px; font-weight: 700; color: #2E2023;">{{ c.name }}</span>
+                      <sc-if value="{{ c.hasNote }}" hint-placeholder-val="{{ false }}"><span style="font-size: 11.5px; color: #A8968E; margin-left: 7px;">{{ c.note }}</span></sc-if>
+                    </div>
+                    <span style="font-size: 12.5px; color: #6B574F; white-space: nowrap;"><b style="color:#2E2023;">{{ c.spentLabel }}</b> / {{ c.plannedLabel }}</span>
+                  </div>
+                  <div style="height: 7px; border-radius: 4px; background: #F1E7DD; overflow: hidden; margin-top: 10px;">
+                    <div style="width: {{ c.pct }}%; height: 100%; background: {{ c.barColor }}; border-radius: 4px; transition: width .3s;"></div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; margin-top: 7px;">
+                    <span style="font-size: 11px; color: #B0A099;">전체의 {{ c.share }}%</span>
+                    <span style="font-size: 11px; color: #8A6258; font-weight: 600;">잔액 {{ c.leftLabel }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- AI coach -->
+            <button onClick="{{ goAi }}" style="display: flex; align-items: center; gap: 12px; width: calc(100% - 44px); margin: 16px 22px 0; background: #F8F0E9; border: 1px solid #EDD9CC; border-radius: 16px; padding: 14px 16px; cursor: pointer;">
+              <span style="width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg,#F3DfD7,#E7C4B8); display: flex; align-items: center; justify-content: center; flex: none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#9A4F46"></path><circle cx="18.5" cy="17.5" r="2.5" fill="#C98B7F"></circle></svg>
+              </span>
+              <span style="flex: 1; text-align: left;"><span style="display: block; font-size: 13.5px; font-weight: 700; color: #6B4A42;">AI 예산 코치에게 물어보기</span><span style="display: block; font-size: 11.5px; color: #A8968E; margin-top: 1px;">"이 견적에서 추가금 생길 항목은?"</span></span>
+              <span style="color: #C9B8AE; font-size: 18px;">›</span>
+            </button>
+          </div>
+        </sc-if>
+
+        <!-- ===== AI ===== -->
+        <sc-if value="{{ isAi }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 4px 0 30px;">
+            <div style="padding: 4px 22px 0;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="width: 42px; height: 42px; border-radius: 13px; background: linear-gradient(135deg,#F3DfD7,#E7C4B8); display: flex; align-items: center; justify-content: center; flex: none;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#9A4F46"></path><circle cx="18.5" cy="17.5" r="2.5" fill="#C98B7F"></circle></svg>
+                </span>
+                <div>
+                  <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 22px; font-weight: 800; color: #2E2023; margin: 0; letter-spacing: -.3px;">웨딩 AI 상담</h2>
+                  <p style="font-size: 12.5px; color: #A8968E; margin: 3px 0 0;">예약·투어·견적, 뭐든 물어보세요</p>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 8px; margin: 16px 0 0;">
+                <sc-for list="{{ aiPresets }}" as="p" hint-placeholder-count="3">
+                  <button onClick="{{ p.onClick }}" style="display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 1px solid #EAD9CB; background: #fff; color: #6B574F; font-family: 'Pretendard'; font-size: 13px; font-weight: 600; padding: 12px 14px; border-radius: 13px; cursor: pointer;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none;"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#C98B7F"></path></svg>
+                    <span style="flex: 1;">{{ p.q }}</span>
+                    <span style="color: #C9B8AE; font-size: 16px;">›</span>
+                  </button>
+                </sc-for>
+              </div>
+
+              <div style="background: #fff; border: 1px solid #F0E5DA; color: #6B574F; border-radius: 16px 16px 16px 4px; padding: 14px 16px; font-size: 13.5px; line-height: 1.65; margin-top: 16px;">안녕하세요! 웨딩홀 비교나 투어 준비, 견적에서 궁금한 점을 물어보세요. 위 추천 질문을 눌러도 좋아요.</div>
+
+              <sc-for list="{{ aiThread }}" as="m" hint-placeholder-count="0">
+                <div style="display: flex; justify-content: flex-end; margin-top: 14px;"><div style="max-width: 80%; background: var(--accent,#B5685E); color: #fff; border-radius: 16px 16px 4px 16px; padding: 11px 14px; font-size: 13.5px; line-height: 1.5;">{{ m.q }}</div></div>
+                <sc-if value="{{ m.plain }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: flex; margin-top: 10px;"><div style="max-width: 88%; background: #fff; border: 1px solid #F0E5DA; color: #4A3A38; border-radius: 16px 16px 16px 4px; padding: 13px 15px; font-size: 13.5px; line-height: 1.65; white-space: pre-line;">{{ m.a }}</div></div>
+                </sc-if>
+                <sc-if value="{{ m.rich }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top: 10px;"><dc-import name="AiBudgetAnswer" data="{{ m.rich }}" hint-size="100%,520px"></dc-import></div>
+                </sc-if>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== TOUR ROUTE ===== -->
+        <sc-if value="{{ isTour }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="투어 동선" style="padding: 0 0 36px;">
+            <div style="position: sticky; top: 0; z-index: 20; background: rgba(251,246,240,.92); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 12px; padding: 10px 18px;">
+              <button onClick="{{ goHome }}" style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #EFE4D9; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #3D2B2E; font-size: 20px;">‹</button>
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 18px; font-weight: 700; color: #2E2023;">투어 동선</span>
+            </div>
+
+            <!-- summary -->
+            <div style="padding: 6px 22px 0;">
+              <div style="display: flex; align-items: center; gap: 14px; background: linear-gradient(150deg,#4A2E30,#6B4042); border-radius: 18px; padding: 17px 20px; color: #fff; position: relative; overflow: hidden;">
+                <div style="position: absolute; right: -22px; top: -22px; width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,.06);"></div>
+                <span style="width: 42px; height: 42px; border-radius: 13px; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; flex: none;">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 9.5C6 6.5 8.5 4 12 4s6 2.5 6 5.5c0 4-6 10.5-6 10.5S6 13.5 6 9.5z" stroke="#F0D9CD" stroke-width="1.6"></path><circle cx="12" cy="9.5" r="2.2" stroke="#F0D9CD" stroke-width="1.6"></circle></svg>
+                </span>
+                <div style="flex: 1; position: relative;">
+                  <div style="font-size: 12px; color: #E9C9BE; font-weight: 600;">{{ tourDate }} · 투어 동선</div>
+                  <div style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; margin-top: 3px;">{{ tourSummary }}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- map placeholder -->
+            <div style="margin: 16px 22px 0; position: relative; height: 296px; border-radius: 22px; overflow: hidden; border: 1px solid #EBD7C8; box-shadow: 0 8px 22px -10px rgba(74,46,48,.22);">
+              <svg viewBox="0 0 346 296" preserveAspectRatio="xMidYMid slice" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+                <rect width="346" height="296" fill="#ECE4D8"></rect>
+                <path d="M-10 250 Q90 210 150 250 T360 230 V310 H-10 Z" fill="#DCE6DA"></path>
+                <path d="M250 -10 Q230 60 280 110 T250 310" stroke="#CFE0EA" stroke-width="22" fill="none" opacity=".7"></path>
+                <g stroke="#E0D6C8" stroke-width="6" stroke-linecap="round">
+                  <path d="M-10 86 H360"></path><path d="M-10 168 H360"></path>
+                  <path d="M70 -10 V310"></path><path d="M168 -10 V310"></path>
+                </g>
+                <g stroke="#F3ECE2" stroke-width="2.5" stroke-linecap="round">
+                  <path d="M-10 86 H360"></path><path d="M-10 168 H360"></path>
+                  <path d="M70 -10 V310"></path><path d="M168 -10 V310"></path>
+                </g>
+                <!-- route -->
+                <path d="M82 96 L214 150 L150 232" stroke="#B5685E" stroke-width="3" fill="none" stroke-dasharray="2 9" stroke-linecap="round" opacity=".9"></path>
+                <!-- pins -->
+                <g>
+                  <ellipse cx="82" cy="110" rx="14" ry="4" fill="rgba(60,30,30,.16)"></ellipse>
+                  <circle cx="82" cy="96" r="16" fill="#B5685E" stroke="#fff" stroke-width="3"></circle>
+                  <text x="82" y="101" text-anchor="middle" font-family="Pretendard, sans-serif" font-size="15" font-weight="700" fill="#fff">1</text>
+                </g>
+                <g>
+                  <ellipse cx="214" cy="164" rx="14" ry="4" fill="rgba(60,30,30,.16)"></ellipse>
+                  <circle cx="214" cy="150" r="16" fill="#B5685E" stroke="#fff" stroke-width="3"></circle>
+                  <text x="214" y="155" text-anchor="middle" font-family="Pretendard, sans-serif" font-size="15" font-weight="700" fill="#fff">2</text>
+                </g>
+                <g>
+                  <ellipse cx="150" cy="246" rx="14" ry="4" fill="rgba(60,30,30,.16)"></ellipse>
+                  <circle cx="150" cy="232" r="16" fill="#fff" stroke="#B5685E" stroke-width="3"></circle>
+                  <text x="150" y="237" text-anchor="middle" font-family="Pretendard, sans-serif" font-size="15" font-weight="700" fill="#B5685E">3</text>
+                </g>
+              </svg>
+              <!-- placeholder chip -->
+              
+              <!-- my location button -->
+              <button style="position: absolute; bottom: 14px; right: 14px; width: 42px; height: 42px; border-radius: 13px; border: none; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(61,43,46,.15);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="#6B574F" stroke-width="1.7"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="#6B574F" stroke-width="1.7" stroke-linecap="round"></path></svg>
+              </button>
+            </div>
+
+            <!-- stops -->
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 24px 22px 12px;">
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023;">추천 동선 순서</span>
+              <span style="font-size: 12px; color: #A8968E;">출발 11:00</span>
+            </div>
+            <div style="padding: 0 22px;">
+              <sc-for list="{{ tourStops }}" as="s" hint-placeholder-count="3">
+                <sc-if value="{{ s.hasLeg }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: flex; align-items: center; gap: 8px; padding: 7px 0 7px 13px;">
+                    <span style="width: 2px; height: 22px; background: repeating-linear-gradient(#D8C6BA 0 3px, transparent 3px 7px); flex: none;"></span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:none;"><path d="M3 13l1.5-4.5A2 2 0 016.4 7h11.2a2 2 0 011.9 1.5L21 13v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H6v1a1 1 0 01-1 1H4a1 1 0 01-1-1v-5z" stroke="#B59C8E" stroke-width="1.5" stroke-linejoin="round"></path><circle cx="7" cy="16" r="1" fill="#B59C8E"></circle><circle cx="17" cy="16" r="1" fill="#B59C8E"></circle></svg>
+                    <span style="font-size: 12px; color: #A8968E;">이동 {{ s.leg }}</span>
+                  </div>
+                </sc-if>
+                <div style="display: flex; gap: 13px; align-items: stretch;">
+                  <span style="width: 30px; height: 30px; border-radius: 50%; background: {{ s.badgeBg }}; color: #fff; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; margin-top: 14px;">{{ s.n }}</span>
+                  <div style="flex: 1; background: #fff; border: 1px solid #F0E5DA; border-radius: 16px; padding: 14px 15px; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+                    <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
+                      <span style="font-family: 'Nanum Myeongjo', serif; font-size: 16px; font-weight: 700; color: #2E2023;">{{ s.name }}</span>
+                      <span style="background: {{ s.pillBg }}; color: {{ s.pillColor }}; font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 8px; white-space: nowrap;">{{ s.status }}</span>
+                    </div>
+                    <div style="font-size: 12px; color: #A8968E; margin-top: 4px;">{{ s.area }}</div>
+                    <div style="display: inline-flex; align-items: center; gap: 6px; margin-top: 11px; background: #F8F0E9; border-radius: 9px; padding: 6px 11px;">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="flex:none;"><circle cx="12" cy="12" r="9.5" stroke="#B5685E" stroke-width="1.5"></circle><path d="M12 7.5v5l3 2" stroke="#B5685E" stroke-width="1.6" stroke-linecap="round"></path></svg>
+                      <span style="font-size: 12px; color: #8A6258; font-weight: 600;">{{ s.time }}</span>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <!-- recompute -->
+            <button style="display: flex; align-items: center; justify-content: center; gap: 8px; width: calc(100% - 44px); margin: 20px 22px 0; background: #fff; border: 1px solid #EAD9CB; color: #8A6258; border-radius: 15px; padding: 14px; font-family: 'Pretendard'; font-size: 14px; font-weight: 700; cursor: pointer;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M20 11a8 8 0 10-1.7 6.3M20 20v-5h-5" stroke="#B5685E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              가장 빠른 동선으로 다시 정렬
+            </button>
+            <p style="text-align: center; font-size: 11.5px; color: #B0A099; margin: 12px 22px 0; line-height: 1.5;">예약·상담 일정에 맞춰 이동 시간을 자동으로 계산해요.</p>
+          </div>
+        </sc-if>
+
+        <!-- ===== VISIT PREP ===== -->
+        <sc-if value="{{ isVisit }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 0 0 40px;">
+            <div style="position: sticky; top: 0; z-index: 20; background: rgba(251,246,240,.92); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 12px; padding: 10px 18px;">
+              <button onClick="{{ goReservations }}" style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #EFE4D9; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #3D2B2E; font-size: 20px;">‹</button>
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 18px; font-weight: 700; color: #2E2023;">방문 질문지</span>
+            </div>
+            <div style="padding: 6px 22px 0;">
+              <div style="background: linear-gradient(150deg,#4A2E30,#6B4042); border-radius: 18px; padding: 18px 20px; color: #fff;">
+                <div style="font-size: 12px; color: #E9C9BE; font-weight: 600;">{{ visitVenueName }} · 방문 D-3</div>
+                <div style="font-family: 'Nanum Myeongjo', serif; font-size: 19px; font-weight: 700; margin-top: 6px;">6월 24일 (수) 오후 2시 투어</div>
+                <div style="font-size: 12.5px; color: rgba(255,255,255,.72); margin-top: 7px; line-height: 1.5;">방문 전에 아래 항목을 확인하면 비교가 훨씬 쉬워져요.</div>
+              </div>
+              <h3 style="font-size: 14px; font-weight: 700; color: #3D2B2E; margin: 22px 0 12px;">확인할 질문 <span style="color: var(--accent,#B5685E);">{{ visitDoneCount }}/{{ visitTotal }}</span></h3>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <sc-for list="{{ visitItems }}" as="v" hint-placeholder-count="5">
+                  <button onClick="{{ v.toggle }}" style="display: flex; align-items: flex-start; gap: 12px; text-align: left; background: #fff; border: 1px solid {{ v.border }}; border-radius: 15px; padding: 15px 16px; cursor: pointer; width: 100%;">
+                    <span style="width: 24px; height: 24px; border-radius: 8px; background: {{ v.boxBg }}; border: 1.6px solid {{ v.boxBorder }}; display: flex; align-items: center; justify-content: center; flex: none; margin-top: 1px;">
+                      <sc-if value="{{ v.done }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3 3 7-7.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                    </span>
+                    <span style="flex: 1;"><span style="display: block; font-size: 14px; font-weight: 600; color: {{ v.color }}; line-height: 1.4;">{{ v.t }}</span><span style="display: block; font-size: 12px; color: #A8968E; margin-top: 3px; line-height: 1.4;">{{ v.sub }}</span></span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== ROADMAP ===== -->
+        <sc-if value="{{ isRoadmap }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 4px 0 30px;">
+            <div style="padding: 4px 22px 0;">
+              <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 23px; font-weight: 800; color: #2E2023; margin: 4px 0 4px; letter-spacing: -.3px;">준비 로드맵</h2>
+              <p style="font-size: 13px; color: #8A7670; margin: 0 0 18px;">D-{{ dday }} · 예식일에 맞춘 단계별 준비</p>
+            </div>
+            <!-- horizontal stepper -->
+            <div style="position: relative; padding: 16px 30px 8px;">
+              <div style="position: absolute; left: 58px; right: 58px; top: 33px; height: 2px; background: #EBDFD4;"></div>
+              <div style="position: relative; display: flex; justify-content: space-between;">
+                <sc-for list="{{ roadmapSteps }}" as="s" hint-placeholder-count="4">
+                  <button onClick="{{ s.onClick }}" style="background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 7px; width: 72px; padding: 0;">
+                    <span style="width: 34px; height: 34px; border-radius: 50%; background: {{ s.circleBg }}; border: 2px solid {{ s.circleBorder }}; color: {{ s.circleColor }}; font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; transition: all .15s;">
+                      <sc-if value="{{ s.showCheck }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3 3 7-7.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                      <sc-if value="{{ s.showNum }}" hint-placeholder-val="{{ true }}">{{ s.num }}</sc-if>
+                    </span>
+                    <span style="font-size: 12px; font-weight: {{ s.nameWeight }}; color: {{ s.nameColor }};">{{ s.shortName }}</span>
+                    <span style="font-size: 10.5px; color: #B0A099; font-weight: 600;">{{ s.countText }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- active phase + checklist -->
+            <div style="padding: 12px 22px 0;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                <span style="font-family: 'Nanum Myeongjo', serif; font-size: 18px; font-weight: 700; color: #2E2023;">{{ roadmapActive.name }}</span>
+                <span style="font-size: 11px; font-weight: 700; color: {{ roadmapActive.tagColor }}; background: {{ roadmapActive.tagBg }}; padding: 4px 9px; border-radius: 8px;">{{ roadmapActive.tag }}</span>
+              </div>
+              <div style="font-size: 12.5px; color: #8A7670; margin-bottom: 13px;">{{ roadmapActive.action }}</div>
+
+              <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 14px;">
+                <div style="flex: 1; height: 7px; border-radius: 4px; background: #EBDFD4; overflow: hidden;">
+                  <div style="width: {{ roadmapActive.pct }}%; height: 100%; background: var(--accent,#B5685E); border-radius: 4px; transition: width .3s;"></div>
+                </div>
+                <span style="font-size: 12px; font-weight: 700; color: #8A6258;">{{ roadmapActive.completed }}/{{ roadmapActive.total }}</span>
+              </div>
+
+              <div style="background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 14px rgba(61,43,46,.04);">
+                <sc-for list="{{ roadmapItems }}" as="c" hint-placeholder-count="5">
+                  <div style="display: flex; align-items: center; gap: 11px; border-top: 1px solid {{ c.border }}; padding: 13px 14px 13px 16px;">
+                    <button onClick="{{ c.toggle }}" style="width: 23px; height: 23px; border-radius: 7px; background: {{ c.boxBg }}; border: 1.6px solid {{ c.boxBorder }}; display: flex; align-items: center; justify-content: center; flex: none; cursor: pointer; padding: 0;">
+                      <sc-if value="{{ c.done }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3 3 7-7.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></sc-if>
+                    </button>
+                    <button onClick="{{ c.open }}" style="flex: 1; display: flex; align-items: center; gap: 9px; background: none; border: none; text-align: left; cursor: pointer; padding: 0;">
+                      <span style="flex: 1; font-size: 14px; color: {{ c.titleColor }}; text-decoration: {{ c.deco }}; font-weight: 500; line-height: 1.4;">{{ c.title }}</span>
+                      <sc-if value="{{ c.thisWeek }}" hint-placeholder-val="{{ false }}"><span style="font-size: 10px; font-weight: 700; color: var(--accent,#B5685E); background: #F8EDE8; padding: 3px 7px; border-radius: 6px; flex: none;">이번 주</span></sc-if>
+                      <span style="font-size: 11px; font-weight: 600; color: {{ c.ownerColor }}; background: {{ c.ownerBg }}; padding: 3px 8px; border-radius: 6px; flex: none;">{{ c.owner }}</span>
+                      <span style="font-size: 17px; color: #C9B8AE; flex: none;">›</span>
+                    </button>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== TASK DETAIL ===== -->
+        <sc-if value="{{ isTaskDetail }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 0 0 40px;">
+            <div style="position: sticky; top: 0; z-index: 20; background: rgba(251,246,240,.92); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 12px; padding: 10px 18px;">
+              <button onClick="{{ goRoadmap }}" style="width: 38px; height: 38px; border-radius: 11px; border: 1px solid #EFE4D9; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #3D2B2E; font-size: 20px;">‹</button>
+              <span style="font-family: 'Nanum Myeongjo', serif; font-size: 18px; font-weight: 700; color: #2E2023;">준비 태스크</span>
+            </div>
+
+            <div style="padding: 8px 22px 0;">
+              <div style="display: flex; align-items: center; gap: 7px;">
+                <span style="font-size: 11.5px; font-weight: 700; color: var(--accent,#B5685E); background: #F2E2DB; padding: 4px 11px; border-radius: 8px;">{{ taskDetail.category }}</span>
+                <span style="font-size: 11.5px; font-weight: 700; color: {{ taskDetail.statusColor }}; background: {{ taskDetail.statusBg }}; padding: 4px 11px; border-radius: 8px;">{{ taskDetail.statusLabel }}</span>
+                <sc-if value="{{ taskDetail.thisWeek }}" hint-placeholder-val="{{ false }}"><span style="font-size: 11.5px; font-weight: 700; color: var(--accent,#B5685E); background: #F8EDE8; padding: 4px 11px; border-radius: 8px;">이번 주</span></sc-if>
+              </div>
+              <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 24px; font-weight: 800; color: #2E2023; margin: 13px 0 5px; line-height: 1.35; letter-spacing: -.3px;">{{ taskDetail.title }}</h2>
+              <div style="font-size: 12.5px; color: #A8968E;">{{ taskDetail.phaseNum }}단계 · {{ taskDetail.phaseName }}</div>
+
+              <!-- meta: 마감일 / 담당자 -->
+              <div style="display: flex; gap: 10px; margin-top: 16px;">
+                <div style="flex: 1; background: #fff; border: 1px solid #F0E5DA; border-radius: 14px; padding: 13px 14px;">
+                  <div style="display: flex; align-items: center; gap: 6px; color: #B0A099;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="flex:none;"><rect x="3" y="5" width="18" height="16" rx="3" stroke="#B7A79D" stroke-width="1.8"></rect><path d="M3 9h18M8 3v4M16 3v4" stroke="#B7A79D" stroke-width="1.8" stroke-linecap="round"></path></svg>
+                    <span style="font-size: 11px;">마감일</span>
+                  </div>
+                  <div style="font-size: 14px; color: #2E2023; font-weight: 700; margin-top: 5px;">{{ taskDetail.due }}</div>
+                </div>
+                <div style="flex: 1; background: #fff; border: 1px solid #F0E5DA; border-radius: 14px; padding: 13px 14px;">
+                  <div style="display: flex; align-items: center; gap: 6px; color: #B0A099;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="flex:none;"><circle cx="12" cy="8.5" r="3.5" stroke="#B7A79D" stroke-width="1.8"></circle><path d="M5 20c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5" stroke="#B7A79D" stroke-width="1.8" stroke-linecap="round"></path></svg>
+                    <span style="font-size: 11px;">담당</span>
+                  </div>
+                  <div style="margin-top: 7px;"><span style="font-size: 12.5px; font-weight: 700; color: {{ taskDetail.ownerColor }}; background: {{ taskDetail.ownerBg }}; padding: 4px 11px; border-radius: 8px;">{{ taskDetail.owner }}</span></div>
+                </div>
+              </div>
+
+              <button onClick="{{ taskDetail.toggle }}" style="width: 100%; margin-top: 12px; background: {{ taskDetail.toggleBg }}; color: {{ taskDetail.toggleColor }}; border: none; border-radius: 14px; padding: 14px; font-family: 'Pretendard'; font-size: 14.5px; font-weight: 700; cursor: pointer;">{{ taskDetail.toggleLabel }}</button>
+
+              <!-- 고려사항 -->
+              <h3 style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023; margin: 28px 0 4px;">이렇게 준비하면 좋아요</h3>
+              <p style="font-size: 12.5px; color: #A8968E; margin: 0 0 12px;">선택 시 함께 고려하면 좋은 가이드예요.</p>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <sc-for list="{{ taskDetail.considerations }}" as="g" hint-placeholder-count="3">
+                  <div style="display: flex; gap: 12px; background: #fff; border: 1px solid #F0E5DA; border-radius: 15px; padding: 14px 15px;">
+                    <span style="width: 24px; height: 24px; border-radius: 50%; background: #F6ECE6; color: var(--accent,#B5685E); font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; margin-top: 1px;">{{ g.num }}</span>
+                    <div style="flex: 1;">
+                      <div style="font-size: 14px; font-weight: 700; color: #3D2B2E;">{{ g.title }}</div>
+                      <div style="font-size: 12.5px; color: #8A7670; line-height: 1.55; margin-top: 3px;">{{ g.desc }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <!-- 예시 업체 -->
+              <sc-if value="{{ taskDetail.hasVendors }}" hint-placeholder-val="{{ false }}">
+                <h3 style="font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; color: #2E2023; margin: 28px 0 12px;">예시 업체</h3>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                  <sc-for list="{{ taskDetail.vendors }}" as="v" hint-placeholder-count="3">
+                    <div style="display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid #F0E5DA; border-radius: 15px; padding: 13px 15px;">
+                      <span style="width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg,#E8C9B8,#C99A86); color: #fff; font-family: 'Nanum Myeongjo', serif; font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none;">{{ v.initial }}</span>
+                      <div style="flex: 1;">
+                        <div style="font-size: 14.5px; font-weight: 700; color: #2E2023;">{{ v.name }}</div>
+                        <div style="font-size: 12px; color: #A8968E; margin-top: 2px;">{{ v.area }}</div>
+                      </div>
+                      <span style="font-size: 11.5px; color: #8A6258; text-align: right; max-width: 110px; line-height: 1.4;">{{ v.note }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <!-- CTA -->
+              <sc-if value="{{ taskDetail.hasCta }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ taskDetail.cta }}" style="width: 100%; margin-top: 22px; background: #4A2E30; color: #fff; border: none; border-radius: 15px; padding: 15px; font-family: 'Pretendard'; font-size: 14.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;">{{ taskDetail.ctaLabel }} <span style="opacity:.7;">→</span></button>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== MY ===== -->
+        <sc-if value="{{ isMy }}" hint-placeholder-val="{{ true }}">
+          <div style="padding: 4px 0 30px;">
+            <div style="padding: 4px 22px 0;">
+              <h2 style="font-family: 'Nanum Myeongjo', serif; font-size: 23px; font-weight: 800; color: #2E2023; margin: 4px 0 16px; letter-spacing: -.3px;">MY</h2>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; padding: 0 22px 20px;">
+              <div style="width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg,#E8C9B8,#C99A86); display: flex; align-items: center; justify-content: center; color: #fff; font-family: 'Nanum Myeongjo', serif; font-weight: 700; font-size: 22px;">정</div>
+              <div><div style="font-size: 17px; font-weight: 700; color: #2E2023;">예비 신부 정연</div><div style="font-size: 12.5px; color: #A8968E; margin-top: 2px;">2026.11.14 · D-{{ dday }}</div></div>
+            </div>
+            <div style="margin: 0 22px; background: #fff; border: 1px solid #F0E5DA; border-radius: 18px; overflow: hidden;">
+              <sc-for list="{{ myInfo }}" as="m" hint-placeholder-count="5">
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; border-top: 1px solid {{ m.border }};">
+                  <span style="font-size: 13.5px; color: #8A7670;">{{ m.k }}</span>
+                  <span style="font-size: 13.5px; color: #2E2023; font-weight: 600;">{{ m.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <!-- ===== COMPARE FLOATING BAR (find) ===== -->
+      <sc-if value="{{ showCompareBar }}" hint-placeholder-val="{{ false }}">
+        <div style="position: absolute; left: 0; right: 0; bottom: 76px; z-index: 40; padding: 0 18px;">
+          <button onClick="{{ goCompare }}" style="width: 100%; background: #4A2E30; color: #fff; border: none; border-radius: 16px; padding: 15px; font-family: 'Pretendard'; font-size: 14.5px; font-weight: 700; cursor: pointer; box-shadow: 0 14px 28px -10px rgba(74,46,48,.7); display: flex; align-items: center; justify-content: center; gap: 8px;">
+            저장한 {{ savedCount }}곳 비교하기 <span style="opacity:.7;">→</span>
+          </button>
+        </div>
+      </sc-if>
+
+      <!-- ===== AI SHEET ===== -->
+      <sc-if value="{{ aiOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeAi }}" style="position: absolute; inset: 0; z-index: 90; background: rgba(40,25,26,.45);"></div>
+        <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 91; height: 80%; background: #FBF6F0; border-radius: 28px 28px 0 0; display: flex; flex-direction: column; overflow: hidden;">
+          <div style="padding: 10px 0 4px; display: flex; justify-content: center; flex: none;"><span style="width: 38px; height: 4px; border-radius: 3px; background: #E0D2C6;"></span></div>
+          <div style="display: flex; align-items: center; gap: 11px; padding: 8px 22px 14px; flex: none;">
+            <span style="width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(135deg,#F3DfD7,#E7C4B8); display: flex; align-items: center; justify-content: center;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#9A4F46"></path><circle cx="18.5" cy="17.5" r="2.5" fill="#C98B7F"></circle></svg>
+            </span>
+            <div style="flex: 1;"><div style="font-size: 16px; font-weight: 700; color: #2E2023;">웨딩 AI</div><div style="font-size: 11.5px; color: #A8968E;">예약과 방문 준비를 도와드려요</div></div>
+            <button onClick="{{ closeAi }}" style="width: 32px; height: 32px; border-radius: 50%; border: none; background: #F1E7DD; color: #8A7670; font-size: 15px; cursor: pointer;">✕</button>
+          </div>
+          <div class="ew-scroll" style="flex: 1; overflow-y: auto; padding: 4px 22px 12px;">
+            <div style="background: #fff; border: 1px solid #F0E5DA; border-radius: 16px; padding: 14px 16px; font-size: 13.5px; color: #6B574F; line-height: 1.6;">안녕하세요! 웨딩홀 비교나 투어 준비, 견적에서 궁금한 점을 물어보세요. 아래 질문을 눌러도 좋아요.</div>
+            <sc-for list="{{ aiThread }}" as="m" hint-placeholder-count="0">
+              <div style="display: flex; justify-content: flex-end; margin-top: 14px;"><div style="max-width: 80%; background: var(--accent,#B5685E); color: #fff; border-radius: 16px 16px 4px 16px; padding: 11px 14px; font-size: 13.5px; line-height: 1.5;">{{ m.q }}</div></div>
+              <sc-if value="{{ m.plain }}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; margin-top: 10px;"><div style="max-width: 86%; background: #fff; border: 1px solid #F0E5DA; color: #4A3A38; border-radius: 16px 16px 16px 4px; padding: 13px 15px; font-size: 13.5px; line-height: 1.65; white-space: pre-line;">{{ m.a }}</div></div>
+              </sc-if>
+              <sc-if value="{{ m.rich }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top: 10px;"><dc-import name="AiBudgetAnswer" data="{{ m.rich }}" hint-size="100%,520px"></dc-import></div>
+              </sc-if>
+            </sc-for>
+          </div>
+          <div style="flex: none; padding: 10px 18px 22px; border-top: 1px solid #F0E5DA; background: #FBF6F0;">
+            <div class="ew-scroll" style="display: flex; gap: 8px; overflow-x: auto;">
+              <sc-for list="{{ aiPresets }}" as="p" hint-placeholder-count="3">
+                <button onClick="{{ p.onClick }}" style="flex: none; border: 1px solid #EAD9CB; background: #fff; color: #6B574F; font-family: 'Pretendard'; font-size: 12.5px; font-weight: 600; padding: 9px 13px; border-radius: 20px; cursor: pointer;">{{ p.q }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== RESERVE CTA (sticky bottom) ===== -->
+      <sc-if value="{{ showReserveCta }}" hint-placeholder-val="{{ false }}">
+        <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 40; padding: 14px 18px 24px; background: linear-gradient(to top, #FBF6F0 70%, rgba(251,246,240,0)); ">
+          <button onClick="{{ submitReserve }}" disabled="{{ reserveDisabled }}" style="width: 100%; background: {{ reserveBtnBg }}; color: #fff; border: none; border-radius: 16px; padding: 16px; font-family: 'Pretendard'; font-size: 15.5px; font-weight: 700; cursor: {{ reserveCursor }}; box-shadow: 0 10px 24px -8px rgba(181,104,94,.5);">{{ reserveBtnLabel }}</button>
+        </div>
+      </sc-if>
+
+      <!-- ===== DETAIL CTA (sticky bottom) ===== -->
+      <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+        <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 40; padding: 14px 18px 24px; background: linear-gradient(to top, #FBF6F0 70%, rgba(251,246,240,0)); display: flex; gap: 10px;">
+          <button onClick="{{ toggleActiveSave }}" style="width: 54px; height: 54px; border-radius: 16px; border: 1px solid #EFE4D9; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; flex: none;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="{{ activeVenue.heartFill }}"><path d="M12 20s-7-4.6-9.2-9C1.3 7.6 3 4.5 6.2 4.5c1.9 0 3.2 1.1 3.8 2.2.6-1.1 1.9-2.2 3.8-2.2 3.2 0 4.9 3.1 3.4 6.5C19 15.4 12 20 12 20z" stroke="{{ activeVenue.heartStroke }}" stroke-width="1.7"></path></svg>
+          </button>
+          <button onClick="{{ startReserve }}" style="flex: 1; background: var(--accent,#B5685E); color: #fff; border: none; border-radius: 16px; padding: 16px; font-family: 'Pretendard'; font-size: 15.5px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 24px -8px rgba(181,104,94,.5);">투어 희망 일정 보내기</button>
+        </div>
+      </sc-if>
+
+      <!-- ===== VISIT CTA ===== -->
+      <sc-if value="{{ isVisit }}" hint-placeholder-val="{{ false }}">
+        <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 40; padding: 14px 18px 24px; background: linear-gradient(to top, #FBF6F0 70%, rgba(251,246,240,0));">
+          <button style="width: 100%; background: #4A2E30; color: #fff; border: none; border-radius: 16px; padding: 16px; font-family: 'Pretendard'; font-size: 15.5px; font-weight: 700; cursor: pointer;">캘린더에 방문 일정 추가</button>
+        </div>
+      </sc-if>
+
+      <!-- ===== BOTTOM TAB BAR ===== -->
+      <sc-if value="{{ showTabBar }}" hint-placeholder-val="{{ true }}">
+        <div style="flex: none; height: 76px; background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-top: 1px solid #F0E5DA; display: flex; padding: 8px 6px 18px; z-index: 50;">
+          <button onClick="{{ goHome }}" style="flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 4px;">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6h-6v6H5a1 1 0 01-1-1v-8z" stroke="{{ navHome }}" stroke-width="1.7" stroke-linejoin="round"></path></svg>
+            <span style="font-size: 10.5px; font-weight: 600; color: {{ navHome }};">홈</span>
+          </button>
+          <button onClick="{{ goRoadmap }}" style="flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 4px;">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M5 6h14M5 12h14M5 18h9" stroke="{{ navRoadmap }}" stroke-width="1.7" stroke-linecap="round"></path><circle cx="20" cy="18" r="1.6" fill="{{ navRoadmap }}"></circle></svg>
+            <span style="font-size: 10.5px; font-weight: 600; color: {{ navRoadmap }};">로드맵</span>
+          </button>
+          <button onClick="{{ goFind }}" style="flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 4px;">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="{{ navExplore }}" stroke-width="1.7"></circle><path d="M16.5 16.5L21 21" stroke="{{ navExplore }}" stroke-width="1.7" stroke-linecap="round"></path></svg>
+            <span style="font-size: 10.5px; font-weight: 600; color: {{ navExplore }};">탐색</span>
+          </button>
+          <button onClick="{{ goBudget }}" style="flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 4px;">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M3 7.5C3 6 4 5 6 5h12c2 0 3 1 3 2.5v9c0 1.5-1 2.5-3 2.5H6c-2 0-3-1-3-2.5v-9z" stroke="{{ navBudget }}" stroke-width="1.7" stroke-linejoin="round"></path><path d="M3.5 9.5h17" stroke="{{ navBudget }}" stroke-width="1.7" stroke-linecap="round"></path><circle cx="16.5" cy="14" r="1.4" fill="{{ navBudget }}"></circle></svg>
+            <span style="font-size: 10.5px; font-weight: 600; color: {{ navBudget }};">예산</span>
+          </button>
+          <button onClick="{{ goAi }}" style="flex: 1; background: none; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 4px;">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M4 5.5h16a1.5 1.5 0 011.5 1.5v7a1.5 1.5 0 01-1.5 1.5H10l-4.5 3.7V16H4A1.5 1.5 0 012.5 14.5V7A1.5 1.5 0 014 5.5z" stroke="{{ navAi }}" stroke-width="1.7" stroke-linejoin="round"></path><path d="M9.3 11l.6-1.7.6 1.7 1.7.6-1.7.6-.6 1.7-.6-1.7-1.7-.6 1.7-.6z" fill="{{ navAi }}"></path></svg>
+            <span style="font-size: 10.5px; font-weight: 600; color: {{ navAi }};">AI 상담</span>
+          </button>
+        </div>
+      </sc-if>
+
+      <!-- home bar -->
+      <div style="position: absolute; bottom: 7px; left: 50%; transform: translateX(-50%); width: 130px; height: 5px; border-radius: 3px; background: #C9B8AE; z-index: 100;"></div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 480, &quot;height&quot;: 940}, &quot;accentColor&quot;: {&quot;editor&quot;: &quot;color&quot;, &quot;default&quot;: &quot;#B5685E&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;brandName&quot;: {&quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Easy Wedding&quot;, &quot;tsType&quot;: &quot;string&quot;}, &quot;showSeededReservations&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'onboard',
+    onboard: { stage: '웨딩홀부터', region: '서울 동부권', guests: '150~200명', budget: '4천~6천', time: '토요일 저녁' },
+    savedIds: ['v1', 'v2', 'v3'],
+    activeId: 'v1',
+    jointIds: [],
+    reserveDates: [],
+    reserveTimes: [],
+    created: [],
+    progress: 'start',
+    visitChecks: {},
+    aiThread: [],
+    aiOpen: false,
+    roadmapPhaseId: 'phase-1',
+    roadmapChecks: {},
+    activeTaskId: 'hall-save',
+    resTab: 'reservations',
+    exploreTab: 'find',
+  };
+
+  BUDGET = {
+    total: 6000,
+    cats: [
+      { name: '웨딩홀 · 식대', note: '보증 150명 기준', planned: 2600, spent: 1200 },
+      { name: '스드메', note: '스튜디오 · 드레스 · 메이크업', planned: 700, spent: 350 },
+      { name: '혼수 · 신혼집', note: '가전 · 가구', planned: 1700, spent: 0 },
+      { name: '예물 · 예단', note: '', planned: 600, spent: 200 },
+      { name: '기타 · 예비비', note: '청첩장 · 답례품', planned: 400, spent: 70 },
+    ],
+  };
+
+  PHASES = [
+    { id: 'phase-1', num: '1', name: '웨딩홀 · 날짜 확정', shortName: '홀', action: '웨딩홀 후보 비교, 투어 요청', tag: '진행 중', state: 'now',
+      checklist: [
+        { id: 'hall-save', title: '웨딩홀 후보 3곳 저장하기', owner: '함께', done: false, thisWeek: true },
+        { id: 'hall-visit', title: '웨딩홀 투어 희망 일정 보내기', owner: '함께', done: false, thisWeek: true },
+        { id: 'hall-date', title: '예식 가능 날짜 2~3개 정하기', owner: '함께', done: true, thisWeek: true },
+        { id: 'hall-budget', title: '식대·보증인원 기준 합의하기', owner: '신랑', done: false, thisWeek: false },
+        { id: 'hall-contract', title: '계약 전 추가금 질문 확인하기', owner: '신부', done: true, thisWeek: false },
+      ] },
+    { id: 'phase-2', num: '2', name: '스드메 · 본식 스냅', shortName: '스드메', action: '스튜디오/드레스/메이크업 상담 요청', tag: '예정', state: 'next',
+      checklist: [
+        { id: 'sdm-style', title: '원하는 촬영 무드 저장하기', owner: '신부', done: false, thisWeek: false },
+        { id: 'sdm-budget', title: '스드메 예산 상한 정하기', owner: '함께', done: false, thisWeek: false },
+        { id: 'sdm-studio', title: '스튜디오 후보 3곳 비교하기', owner: '신부', done: false, thisWeek: false },
+        { id: 'sdm-dress', title: '드레스 투어 가능 일정 확인하기', owner: '함께', done: false, thisWeek: false },
+        { id: 'sdm-snap', title: '본식 스냅 포함 여부 결정하기', owner: '신랑', done: false, thisWeek: false },
+      ] },
+    { id: 'phase-3', num: '3', name: '혼수 · 신혼집', shortName: '살림', action: '체크리스트와 예산 가이드 중심', tag: '예정', state: 'next',
+      checklist: [
+        { id: 'home-area', title: '신혼집 후보 지역 정리하기', owner: '함께', done: false, thisWeek: false },
+        { id: 'home-budget', title: '주거 예산 범위 합의하기', owner: '함께', done: false, thisWeek: false },
+        { id: 'home-appliance', title: '필수 가전 리스트 만들기', owner: '신랑', done: false, thisWeek: false },
+        { id: 'home-furniture', title: '가구 우선순위 정하기', owner: '신부', done: false, thisWeek: false },
+      ] },
+    { id: 'phase-4', num: '4', name: '본식 카운트다운', shortName: '본식', action: '방문/계약/최종 확인 일정 관리', tag: '예정', state: 'next',
+      checklist: [
+        { id: 'final-invite', title: '청첩장 발송 명단 확정하기', owner: '함께', done: false, thisWeek: false },
+        { id: 'final-song', title: '입장곡·축가 순서 정하기', owner: '신부', done: false, thisWeek: false },
+        { id: 'final-meal', title: '식권·답례품 수량 확인하기', owner: '신랑', done: false, thisWeek: false },
+        { id: 'final-seat', title: '혼주석·가족석 배치 확인하기', owner: '함께', done: false, thisWeek: false },
+        { id: 'final-rehearsal', title: '본식 리허설 일정 확인하기', owner: '함께', done: false, thisWeek: false },
+        { id: 'final-payment', title: '잔금·추가금 최종 확인하기', owner: '신랑', done: false, thisWeek: false },
+      ] },
+  ];
+
+  PHASE_CAT = { 'phase-1': '웨딩홀', 'phase-2': '스드메', 'phase-3': '혼수·신혼집', 'phase-4': '본식' };
+  PHASE_DUE = { 'phase-1': 'D-140 전후', 'phase-2': 'D-110 전후', 'phase-3': 'D-70 전후', 'phase-4': 'D-30 전후' };
+  DEFAULT_CONS = {
+    'phase-2': [
+      { title: '예산 상한을 먼저 정하기', desc: '스드메는 옵션이 많아 상한이 없으면 쉽게 초과돼요. 총액 기준으로 잡으세요.' },
+      { title: '후기보다 실물 포트폴리오', desc: '최근 진행한 본식·촬영 사진을 직접 확인하면 톤이 맞는지 알 수 있어요.' },
+    ],
+    'phase-3': [
+      { title: '필수와 선택을 구분하기', desc: '지금 꼭 필요한 것과 나중에 채울 것을 나눠 우선순위를 정하세요.' },
+      { title: '입주일 기준으로 역산', desc: '배송·설치 기간을 고려해 입주 2~4주 전에 주문을 마치는 게 안전해요.' },
+    ],
+    'phase-4': [
+      { title: '본식 2주 전 최종 점검', desc: '명단·식권·동선은 2주 전에 한 번 더 확정해 변수를 줄이세요.' },
+      { title: '담당 플래너와 재확인', desc: '예식 순서와 시간을 다시 맞추면 당일 혼선이 크게 줄어요.' },
+    ],
+  };
+  TASK_META = {
+    'hall-save': {
+      due: 'D-140 · 6/28까지',
+      considerations: [
+        { title: '성격이 다른 3곳으로', desc: '분위기·비용·교통 등 강점이 겹치지 않게 골라야 비교가 의미 있어요.' },
+        { title: '같은 조건으로 저장', desc: '하객 150명·토요일 저녁처럼 동일 기준으로 봐야 식대·보증 비교가 정확해요.' },
+        { title: '사진보다 실측 정보', desc: '천장 높이, 버진로드 길이, 하객 동선은 사진에 안 나오니 메모해 두세요.' },
+      ],
+      vendors: [
+        { name: '아벤티움', area: '강남 · 호텔', note: '채광·하이엔드 연출이 강점' },
+        { name: '라온제나', area: '성수 · 컨벤션', note: '식대·주차가 합리적' },
+        { name: '소피아 가든', area: '광진 · 가든홀', note: '야외 연출이 가능' },
+      ],
+      ctaLabel: '추천 홀 보러 가기', ctaTarget: 'find',
+    },
+    'hall-visit': {
+      due: 'D-138 · 6/30까지',
+      considerations: [
+        { title: '희망일은 3개까지', desc: '1~3순위를 함께 보내면 업체가 가능 시간을 빠르게 회신해요.' },
+        { title: '같은 시간대로 맞추기', desc: '토요일 저녁 등 실제 예식 시간대에 투어하면 채광·동선을 정확히 봐요.' },
+        { title: '질문지를 미리 첨부', desc: '보증인원·식대·추가금 질문을 함께 보내면 헛걸음이 줄어요.' },
+      ],
+      vendors: [
+        { name: '아벤티움', area: '강남 · 호텔', note: '발렛 · 토요일 저녁 가능' },
+        { name: '라온제나', area: '성수 · 컨벤션', note: '예식 간격 120분' },
+      ],
+      ctaLabel: '투어 희망 일정 보내기', ctaTarget: 'find',
+    },
+    'hall-date': {
+      due: 'D-142 · 완료',
+      considerations: [
+        { title: '성수기·요일을 먼저 확인', desc: '봄·가을 토요일은 대관료가 오르고 예약이 빨리 차요. 2~3개를 열어두세요.' },
+        { title: '양가 일정과 겹치지 않게', desc: '집안 행사·제사 등과 충돌하지 않는지 미리 맞춰두면 좋아요.' },
+      ],
+      vendors: [],
+    },
+    'hall-budget': {
+      due: 'D-135 · 7/3까지',
+      considerations: [
+        { title: '보증인원이 식대를 좌우', desc: '실제 하객보다 보증인원이 높으면 빈 식대를 그대로 부담하게 돼요.' },
+        { title: '식대는 1인 단가 × 보증', desc: '코너·주류 포함 여부에 따라 단가가 크게 달라지니 총액으로 비교하세요.' },
+      ],
+      vendors: [],
+      ctaLabel: 'AI에게 식대 기준 물어보기', ctaTarget: 'ai',
+    },
+    'hall-contract': {
+      due: 'D-130 · 계약 전',
+      considerations: [
+        { title: '"총액 기준 견적서" 요청', desc: '대관료·꽃·영상·주차까지 포함한 총액으로 받아야 누락을 막아요.' },
+        { title: '취소·변경 위약 조건 확인', desc: '날짜 변경, 인원 조정 시 위약 규정을 계약 전 반드시 서면으로 확인하세요.' },
+      ],
+      vendors: [],
+      ctaLabel: 'AI에게 추가금 항목 물어보기', ctaTarget: 'ai',
+    },
+    'sdm-studio': {
+      considerations: [
+        { title: '원하는 무드를 먼저 정의', desc: '내추럴·빈티지·럭셔리 중 방향을 정하면 후보 비교가 빨라져요.' },
+        { title: '원본 보정 컷 수 확인', desc: '제공 컷·추가 보정 비용·원본 전달 여부를 계약 전 확인하세요.' },
+      ],
+      vendors: [
+        { name: '오롯 스튜디오', area: '내추럴 무드', note: '자연광 베이스' },
+        { name: '비안 스튜디오', area: '빈티지 무드', note: '필름 톤 강점' },
+        { name: '라쉬 스튜디오', area: '럭셔리 무드', note: '하이엔드 보정' },
+      ],
+    },
+    'sdm-dress': {
+      considerations: [
+        { title: '체형·예식장에 맞는 라인', desc: '홀 천장 높이와 버진로드 길이에 따라 어울리는 드레스 라인이 달라요.' },
+        { title: '피팅 횟수·대여 기간 확인', desc: '본식·촬영 드레스가 몇 벌 포함인지, 피팅 비용이 있는지 확인하세요.' },
+      ],
+      vendors: [
+        { name: '메종 드레스', area: '수입 드레스', note: '시즌 신상 보유' },
+        { name: '아틀리에 윤', area: '국산 핸드메이드', note: '맞춤 수선 강점' },
+      ],
+    },
+  };
+
+  VENUES = [
+    { id: 'v1', name: '아벤티움', area: '강남', type: '호텔', meal: '10~13만', minGuests: '150명', interval: '90분', parking: '발렛', photo: 'linear-gradient(135deg,#E8C9B8,#C99A86)', match: '하객 150명·서울 접근성·토요일 저녁 조건과 잘 맞아요', confirmQ: '추가금, 주차, 환불 규정' },
+    { id: 'v2', name: '라온제나', area: '성수', type: '컨벤션', meal: '7~9만', minGuests: '100명', interval: '120분', parking: '주차 강점', photo: 'linear-gradient(135deg,#D9C7B0,#B39B7C)', match: '예산 4~6천에 여유, 주차와 식대가 합리적이에요', confirmQ: '대관료, 식대 변동' },
+    { id: 'v3', name: '소피아 가든', area: '광진', type: '가든홀', meal: '9~12만', minGuests: '130명', interval: '120분', parking: '주차 가능', photo: 'linear-gradient(135deg,#C9D2C0,#94A585)', match: '서울 동부권 야외 연출이 가능한 자연채광 홀이에요', confirmQ: '우천 시 대안, 보증인원' },
+    { id: 'v4', name: '더채플 앳 논현', area: '논현', type: '채플', meal: '9~11만', minGuests: '120명', interval: '90분', parking: '발렛', photo: 'linear-gradient(135deg,#E3C2C2,#C08B8B)', match: '버진로드가 긴 채플 단독홀, 사진 연출이 좋아요', confirmQ: '예식 간격, 추가금' },
+    { id: 'v5', name: '노블레스 타워', area: '왕십리', type: '호텔', meal: '11~14만', minGuests: '160명', interval: '90분', parking: '발렛', photo: 'linear-gradient(135deg,#C7C2D6,#9089AB)', match: '서울 동부권 역세권 시티뷰, 하객 동선이 편해요', confirmQ: '최소 보증, 주차 대수' },
+    { id: 'v6', name: '빌라 드 베르', area: '잠실', type: '컨벤션', meal: '8~10만', minGuests: '200명', interval: '90분', parking: '대형 주차', photo: 'linear-gradient(135deg,#E0CDB6,#B79B72)', match: '대형 하객도 여유, 대중교통 접근이 좋아요', confirmQ: '보증인원 조정, 셔틀' },
+    { id: 'v7', name: '메종 드 루이', area: '청담', type: '하우스', meal: '12~15만', minGuests: '80명', interval: '150분', parking: '발렛', photo: 'linear-gradient(135deg,#D8C6D2,#A98BA0)', match: '프라이빗 단독 가든, 소규모 예식에 어울려요', confirmQ: '최소 보증, 대관 시간' },
+    { id: 'v8', name: '한옥 예담', area: '성북', type: '한옥', meal: '10~13만', minGuests: '90명', interval: '150분', parking: '주차 협소', photo: 'linear-gradient(135deg,#CBBBA0,#9E8A6A)', match: '전통 단독 한옥, 스몰웨딩 분위기에 잘 맞아요', confirmQ: '주차 대안, 우천 대비' },
+  ];
+
+  DATE_OPTS = ['6/24 (수)', '6/25 (수)', '6/27 (금)', '6/28 (토)', '6/29 (일)', '7/1 (화)'];
+  TIME_OPTS = ['오전 10시', '점심 12시', '오후 2시', '오후 4시', '저녁 6시'];
+
+  DETAIL_Q = ['보증인원 변경이 가능한가요?', '식대에 포함/미포함되는 항목은?', '대관료와 발생 가능한 추가금', '주차·셔틀 운영 여부', '취소·일정 변경 조건'];
+
+  VISIT_Q = [
+    { t: '보증인원 변경 가능 여부', sub: '하객 150명 기준, 최소 보증과 조정 범위' },
+    { t: '식대 포함 / 미포함 항목', sub: '주류, 코너, 서비스료 포함 여부' },
+    { t: '대관료와 추가금', sub: '꽃, 영상, 사회 등 별도 비용' },
+    { t: '주차 · 셔틀 운영', sub: '하객 주차 대수와 무료 시간' },
+    { t: '취소 · 일정 변경 조건', sub: '계약 후 변경 시 위약 규정' },
+  ];
+
+  AI_PRESETS = [
+    { q: '투어 전에 뭘 물어봐야 해?', a: '투어 전 핵심 5가지만 확인하세요.\n1) 보증인원과 조정 범위\n2) 식대 포함/미포함 항목\n3) 대관료·추가금(꽃, 영상 등)\n4) 주차·셔틀 운영\n5) 취소·변경 위약 조건\n\n이 질문지는 예약 요청 시 업체에 자동으로 함께 전달돼요.' },
+    { q: '아벤티움 vs 라온제나, 어떤 기준으로 비교해?', a: '두 곳은 성격이 달라요.\n· 아벤티움 — 채광·접근성·하이엔드 연출이 강점, 식대는 다소 높아요(10~13만).\n· 라온제나 — 주차와 식대가 합리적(7~9만), 예식 간격이 120분으로 여유로워요.\n\n하객 동선·사진 연출이 중요하면 아벤티움, 예산·주차가 우선이면 라온제나를 추천해요.' },
+    { q: '이 견적에서 추가금 생길 항목은?', a: '웨딩홀에서 추가금이 자주 발생하는 항목이에요.\n· 보증인원 초과 식대\n· 주말·성수기 대관료\n· 꽃·아치 등 데코 업그레이드\n· 본식 영상/스냅 추가\n· 주차 정산\n\n계약 전 "총액 기준 견적서"를 요청하면 누락을 줄일 수 있어요.' },
+  ];
+
+  go(s) { this.setState({ screen: s, aiOpen: false }); this.scrollTop(); }
+  scrollTop() { try { this.base && this.base.querySelector('.ew-scroll') && (this.base.querySelector('.ew-scroll').scrollTop = 0); } catch (e) {} }
+
+  selectOnboard(k, v) { this.setState(s => ({ onboard: { ...s.onboard, [k]: v } })); }
+  toggleSave(id) { this.setState(s => ({ savedIds: s.savedIds.includes(id) ? s.savedIds.filter(x => x !== id) : [...s.savedIds, id] })); }
+  toggleJoint(id) { this.setState(s => ({ jointIds: s.jointIds.includes(id) ? s.jointIds.filter(x => x !== id) : [...s.jointIds, id] })); }
+  openDetail(id) { this.setState({ activeId: id, screen: 'detail' }); this.scrollTop(); }
+
+  toggleDate(d) {
+    this.setState(s => {
+      let arr = s.reserveDates.slice();
+      if (arr.includes(d)) arr = arr.filter(x => x !== d);
+      else if (arr.length < 3) arr.push(d);
+      return { reserveDates: arr };
+    });
+  }
+  toggleTime(t) {
+    this.setState(s => ({ reserveTimes: s.reserveTimes.includes(t) ? s.reserveTimes.filter(x => x !== t) : [...s.reserveTimes, t] }));
+  }
+
+  submitReserve() {
+    const v = this.VENUES.find(x => x.id === this.state.activeId);
+    const times = this.state.reserveTimes.length ? this.state.reserveTimes : ['오후 2시'];
+    const slot = '희망: ' + this.state.reserveDates.slice(0, 3).map(d => d.split(' ')[0]).join(', ');
+    const newRes = {
+      id: 'r-new', name: v.name, area: v.area, photo: v.photo, status: '요청됨', kind: 'requested',
+      slot: slot, next: '전화 가능 시간을 확인해주세요', primary: '요청 수정', secondary: '질문지 보기',
+    };
+    this.setState(s => ({ created: [newRes, ...s.created.filter(r => r.id !== 'r-new')], progress: 'requested', screen: 'done' }));
+    this.scrollTop();
+  }
+
+  toggleVisitItem(i) { this.setState(s => ({ visitChecks: { ...s.visitChecks, [i]: !s.visitChecks[i] } })); }
+  openVisit() { this.setState({ screen: 'visit' }); this.scrollTop(); }
+
+  setResTab(t) { this.setState({ resTab: t }); this.scrollTop(); }
+  goExplore(tab) { this.setState({ screen: 'explore', exploreTab: tab, aiOpen: false }); this.scrollTop(); }
+  selectPhase(id) { this.setState({ roadmapPhaseId: id }); }
+  openTask(id) { this.setState({ screen: 'taskDetail', activeTaskId: id }); this.scrollTop(); }
+  toggleRoadmapItem(id, def) {
+    this.setState(s => {
+      const cur = s.roadmapChecks.hasOwnProperty(id) ? s.roadmapChecks[id] : def;
+      return { roadmapChecks: { ...s.roadmapChecks, [id]: !cur } };
+    });
+  }
+
+  openAi() { this.setState({ aiOpen: true }); }
+  closeAi() { this.setState({ aiOpen: false }); }
+  askAi(p) { this.setState(s => ({ aiThread: [...s.aiThread, { q: p.q, a: p.a || '', rich: p.rich || null }] })); }
+
+  chip(sel) {
+    return sel
+      ? { bg: 'var(--accent,#B5685E)', color: '#fff', border: 'var(--accent,#B5685E)', weight: 700 }
+      : { bg: '#fff', color: '#6B574F', border: '#EAD9CB', weight: 500 };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const accent = this.props.accentColor || '#B5685E';
+    const seedOn = this.props.showSeededReservations !== false;
+
+    const SEED = [
+      { id: 'r-laon', name: '라온제나 웨딩홀', area: '성수', photo: 'linear-gradient(135deg,#D9C7B0,#B39B7C)', status: '방문 D-3', kind: 'confirmed', slot: '6/24 (수) 14:00 확정', next: '보증인원·식대·주차 질문을 확인하세요', primary: '방문 질문지', secondary: '캘린더 보기' },
+      { id: 'r-maison', name: '메종 드 루이', area: '청담', photo: 'linear-gradient(135deg,#D8C6D2,#A98BA0)', status: '상담 대기', kind: 'pending', slot: '희망: 6/28 오후, 6/29 오전', next: '업체가 가능 시간을 확인 중이에요', primary: '요청 수정', secondary: '전화시간 변경' },
+    ];
+    const pill = {
+      requested: { bg: '#FBF1DD', color: '#B07D1C', nextBg: '#FCF6E9' },
+      pending: { bg: '#F1EBE6', color: '#8A7670', nextBg: '#F8F4F0' },
+      confirmed: { bg: '#E9F0E6', color: '#5C7A57', nextBg: '#F2F6F0' },
+    };
+    const rawRes = [...st.created, ...(seedOn ? SEED : [])];
+    const reservationCards = rawRes.map(r => ({
+      ...r, pillBg: pill[r.kind].bg, pillColor: pill[r.kind].color, nextBg: pill[r.kind].nextBg,
+      openVisit: () => this.openVisit(),
+    }));
+
+    const venueCards = this.VENUES.map(v => {
+      const saved = st.savedIds.includes(v.id);
+      return { ...v,
+        heartFill: saved ? accent : 'none', heartStroke: saved ? accent : '#9A8A82',
+        open: () => this.openDetail(v.id), toggleSave: (e) => { e && e.stopPropagation && e.stopPropagation(); this.toggleSave(v.id); } };
+    });
+
+    const compareVenues = st.savedIds.slice(0, 3).map(id => {
+      const v = this.VENUES.find(x => x.id === id);
+      return { ...v, reserve: () => this.openDetail(v.id) };
+    });
+
+    const likedVenues = st.savedIds.map(id => this.VENUES.find(x => x.id === id)).filter(Boolean).map(v => ({
+      ...v, heartFill: accent, heartStroke: accent,
+      open: () => this.openDetail(v.id),
+      toggleSave: (e) => { e && e.stopPropagation && e.stopPropagation(); this.toggleSave(v.id); },
+      reserve: () => this.openDetail(v.id),
+    }));
+    const resSeg = (on) => on
+      ? { bg: '#fff', color: '#2E2023', weight: 700, shadow: '0 2px 6px rgba(61,43,46,.08)' }
+      : { bg: 'transparent', color: '#A8968E', weight: 600, shadow: 'none' };
+    const segRes = resSeg(st.resTab !== 'likes');
+    const segLikes = resSeg(st.resTab === 'likes');
+
+    const av = this.VENUES.find(x => x.id === st.activeId) || this.VENUES[0];
+    const avSaved = st.savedIds.includes(av.id);
+    const activeVenue = { ...av, heartFill: avSaved ? accent : 'none', heartStroke: avSaved ? accent : '#9A8A82' };
+
+    const onboardGroups = [
+      { key: 'stage', label: '현재 준비 단계', options: ['이제 막 시작', '웨딩홀부터', '스드메 알아보는 중'] },
+      { key: 'region', label: '희망 지역', options: ['서울 강남권', '서울 동부권', '서울 도심', '경기권'] },
+      { key: 'guests', label: '예상 하객 수', options: ['~100명', '100~150명', '150~200명', '200명+'] },
+      { key: 'budget', label: '전체 예산', options: ['2천 이하', '2천~4천', '4천~6천', '6천+', '아직 모름'] },
+      { key: 'time', label: '선호 예식 시간', options: ['토요일 낮', '토요일 저녁', '일요일 낮', '평일'] },
+    ].map(g => ({ label: g.label, opts: g.options.map(o => {
+      const c = this.chip(st.onboard[g.key] === o);
+      return { label: o, ...c, onClick: () => this.selectOnboard(g.key, o) };
+    }) }));
+
+    const filterDefs = [
+      { label: '서울 동부권', on: true }, { label: '하객 150명', on: true }, { label: '예산 4~6천', on: true },
+      { label: '토요일 저녁', on: false }, { label: '주차 가능', on: false },
+    ];
+    const filters = filterDefs.map(f => f.on
+      ? { label: f.label, bg: '#F2E2DB', color: '#8A6258', border: '#E7CFC4' }
+      : { label: f.label, bg: '#fff', color: '#8A7670', border: '#EAD9CB' });
+
+    const reserveDates = this.DATE_OPTS.map(d => {
+      const idx = st.reserveDates.indexOf(d);
+      const sel = idx >= 0;
+      const c = this.chip(sel);
+      return { label: d, ...c, selected: sel, rank: idx + 1, onClick: () => this.toggleDate(d) };
+    });
+    const reserveTimes = this.TIME_OPTS.map(t => {
+      const c = this.chip(st.reserveTimes.includes(t));
+      return { label: t, ...c, onClick: () => this.toggleTime(t) };
+    });
+    const reserveOk = st.reserveDates.length > 0 && st.reserveTimes.length > 0;
+
+    const detailQuestions = this.DETAIL_Q.map((t, i) => ({ t, border: i === 0 ? 'transparent' : '#F2E9E0' }));
+
+    const donePriorities = (st.reserveDates.length ? st.reserveDates : ['6/24 (수)']).slice(0, 3).map((d, i) => ({
+      rank: i + 1, label: d + ' · ' + (st.reserveTimes[0] || '오후 2시'),
+    }));
+
+    const visitItems = this.VISIT_Q.map((q, i) => {
+      const done = !!st.visitChecks[i];
+      return { ...q, done, toggle: () => this.toggleVisitItem(i),
+        border: done ? accent : '#F0E5DA', boxBg: done ? accent : '#FBF6F0', boxBorder: done ? accent : '#D8C6BA',
+        color: done ? '#A8968E' : '#3D2B2E' };
+    });
+    const visitDoneCount = Object.values(st.visitChecks).filter(Boolean).length;
+
+    const weekDefs = [
+      { t: '웨딩홀 후보 3곳 저장하기', done: st.savedIds.length >= 3 },
+      { t: '예식 예정일 가족과 공유', done: true },
+      { t: '예산 우선순위 정하기', done: false },
+    ];
+    const weekChecklist = weekDefs.map((c, i) => ({ t: c.t, done: c.done, border: i === 0 ? 'transparent' : '#F2E9E0',
+      boxBg: c.done ? accent : '#FBF6F0', boxBorder: c.done ? accent : '#D8C6BA',
+      color: c.done ? '#A8968E' : '#3D2B2E', deco: c.done ? 'line-through' : 'none' }));
+
+    const tourStopDefs = [
+      { n: 1, name: '아벤티움', area: '강남 · 호텔', time: '11:00 투어', status: '예약 확정', done: true },
+      { n: 2, name: '라온제나', area: '성수 · 컨벤션', time: '13:30 투어', status: '예약 확정', done: true, leg: '차량 18분 · 7.4km' },
+      { n: 3, name: '메종 드 루이', area: '청담 · 하우스', time: '15:30 상담', status: '상담 대기', done: false, leg: '차량 12분 · 4.1km' },
+    ];
+    const tourStops = tourStopDefs.map(s => ({
+      n: s.n, name: s.name, area: s.area, time: s.time, status: s.status,
+      hasLeg: !!s.leg, leg: s.leg || '',
+      badgeBg: s.done ? accent : '#C9B8AE',
+      pillBg: s.done ? '#F1EAE0' : '#F6ECE6', pillColor: s.done ? '#6B574F' : '#A8968E',
+    }));
+
+    const rmActiveId = st.roadmapPhaseId || 'phase-1';
+    const effDone = (it) => st.roadmapChecks.hasOwnProperty(it.id) ? st.roadmapChecks[it.id] : it.done;
+    const ownerStyle = (o) => ({
+      '함께': { bg: '#F2E2DB', color: '#8A6258' },
+      '신랑': { bg: '#E7ECF1', color: '#5B6E82' },
+      '신부': { bg: '#F4E6EB', color: '#9A5E78' },
+    }[o] || { bg: '#F1E7DD', color: '#8A7670' });
+
+    const roadmapSteps = this.PHASES.map(p => {
+      const completed = p.checklist.filter(effDone).length;
+      const total = p.checklist.length;
+      const isActive = p.id === rmActiveId;
+      const allDone = total > 0 && completed === total;
+      return {
+        num: p.num, shortName: p.shortName, countText: completed + '/' + total,
+        selected: isActive, showCheck: allDone, showNum: !allDone,
+        onClick: () => this.selectPhase(p.id),
+        circleBg: (allDone || isActive) ? accent : '#fff',
+        circleBorder: (allDone || isActive) ? accent : '#E6D6C9',
+        circleColor: (allDone || isActive) ? '#fff' : '#C2AE9F',
+        nameColor: isActive ? '#2E2023' : '#A8968E',
+        nameWeight: isActive ? 700 : 600,
+      };
+    });
+
+    const ap = this.PHASES.find(p => p.id === rmActiveId) || this.PHASES[0];
+    const apCompleted = ap.checklist.filter(effDone).length;
+    const apTotal = ap.checklist.length;
+    const roadmapActive = {
+      name: ap.name, action: ap.action, tag: ap.tag, completed: apCompleted, total: apTotal,
+      pct: apTotal ? Math.round(apCompleted / apTotal * 100) : 0,
+      tagBg: ap.state === 'now' ? '#F2E2DB' : '#F1E7DD', tagColor: ap.state === 'now' ? '#8A6258' : '#A8968E',
+    };
+    const roadmapItems = ap.checklist.map((it, i) => {
+      const done = effDone(it);
+      const os = ownerStyle(it.owner);
+      return {
+        title: it.title, owner: it.owner, done, thisWeek: it.thisWeek && !done,
+        toggle: () => this.toggleRoadmapItem(it.id, it.done),
+        open: () => this.openTask(it.id),
+        border: i === 0 ? 'transparent' : '#F2E9E0',
+        boxBg: done ? accent : '#FBF6F0', boxBorder: done ? accent : '#D8C6BA',
+        titleColor: done ? '#A8968E' : '#3D2B2E', deco: done ? 'line-through' : 'none',
+        ownerBg: os.bg, ownerColor: os.color,
+      };
+    });
+
+    const myInfoDefs = [
+      { k: '예식 예정일', v: '2026.11.14 토' }, { k: '희망 지역', v: st.onboard.region }, { k: '예상 하객', v: st.onboard.guests },
+      { k: '예산 범위', v: st.onboard.budget + '만 원' }, { k: '선호 시간', v: st.onboard.time },
+    ];
+    const myInfo = myInfoDefs.map((m, i) => ({ ...m, border: i === 0 ? 'transparent' : '#F2E9E0' }));
+
+    const aiThread = st.aiThread.map(m => ({ ...m, plain: !m.rich }));
+    const studioRich = {
+      intro: '지금 예산을 보면 스튜디오·드레스·메이크업(스드메)에 700만 원이 잡혀 있고, 그중 350만 원만 쓰고 있어 아직 350만 원의 여유가 있어요. 더 늘리고 싶다면 가장 먼저 볼 항목은 예물·예단이에요.',
+      refs: [
+        { label: '스드메 (사용/배정)', value: '350 / 700만', bg: '#F6ECE6', border: '#F0E5DA', color: '#3D2B2E' },
+        { label: '남은 여유', value: '+350만 원', bg: '#EAF1EC', border: '#D6E5DB', color: '#4E7B5E' },
+      ],
+      prefs: [
+        { who: '신랑', text: '예단·예물은 간소하게 하고 싶어요', bg: '#E7ECF1', color: '#5B6E82' },
+        { who: '신부', text: '예단·예물 부담을 줄이는 데 동의해요', bg: '#F4E6EB', color: '#9A5E78' },
+      ],
+      scenarioTitle: '예물·예단 줄여 스드메 강화',
+      fromName: '예물·예단', fromBefore: '600만', fromAfter: '300만', fromPct: 30,
+      toName: '스드메', toBefore: '700만', toAfter: '1,000만', toPct: 100,
+      moved: '300만 원',
+      perks: ['추가 촬영 컴셉', '프리미엄 드레스', '메이크업 리허설', '원본·수정본 추가'],
+      coach: '두 분 모두 예단·예물은 "간소하게" 쪽으로 공감대가 있어요. 이 예산에서 200~300만 원만 옮기면 만족도 대비 효율이 가장 좋습니다.',
+    };
+    const studioPreset = { q: '스튜디오에 좀 더 쓰고 싶은데 아낌 곳이 있을까?', rich: studioRich };
+    const aiPresets = [...this.AI_PRESETS, studioPreset].map(p => ({ q: p.q, onClick: () => this.askAi(p) }));
+
+    const hero = st.progress === 'requested'
+      ? { heroTitle: (st.created[0] ? st.created[0].name : '아벤티움') + ' 답변을 기다리는 중이에요', heroDesc: '보통 1~2일 안에 가능 시간 연락이 와요. 방문 전 확인 질문을 미리 살펴보세요.', heroCta: '방문 전 확인 질문 보기', heroAction: () => this.openVisit() }
+      : { heroTitle: '웨딩홀 후보 3곳을 먼저 골라볼까요?', heroDesc: '서울 동부권 · 하객 150명 조건에 맞는 홀을 추천해 드려요.', heroCta: '후보 보러 가기', heroAction: () => this.goExplore('find') };
+
+    // ----- task detail -----
+    let taskFound = null, taskPhase = null;
+    this.PHASES.forEach(p => p.checklist.forEach(it => { if (it.id === st.activeTaskId) { taskFound = it; taskPhase = p; } }));
+    let taskDetail = null;
+    if (taskFound) {
+      const meta = this.TASK_META[taskFound.id] || {};
+      const tdone = effDone(taskFound);
+      const os = ownerStyle(taskFound.owner);
+      taskDetail = {
+        title: taskFound.title, owner: taskFound.owner, ownerBg: os.bg, ownerColor: os.color,
+        category: meta.category || this.PHASE_CAT[taskPhase.id],
+        due: meta.due || this.PHASE_DUE[taskPhase.id],
+        phaseName: taskPhase.name, phaseNum: taskPhase.num,
+        done: tdone, thisWeek: !!taskFound.thisWeek && !tdone,
+        statusLabel: tdone ? '완료' : '진행 중',
+        statusBg: tdone ? '#E9F0E6' : '#F2E2DB', statusColor: tdone ? '#5C7A57' : '#8A6258',
+        toggleLabel: tdone ? '완료됨 · 다시 열기' : '완료로 표시하기',
+        toggleBg: tdone ? '#F1E7DD' : 'var(--accent,#B5685E)', toggleColor: tdone ? '#8A7670' : '#fff',
+        toggle: () => this.toggleRoadmapItem(taskFound.id, taskFound.done),
+        considerations: (meta.considerations || this.DEFAULT_CONS[taskPhase.id] || []).map((c, i) => ({ ...c, num: i + 1 })),
+        vendors: (meta.vendors || []).map(v => ({ ...v, initial: v.name.slice(0, 1) })),
+        hasVendors: (meta.vendors || []).length > 0,
+        ctaLabel: meta.ctaLabel || '', hasCta: !!meta.ctaLabel,
+        cta: () => { if (meta.ctaTarget === 'ai') this.go('ai'); else if (meta.ctaTarget === 'find') this.goExplore('find'); },
+      };
+    }
+
+    const nav = (s) => st.screen === s ? accent : '#B8A99F';
+
+    // ----- explore (찾기 + 예약 merged) -----
+    const exSeg = (on) => on
+      ? { bg: '#fff', color: '#2E2023', weight: 700, shadow: '0 2px 6px rgba(61,43,46,.08)' }
+      : { bg: 'transparent', color: '#A8968E', weight: 600, shadow: 'none' };
+    const exTab = st.exploreTab;
+    const segFind = exSeg(exTab === 'find');
+    const segResv = exSeg(exTab === 'reservations');
+    const segLikesEx = exSeg(exTab === 'likes');
+    const exploreTitle = exTab === 'reservations' ? '내 예약' : (exTab === 'likes' ? '좋아요한 웨딩홀' : '웨딩홀 찾기');
+
+    // ----- budget -----
+    const fmt = (n) => n.toLocaleString('ko-KR');
+    const budgetSpent = this.BUDGET.cats.reduce((a, c) => a + c.spent, 0);
+    const budgetLeft = this.BUDGET.total - budgetSpent;
+    const budgetPct = Math.round(budgetSpent / this.BUDGET.total * 100);
+    const budgetCats = this.BUDGET.cats.map((c, i) => {
+      const pct = c.planned ? Math.min(100, Math.round(c.spent / c.planned * 100)) : 0;
+      const over = c.spent > c.planned;
+      return {
+        name: c.name, note: c.note, hasNote: !!c.note,
+        plannedLabel: fmt(c.planned) + '만', spentLabel: fmt(c.spent) + '만', leftLabel: fmt(c.planned - c.spent) + '만',
+        pct, barColor: over ? '#C77A52' : accent,
+        share: Math.round(c.planned / this.BUDGET.total * 100),
+        border: i === 0 ? 'transparent' : '#F2E9E0',
+      };
+    });
+
+    return {
+      accentColor: accent, brandName: this.props.brandName || 'Easy Wedding',
+      isOnboard: st.screen === 'onboard', isHome: st.screen === 'home', isExplore: st.screen === 'explore',
+      isCompare: st.screen === 'compare', isDetail: st.screen === 'detail', isReserve: st.screen === 'reserve',
+      isDone: st.screen === 'done', isVisit: st.screen === 'visit', isBudget: st.screen === 'budget',
+      isRoadmap: st.screen === 'roadmap', isMy: st.screen === 'my', isAi: st.screen === 'ai', isTour: st.screen === 'tour',
+      isTaskDetail: st.screen === 'taskDetail', taskDetail,
+      showTabBar: ['home', 'explore', 'budget', 'roadmap', 'my', 'ai'].includes(st.screen),
+      showCompareBar: st.screen === 'explore' && st.exploreTab === 'find' && st.savedIds.length >= 2,
+      showReserveCta: st.screen === 'reserve',
+      navHome: nav('home'), navRoadmap: nav('roadmap'), navExplore: nav('explore'), navBudget: nav('budget'), navAi: nav('ai'),
+      dday: 146, phase: '1단계 · 웨딩홀과 날짜 확정',
+      startApp: () => this.go('home'),
+      goHome: () => this.go('home'), goFind: () => this.goExplore('find'), goReservations: () => this.goExplore('reservations'),
+      goRoadmap: () => this.go('roadmap'), goMy: () => this.go('my'), goAi: () => this.go('ai'), goCompare: () => this.go('compare'),
+      goBudget: () => this.go('budget'),
+      exploreTitle, exFind: exTab === 'find', exRes: exTab === 'reservations', exLikes: exTab === 'likes',
+      segFind, segResv, segLikesEx, reservedCount: rawRes.length,
+      setExFind: () => this.goExplore('find'), setExRes: () => this.goExplore('reservations'), setExLikes: () => this.goExplore('likes'),
+      budgetTotal: fmt(this.BUDGET.total) + '만 원', budgetSpentLabel: fmt(budgetSpent) + '만', budgetLeftLabel: fmt(budgetLeft) + '만',
+      budgetPct, budgetCats,
+      goBackFromDetail: () => this.goExplore('find'), goBackFromReserve: () => this.openDetail(st.activeId),
+      ...hero,
+      onboardGroups, filters, venueCards, savedCount: st.savedIds.length, compareVenues,
+      activeVenue, detailQuestions,
+      startReserve: () => { this.setState({ reserveDates: [], reserveTimes: [], screen: 'reserve' }); this.scrollTop(); },
+      toggleActiveSave: () => this.toggleSave(av.id),
+      reserveDates, reserveTimes,
+      reserveDisabled: !reserveOk, reserveCursor: reserveOk ? 'pointer' : 'default',
+      reserveBtnBg: reserveOk ? 'var(--accent,#B5685E)' : '#D9C7BD',
+      reserveBtnLabel: reserveOk ? '예약 요청 보내기' : '날짜와 시간을 선택하세요',
+      submitReserve: () => { if (reserveOk) this.submitReserve(); },
+      doneVenueName: st.created[0] ? st.created[0].name : (av.name), donePriorities,
+      reservationCards, inProgressCount: rawRes.length,
+      resShowReservations: st.resTab !== 'likes', resShowLikes: st.resTab === 'likes',
+      segRes, segLikes, likedVenues, likesEmpty: likedVenues.length === 0, likedCount: st.savedIds.length,
+      setResReservations: () => this.setResTab('reservations'), setResLikes: () => this.setResTab('likes'),
+      visitItems, visitVenueName: '아벤티움', visitDoneCount, visitTotal: this.VISIT_Q.length,
+      weekChecklist, roadmapSteps, roadmapActive, roadmapItems, myInfo,
+      tourStops, tourDate: '6/24 (수)', tourSummary: '3곳 투어 · 예상 소요 2시간 30분',
+      goTour: () => this.go('tour'),
+      aiOpen: st.aiOpen, openAi: () => this.openAi(), closeAi: () => this.closeAi(), aiThread, aiPresets,
+    };
+  }
+}
+</script>
+</body>
+</html>

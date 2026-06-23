@@ -113,7 +113,7 @@ export function DoneScreen({
         </p>
         <div className="done-card card">
           <b>희망 일정</b>
-          {(dates.length ? dates : ["6/24 (화)"]).slice(0, 3).map((date, index) => (
+          {(dates.length ? dates : ["6/24 (수)"]).slice(0, 3).map((date, index) => (
             <div key={date}>
               <span>{index + 1}</span>
               <p>{date} · {times[0] ?? "오후 2시"}</p>
@@ -148,7 +148,7 @@ export function VisitScreen({
       <div className="visit-body">
         <section className="visit-hero">
           <small>아벤티움 · 방문 D-3</small>
-          <h2 className="serif">6월 24일 (화) 오후 2시 투어</h2>
+          <h2 className="serif">6월 24일 (수) 오후 2시 투어</h2>
           <p>방문 전에 아래 항목을 확인하면 비교가 훨씬 쉬워져요.</p>
         </section>
         <h3>
