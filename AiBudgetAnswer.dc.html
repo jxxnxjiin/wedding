@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="background: #fff; border: 1px solid #F0E5DA; border-radius: 16px 16px 16px 4px; overflow: hidden; box-shadow: 0 6px 18px rgba(61,43,46,.06); font-family: 'Pretendard', sans-serif;">
+  <div style="display: flex; align-items: center; gap: 8px; padding: 11px 15px; background: linear-gradient(135deg,#F6ECE6,#F0E0D6); border-bottom: 1px solid #F0E5DA;">
+    <span style="width: 24px; height: 24px; border-radius: 8px; background: #fff; display: flex; align-items: center; justify-content: center; flex: none;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#B5685E"></path><circle cx="18.5" cy="17.5" r="2.3" fill="#C98B7F"></circle></svg>
+    </span>
+    <span style="font-size: 12px; font-weight: 700; color: #8A6258;">내 예산·우선순위 데이터를 참고했어요</span>
+  </div>
+  <div style="padding: 15px;">
+    <p style="font-size: 13.5px; line-height: 1.65; color: #4A3A38; margin: 0 0 14px;">{{ data.intro }}</p>
+
+    <div style="display: flex; gap: 9px; margin-bottom: 16px;">
+      <sc-for list="{{ data.refs }}" as="r" hint-placeholder-count="2">
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 3px; background: {{ r.bg }}; border: 1px solid {{ r.border }}; border-radius: 12px; padding: 10px 12px;">
+          <span style="font-size: 10.5px; color: #A8968E; font-weight: 600;">{{ r.label }}</span>
+          <span style="font-size: 15px; font-weight: 700; color: {{ r.color }};">{{ r.value }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="font-size: 11.5px; font-weight: 700; color: #8A7670; margin-bottom: 9px;">두 분의 우선순위</div>
+    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 17px;">
+      <sc-for list="{{ data.prefs }}" as="p" hint-placeholder-count="2">
+        <div style="display: flex; align-items: center; gap: 9px;">
+          <span style="font-size: 11px; font-weight: 700; color: {{ p.color }}; background: {{ p.bg }}; padding: 3px 9px; border-radius: 7px; flex: none;">{{ p.who }}</span>
+          <span style="font-size: 12.5px; color: #6B574F;">{{ p.text }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="border: 1px solid #EBD7C8; border-radius: 14px; overflow: hidden;">
+      <div style="display: flex; align-items: center; gap: 8px; padding: 10px 13px; background: #FBF4EE; border-bottom: 1px solid #F0E5DA;">
+        <span style="font-size: 10.5px; font-weight: 700; color: #B5685E; background: #F6E6DE; padding: 3px 8px; border-radius: 7px;">추천 시나리오</span>
+        <span style="font-size: 12.5px; font-weight: 700; color: #3D2B2E;">{{ data.scenarioTitle }}</span>
+      </div>
+      <div style="padding: 14px 13px;">
+
+        <div style="margin-bottom: 13px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 7px;">
+            <span style="font-size: 12.5px; font-weight: 600; color: #6B574F;">{{ data.fromName }}</span>
+            <span style="font-size: 12px; color: #A8968E;">{{ data.fromBefore }} → <b style="color: #B0726A; font-size: 13px;">{{ data.fromAfter }}</b></span>
+          </div>
+          <div style="height: 8px; border-radius: 5px; background: #F1E7DD; overflow: hidden;">
+            <div style="width: {{ data.fromPct }}%; height: 100%; background: #C9A89B; border-radius: 5px;"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 7px;">
+            <span style="font-size: 12.5px; font-weight: 600; color: #3D2B2E;">{{ data.toName }}</span>
+            <span style="font-size: 12px; color: #A8968E;">{{ data.toBefore }} → <b style="color: #B5685E; font-size: 13px;">{{ data.toAfter }}</b></span>
+          </div>
+          <div style="height: 8px; border-radius: 5px; background: #F1E7DD; overflow: hidden;">
+            <div style="width: {{ data.toPct }}%; height: 100%; background: linear-gradient(90deg,#D08F7F,#B5685E); border-radius: 5px;"></div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 9px; background: #F6ECE6; border-radius: 11px; padding: 10px 12px; margin-top: 14px;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" style="flex:none;"><path d="M12 19V5M12 5l-6 6M12 5l6 6" stroke="#B5685E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span style="font-size: 12.5px; color: #8A6258; line-height: 1.5;">예물·예단에서 <b style="color:#9A4F46;">{{ data.moved }}</b>만 옮겨도 스튜디오 선택지가 크게 넓어져요.</span>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px;">
+          <sc-for list="{{ data.perks }}" as="k" hint-placeholder-count="4">
+            <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; color: #6B574F; background: #F8F0E9; border-radius: 9px; padding: 6px 10px;">
+              <svg width="11" height="11" viewBox="0 0 14 14" fill="none" style="flex:none;"><path d="M2 7.5l3 3 7-7.5" stroke="#B5685E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>{{ k }}
+            </span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 9px; background: #FBF4EE; border: 1px solid #EFE0D4; border-radius: 12px; padding: 12px 13px; margin-top: 14px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex:none; margin-top:1px;"><path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#C98B7F"></path></svg>
+      <span style="font-size: 12.5px; line-height: 1.6; color: #6B4A42;">{{ data.coach }}</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 340, &quot;height&quot;: 560}, &quot;data&quot;: {&quot;editor&quot;: null, &quot;default&quot;: {&quot;intro&quot;: &quot;지금 예산을 보면 스튜디오·드레스·메이크업(스드메)에 700만 원이 잡혀 있고, 그중 350만 원만 쓰고 있어 아직 350만 원의 여유가 있어요. 더 늘리고 싶다면 가장 먼저 볼 항목은 예물·예단이에요.&quot;, &quot;refs&quot;: [{&quot;label&quot;: &quot;스드메 (사용/배정)&quot;, &quot;value&quot;: &quot;350 / 700만&quot;, &quot;bg&quot;: &quot;#F6ECE6&quot;, &quot;border&quot;: &quot;#F0E5DA&quot;, &quot;color&quot;: &quot;#3D2B2E&quot;}, {&quot;label&quot;: &quot;남은 여유&quot;, &quot;value&quot;: &quot;+350만 원&quot;, &quot;bg&quot;: &quot;#EAF1EC&quot;, &quot;border&quot;: &quot;#D6E5DB&quot;, &quot;color&quot;: &quot;#4E7B5E&quot;}], &quot;prefs&quot;: [{&quot;who&quot;: &quot;신랑&quot;, &quot;text&quot;: &quot;예단·예물은 간소하게 하고 싶어요&quot;, &quot;bg&quot;: &quot;#E7ECF1&quot;, &quot;color&quot;: &quot;#5B6E82&quot;}, {&quot;who&quot;: &quot;신부&quot;, &quot;text&quot;: &quot;예단·예물 부담을 줄이는 데 동의해요&quot;, &quot;bg&quot;: &quot;#F4E6EB&quot;, &quot;color&quot;: &quot;#9A5E78&quot;}], &quot;scenarioTitle&quot;: &quot;예물·예단 줄여 스드메 강화&quot;, &quot;fromName&quot;: &quot;예물·예단&quot;, &quot;fromBefore&quot;: &quot;600만&quot;, &quot;fromAfter&quot;: &quot;300만&quot;, &quot;fromPct&quot;: 30, &quot;toName&quot;: &quot;스드메&quot;, &quot;toBefore&quot;: &quot;700만&quot;, &quot;toAfter&quot;: &quot;1,000만&quot;, &quot;toPct&quot;: 100, &quot;moved&quot;: &quot;300만 원&quot;, &quot;perks&quot;: [&quot;추가 촬영 컨셉&quot;, &quot;프리미엄 드레스&quot;, &quot;메이크업 리허설&quot;, &quot;원본·수정본 추가&quot;], &quot;coach&quot;: &quot;두 분 모두 예단·예물은 \&quot;간소하게\&quot; 쪽으로 공감대가 있어요. 이 예산에서 200~300만 원만 옮기면 만족도 대비 효율이 가장 좋습니다.&quot;, &quot;tsType&quot;: &quot;object&quot;}}}"></script>
+</body>
+</html>
