@@ -1,4 +1,5 @@
 import guides from "../../data/guides.json";
+import { Fragment, type ReactNode } from "react";
 import type { AiMessage } from "../../lib/types";
 import { SparkIcon } from "../icons";
 
@@ -156,7 +157,7 @@ function AiMessageList({
               <BudgetReportAnswer />
             ) : (
               <div className="assistant-msg" aria-busy={message.pending}>
-                {message.answer}
+                {message.pending ? message.answer : <MarkdownMessage text={message.answer} />}
               </div>
             )}
           </div>
@@ -164,6 +165,67 @@ function AiMessageList({
       ))}
     </div>
   );
+}
+
+function MarkdownMessage({ text }: { text: string }) {
+  const blocks = text.trim().split(/\n{2,}/).filter(Boolean);
+
+  return (
+    <div className="assistant-markdown">
+      {blocks.map((block, index) => (
+        <MarkdownBlock key={`${block}-${index}`} block={block} />
+      ))}
+    </div>
+  );
+}
+
+function MarkdownBlock({ block }: { block: string }) {
+  const lines = block.split("\n").filter((line) => line.trim());
+  const heading = block.match(/^#{1,3}\s+(.+)$/);
+  const allListItems = lines.length > 0 && lines.every((line) => listItemMatch(line));
+
+  if (heading) {
+    return <h4>{renderInline(heading[1])}</h4>;
+  }
+
+  if (allListItems) {
+    const ordered = lines.every((line) => /^\s*\d+[.)]\s+/.test(line));
+    const items = lines.map((line) => line.replace(/^\s*(?:[-*·]|\d+[.)])\s+/, ""));
+    const ListTag = ordered ? "ol" : "ul";
+
+    return (
+      <ListTag>
+        {items.map((item) => (
+          <li key={item}>{renderInline(item)}</li>
+        ))}
+      </ListTag>
+    );
+  }
+
+  return (
+    <p>
+      {lines.map((line, index) => (
+        <Fragment key={`${line}-${index}`}>
+          {index > 0 && <br />}
+          {renderInline(line)}
+        </Fragment>
+      ))}
+    </p>
+  );
+}
+
+function listItemMatch(line: string) {
+  return /^\s*(?:[-*·]|\d+[.)])\s+/.test(line);
+}
+
+function renderInline(text: string): ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+
+  return parts.map((part, index) => {
+    const bold = part.match(/^\*\*([^*]+)\*\*$/);
+    if (bold) return <strong key={`${part}-${index}`}>{bold[1]}</strong>;
+    return <Fragment key={`${part}-${index}`}>{part}</Fragment>;
+  });
 }
 
 function BudgetReportAnswer() {

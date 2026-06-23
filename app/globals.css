@@ -2836,6 +2836,48 @@ button {
   border-bottom-left-radius: 4px;
 }
 
+.assistant-markdown p,
+.assistant-markdown ul,
+.assistant-markdown ol,
+.assistant-markdown h4 {
+  margin: 0;
+}
+
+.assistant-markdown p + p,
+.assistant-markdown p + ul,
+.assistant-markdown p + ol,
+.assistant-markdown ul + p,
+.assistant-markdown ol + p {
+  margin-top: 10px;
+}
+
+.assistant-markdown h4 {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.assistant-markdown h4 + p,
+.assistant-markdown h4 + ul,
+.assistant-markdown h4 + ol {
+  margin-top: 8px;
+}
+
+.assistant-markdown ul,
+.assistant-markdown ol {
+  padding-left: 18px;
+}
+
+.assistant-markdown li + li {
+  margin-top: 5px;
+}
+
+.assistant-markdown strong {
+  color: var(--accent);
+  font-weight: 850;
+}
+
 .user-msg {
   margin-top: 14px;
   background: var(--accent);
