@@ -15,7 +15,16 @@ export type Screen =
   | "task-detail"
   | "budget"
   | "ai"
-  | "profile";
+  | "profile"
+  | "value-test"
+  | "value-result"
+  | "tour-route"
+  | "dress-recommendation";
+
+export type AddOnServiceRoute = {
+  action: string;
+  screen: Screen;
+};
 
 export type VendorTab = "recommendations" | "saved";
 
@@ -40,11 +49,21 @@ export type ReservationCard = Reservation & {
 };
 
 export type AiMessage = {
+  id?: string;
   question: string;
   answer: string;
+  answerType?: "budget-report";
+  pending?: boolean;
 };
 
 export type Onboarding = Record<string, string>;
+
+export type CoupleProfile = {
+  role: string;
+  name: string;
+  initial: string;
+  summary: string;
+};
 
 export type HeroAction = {
   title: string;
