@@ -26,8 +26,8 @@ export function HeartIcon({ filled }: { filled: boolean }) {
 export function SparkIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#9A4F46" />
-      <circle cx="18.5" cy="17.5" r="2.5" fill="#C98B7F" />
+      <path d="M12 3l1.6 4.6L18 9l-4.4 1.4L12 15l-1.6-4.6L6 9l4.4-1.4L12 3z" fill="#6a3357" />
+      <circle cx="18.5" cy="17.5" r="2.5" fill="#9b6a8d" />
     </svg>
   );
 }

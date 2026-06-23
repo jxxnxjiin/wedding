@@ -73,4 +73,4 @@ export type HeroAction = {
 };
 
 export const STORAGE_KEY = "easy-wedding-mvp-state";
-export const ACCENT_COLOR = "#B5685E";
+export const ACCENT_COLOR = "#6A3357";

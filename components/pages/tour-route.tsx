@@ -88,7 +88,7 @@ export function TourRouteScreen({
                     <b className="serif">{stop.vendor.name}</b>
                     <small>{stop.vendor.area} · {profile?.hallType ?? getVendorTagLabel(stop.vendor)}</small>
                     <em>
-                      <ClockIcon color="#C56F62" />
+                      <ClockIcon color="#8A4B75" />
                       {stop.time} {stop.kind === "consult" ? "상담" : "투어"}
                     </em>
                   </span>
