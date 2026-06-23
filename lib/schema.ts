@@ -224,3 +224,49 @@ export type BudgetPlan = {
   totalAmount: number;
   categories: BudgetCategory[];
 };
+
+export type CoupleRole = "bride" | "groom";
+
+export type ValueTestOption = {
+  id: string;
+  label: string;
+};
+
+export type ValueTestQuestion = {
+  key: string;
+  category: string;
+  label: string;
+  options: ValueTestOption[];
+};
+
+export type ValueResultTier = {
+  min: number;
+  title: string;
+  copy: string;
+};
+
+export type ValueAnswers = Record<string, string>;
+
+export type CoupleValueProfiles = Record<CoupleRole, ValueAnswers>;
+
+export type ValueReportAlignedItem = {
+  category: string;
+  shared: string;
+  note: string;
+};
+
+export type ValueReportPairItem = {
+  category: string;
+  question: string;
+  bride: string;
+  groom: string;
+  highlight: string;
+};
+
+export type ValueReport = {
+  headline: { title: string; copy: string };
+  counts: { aligned: number; similar: number; discuss: number };
+  aligned: ValueReportAlignedItem[];
+  similar: ValueReportPairItem[];
+  discuss: ValueReportPairItem[];
+};
