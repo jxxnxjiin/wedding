@@ -24,7 +24,6 @@ import {
   ReserveScreen,
   RoadmapScreen,
   TaskDetailScreen,
-  TourRouteScreen,
   ValueResultScreen,
   ValueTestScreen,
   VendorExploreScreen,
@@ -46,7 +45,6 @@ const AI_DEMO_RESPONSE_DELAY_MS = 1500;
 const ADD_ON_SERVICE_ROUTES: AddOnServiceRoute[] = [
   { action: "value-test", screen: "value-test" },
   { action: "dress-recommendation", screen: "dress-recommendation" },
-  { action: "tour-route", screen: "tour-route" }
 ];
 
 type PersistedState = Partial<{
@@ -137,18 +135,6 @@ export default function Home() {
   });
   const compareVendors = savedIds.map(findVendor).filter(Boolean).slice(0, 3) as Vendor[];
   const savedVendors = savedIds.map(findVendor).filter(Boolean) as Vendor[];
-  const tourRouteVendors = useMemo(() => {
-    const savedWeddingHalls = savedVendors.filter((vendor) => vendor.category === "wedding_hall");
-    const preferredRouteIds = ["v7", "v3", "v4", "v5", "v6", "v8"];
-    const fillerWeddingHalls = vendors.filter(
-      (vendor) => vendor.category === "wedding_hall" && !savedWeddingHalls.some((savedVendor) => savedVendor.id === vendor.id)
-    ).sort((a, b) => {
-      const aIndex = preferredRouteIds.indexOf(a.id);
-      const bIndex = preferredRouteIds.indexOf(b.id);
-      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
-    });
-    return [...savedWeddingHalls, ...fillerWeddingHalls].slice(0, 3);
-  }, [savedVendors]);
   const reserveReady = reserveDates.length > 0 && reserveTimes.length > 0;
   const visitDoneCount = Object.values(visitChecks).filter(Boolean).length;
   const hero = makeHero(progress, createdReservations, activeVendor, onboarding, go);
@@ -522,10 +508,6 @@ export default function Home() {
           onRetake={() => go("value-test")}
         />
       )
-    },
-    {
-      screen: "tour-route",
-      element: <TourRouteScreen vendors={tourRouteVendors} onBack={() => go("home")} onOpenDetail={openDetail} />
     },
     {
       screen: "dress-recommendation",

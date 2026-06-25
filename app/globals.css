@@ -2071,40 +2071,6 @@ button {
   padding-bottom: 92px;
 }
 
-.tour-route-screen {
-  min-height: 100%;
-  padding-bottom: 28px;
-}
-
-.tour-route-body {
-  padding: 0 22px 22px;
-}
-
-.tour-route-summary {
-  position: relative;
-  min-height: 68px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  overflow: hidden;
-  border-radius: 18px;
-  background: linear-gradient(138deg, #704447 0%, #7c4c50 72%);
-  color: #fff;
-  padding: 15px 18px;
-  box-shadow: 0 16px 30px -16px rgba(74, 46, 48, 0.55);
-}
-
-.tour-route-summary::after {
-  content: "";
-  position: absolute;
-  right: -16px;
-  bottom: -36px;
-  width: 128px;
-  height: 128px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
-}
-
 .route-pin-icon {
   position: relative;
   z-index: 1;
@@ -2134,37 +2100,6 @@ button {
   inset: 4px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.86);
-}
-
-.tour-route-summary div:last-child {
-  position: relative;
-  z-index: 1;
-  min-width: 0;
-}
-
-.tour-route-summary small,
-.tour-route-summary h2 {
-  display: block;
-  margin: 0;
-}
-
-.tour-route-summary small {
-  color: #f0cbc1;
-  font-size: 11.5px;
-  font-weight: 800;
-}
-
-.tour-route-summary h2 {
-  margin-top: 4px;
-  font-family: "Nanum Myeongjo", serif;
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1.35;
-  word-break: keep-all;
-}
-
-.tour-route-summary.compact {
-  display: none;
 }
 
 .route-map {

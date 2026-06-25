@@ -18,7 +18,6 @@ export type Screen =
   | "profile"
   | "value-test"
   | "value-result"
-  | "tour-route"
   | "dress-recommendation";
 
 export type AddOnServiceRoute = {
